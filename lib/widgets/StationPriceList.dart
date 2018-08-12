@@ -17,8 +17,8 @@ class StationPriceList extends StatelessWidget {
           child: Wrap(
         crossAxisAlignment: WrapCrossAlignment.center,
         alignment: WrapAlignment.start,
-        runSpacing: 20.0,
-        spacing: 20.0,
+        runSpacing: 15.0,
+        spacing: 15.0,
         direction: Axis.horizontal,
         children: (isSelfPrices + servedPrices)
             .map((p) => StationTile(price: p))
