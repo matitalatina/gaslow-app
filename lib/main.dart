@@ -69,6 +69,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final TextEditingController searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -109,7 +117,10 @@ class _MyHomePageState extends State<MyHomePage> {
       return () => store.dispatch(fetchStationsByLocationAction(store));
     }, builder: (context, updateStation) {
       return FloatingActionButton(
-        onPressed: updateStation,
+        onPressed: () {
+          searchController.clear();
+          updateStation();
+        },
         tooltip: 'Trova i benzinai in zona',
         child: new Icon(Icons.my_location),
       );
@@ -118,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final searchField = new StoreConnector<AppState, StringCallback>(converter: (store) {
       return (text) => store.dispatch(fetchStationsByPlaceNameAction(text)(store));
     }, builder: (context, searchStationCallback) {
-      return SearchField(onSearch: searchStationCallback);
+      return SearchField(onSearch: searchStationCallback, textController: searchController,);
     });
 
     return new Scaffold(

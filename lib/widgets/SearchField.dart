@@ -3,17 +3,11 @@ import 'package:flutter/widgets.dart';
 
 typedef void StringCallback(String text);
 
-class SearchField extends StatefulWidget {
+class SearchField extends StatelessWidget {
   final StringCallback onSearch;
+  final textController;
 
-  SearchField({this.onSearch});
-
-  @override
-  _SearchFieldState createState() => _SearchFieldState();
-}
-
-class _SearchFieldState extends State<SearchField> {
-  final textController = TextEditingController();
+  SearchField({this.onSearch, @required this.textController});
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +22,7 @@ class _SearchFieldState extends State<SearchField> {
       ),
       style: Theme.of(context).accentTextTheme.subhead,
       controller: textController,
-      onSubmitted: this.widget.onSearch,
+      onSubmitted: this.onSearch,
     );
-  }
-
-  @override
-  void dispose() {
-    textController.dispose();
-    super.dispose();
   }
 }
