@@ -7,13 +7,16 @@ class LoadingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color textColor = Theme.of(context).accentColorBrightness == Brightness.dark ? Theme.of(context).primaryColorLight : Theme.of(context).primaryColorDark;
     return isLoading
         ? IconButton(
             icon: Icon(Icons.hourglass_empty),
+            color: textColor,
             onPressed: null,
           )
         : IconButton(
             icon: icon,
+            color: textColor,
             onPressed: onPressed,
           );
   }

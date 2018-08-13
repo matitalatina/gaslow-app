@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:gaslow_app/redux/AppState.dart';
@@ -27,6 +29,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    List<MaterialColor> allowedColors = [
+      Colors.indigo,
+      Colors.red,
+      Colors.cyan,
+      Colors.blue,
+      Colors.purple,
+      Colors.teal,
+      Colors.green,
+      Colors.amber,
+      Colors.orange,
+      Colors.lightGreen,
+      Colors.lightBlue,
+      Colors.pink,
+      Colors.lime,
+    ];
     return StoreProvider<AppState>(
         store: store,
         child: new MaterialApp(
@@ -40,7 +57,7 @@ class MyApp extends StatelessWidget {
             // "hot reload" (press "r" in the console where you ran "flutter run",
             // or press Run > Flutter Hot Reload in IntelliJ). Notice that the
             // counter didn't reset back to zero; the application is not restarted.
-            primarySwatch: Colors.indigo,
+            primarySwatch: allowedColors[Random().nextInt(allowedColors.length)],
             fontFamily: 'WorkSans',
           ),
           home: new MyHomePage(title: 'GasLow'),
@@ -103,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
       };
     }, builder: (context, vm) {
       return Opacity(
-        opacity: 0.05,
+        opacity: 1.0,
         child: LoadingButton(
           isLoading: (vm['backendState'] as BackendState).isLoading,
           onPressed: (vm['updateBackendCallback'] as VoidCallback),
@@ -143,10 +160,11 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Container(
             height: 48.0,
             alignment: Alignment.topCenter,
-            child: Padding(padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0), child: searchField,),
+            child: Padding(padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 0.0), child: searchField,),
           ),
         ),
       ),
+      backgroundColor: Theme.of(context).primaryColorLight,
       body: stationList,
       floatingActionButton:
           floatingButton, // This trailing comma makes auto-formatting nicer for build methods.

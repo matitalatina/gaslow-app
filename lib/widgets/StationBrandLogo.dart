@@ -48,6 +48,7 @@ class StationBrandLogo extends StatelessWidget {
           )
         : Icon(
             Icons.local_gas_station,
+            color: Theme.of(context).accentColor,
             size: 40.0,
           );
   }

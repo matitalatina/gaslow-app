@@ -17,40 +17,43 @@ class StationTile extends StatelessWidget {
         .map((p) => p.updatedAt)
         .reduce((d1, d2) => d1.isAfter(d2) ? d1 : d2);
     return Card(
+        margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+        elevation: 4.0,
         child: Column(children: [
-      ListTile(
-        dense: true,
-        leading: StationBrandLogo(brand: station.brand,),
-        title: Text(station.address + ", " + station.city),
-        subtitle: Text(station.brand),
-        trailing: Icon(Icons.directions),
-        onTap: onTap,
-      ),
-      Padding(
-          padding: EdgeInsets.fromLTRB(15.0, 15.0, 20.0, 5.0),
-          child: Column(
-            children: <Widget>[
-              StationPriceList(
-                prices: station.prices,
-              )
-            ],
-          )),
-      Padding(
-          padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
-          child: Opacity(
-            opacity: 0.3,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                Icon(
-                  Icons.access_time,
-                  size: 15.0,
-                ),
-                Text(DateFormat(' dd-MM-yyyy')
-                    .format(lastUpdate)),
-              ],
+          ListTile(
+            dense: true,
+            leading: StationBrandLogo(
+              brand: station.brand,
             ),
-          ))
-    ]));
+            title: Text(station.address + ", " + station.city),
+            subtitle: Text(station.brand),
+            trailing: Icon(Icons.directions, color: Theme.of(context).primaryColor,),
+            onTap: onTap,
+          ),
+          Padding(
+              padding: EdgeInsets.fromLTRB(15.0, 15.0, 20.0, 5.0),
+              child: Column(
+                children: <Widget>[
+                  StationPriceList(
+                    prices: station.prices,
+                  )
+                ],
+              )),
+          Padding(
+              padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
+              child: Opacity(
+                opacity: 0.3,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Icon(
+                      Icons.access_time,
+                      size: 15.0,
+                    ),
+                    Text(DateFormat(' dd-MM-yyyy').format(lastUpdate)),
+                  ],
+                ),
+              ))
+        ]));
   }
 }

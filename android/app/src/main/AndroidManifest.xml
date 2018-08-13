@@ -15,7 +15,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="gaslow_app"
+        android:label="GasLow"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

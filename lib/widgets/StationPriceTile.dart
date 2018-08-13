@@ -39,6 +39,7 @@ class StationTile extends StatelessWidget {
         height: 95.0,
         child: Container(
             decoration: BoxDecoration(
+              color: color[100],
               borderRadius: BorderRadius.all(Radius.circular(50.0)),
                 border: Border.all(width: 3.0,
                     color: color)),

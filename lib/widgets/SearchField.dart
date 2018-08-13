@@ -11,13 +11,14 @@ class SearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color textColor = Theme.of(context).accentColorBrightness == Brightness.dark ? Theme.of(context).primaryColorLight : Theme.of(context).primaryColorDark;
     return TextField(
       decoration: InputDecoration(
         hintText: 'Cerca un luogo...',
         filled: false,
-        suffixIcon: Icon(Icons.search, color: Theme.of(context).highlightColor,),
+        suffixIcon: Icon(Icons.search, color: textColor,),
         border: InputBorder.none,
-        hintStyle: TextStyle(color: Theme.of(context).highlightColor),
+        hintStyle: TextStyle(color: textColor),
         contentPadding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 10.0),
       ),
       style: Theme.of(context).accentTextTheme.subhead,
