@@ -9,7 +9,7 @@ class GasPrice {
   factory GasPrice.fromJson(Map json) {
     return GasPrice(
       fuelType: json['fuelType'],
-      price: json['price'],
+      price: json['price'] + .0,
       isSelf: json['isSelf'],
       updatedAt: DateTime.parse(json['updatedAt']),
     );

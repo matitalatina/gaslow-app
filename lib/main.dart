@@ -7,6 +7,7 @@ import 'package:gaslow_app/redux/actions/BackendStations.dart';
 import 'package:gaslow_app/redux/actions/FetchStations.dart';
 import 'package:gaslow_app/redux/reducers/AppStateReducer.dart';
 import 'package:gaslow_app/widgets/LoadingButton.dart';
+import 'package:gaslow_app/widgets/SearchField.dart';
 import 'package:gaslow_app/widgets/StationsWidget.dart';
 import 'package:redux/redux.dart';
 
@@ -102,6 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       );
     });
+
     final floatingButton =
         new StoreConnector<AppState, VoidCallback>(converter: (store) {
       return () => store.dispatch(fetchStationsByLocationAction(store));
@@ -112,12 +114,27 @@ class _MyHomePageState extends State<MyHomePage> {
         child: new Icon(Icons.my_location),
       );
     });
+
+    final searchField = new StoreConnector<AppState, StringCallback>(converter: (store) {
+      return (text) => store.dispatch(fetchStationsByPlaceNameAction(text)(store));
+    }, builder: (context, searchStationCallback) {
+      return SearchField(onSearch: searchStationCallback);
+    });
+
     return new Scaffold(
       appBar: new AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: new Text(widget.title),
         actions: <Widget>[backendRefreshButton],
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(48.0),
+          child: Container(
+            height: 48.0,
+            alignment: Alignment.topCenter,
+            child: Padding(padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0), child: searchField,),
+          ),
+        ),
       ),
       body: stationList,
       floatingActionButton:

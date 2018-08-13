@@ -25,13 +25,31 @@ class StationBrandLogo extends StatelessWidget {
       imagePath = "tamoil.png";
     } else if (lowerBrand.contains("total")) {
       imagePath = "totalerg.jpg";
+    } else if (lowerBrand.contains("enercoop")) {
+      imagePath = "enercoop.png";
+    } else if (lowerBrand.contains("repsol")) {
+      imagePath = "repsol.png";
+    } else if (lowerBrand.contains("edra")) {
+      imagePath = "edraoil.png";
+    } else if (lowerBrand.contains("enerpetroli")) {
+      imagePath = "enerpetroli.png";
+    } else if (lowerBrand.contains("7sette")) {
+      imagePath = "7sette.jpg";
+    } else if (lowerBrand.contains("europam")) {
+      imagePath = "europam.png";
+    } else if (lowerBrand.contains("gnp")) {
+      imagePath = "gnp.png";
     }
 
-    return imagePath != null ? Image.asset(
-        "assets/station_logos/" + imagePath,
-      width: 40.0,
-    ) : Icon(Icons.local_gas_station, size: 40.0,);
-
+    return imagePath != null
+        ? Image.asset(
+            "assets/station_logos/" + imagePath,
+            width: 40.0,
+          )
+        : Icon(
+            Icons.local_gas_station,
+            size: 40.0,
+          );
   }
 
   StationBrandLogo({@required this.brand});
