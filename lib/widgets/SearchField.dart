@@ -19,7 +19,6 @@ class SearchField extends StatelessWidget {
         suffixIcon: Icon(Icons.search, color: textColor,),
         border: InputBorder.none,
         hintStyle: TextStyle(color: textColor),
-        contentPadding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 10.0),
       ),
       style: Theme.of(context).accentTextTheme.subhead,
       controller: textController,

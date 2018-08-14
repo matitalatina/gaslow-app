@@ -49,15 +49,7 @@ class MyApp extends StatelessWidget {
         child: new MaterialApp(
           title: 'GasLow',
           theme: new ThemeData(
-            // This is the theme of your application.
-            //
-            // Try running your application with "flutter run". You'll see the
-            // application has a blue toolbar. Then, without quitting the app, try
-            // changing the primarySwatch below to Colors.green and then invoke
-            // "hot reload" (press "r" in the console where you ran "flutter run",
-            // or press Run > Flutter Hot Reload in IntelliJ). Notice that the
-            // counter didn't reset back to zero; the application is not restarted.
-            primarySwatch: allowedColors[Random().nextInt(allowedColors.length)],
+            primarySwatch: allowedColors[Random(DateTime.now().millisecondsSinceEpoch).nextInt(allowedColors.length)],
             fontFamily: 'WorkSans',
           ),
           home: new MyHomePage(title: 'GasLow'),
@@ -111,23 +103,23 @@ class _MyHomePageState extends State<MyHomePage> {
       },
     );
 
-    final backendRefreshButton =
-        new StoreConnector<AppState, Map<String, dynamic>>(converter: (store) {
-      return {
-        "backendState": store.state.backendState,
-        "updateBackendCallback": () =>
-            store.dispatch(updateStationsAction(store)),
-      };
-    }, builder: (context, vm) {
-      return Opacity(
-        opacity: 1.0,
-        child: LoadingButton(
-          isLoading: (vm['backendState'] as BackendState).isLoading,
-          onPressed: (vm['updateBackendCallback'] as VoidCallback),
-          icon: Icon(Icons.refresh),
-        ),
-      );
-    });
+//    final backendRefreshButton =
+//        new StoreConnector<AppState, Map<String, dynamic>>(converter: (store) {
+//      return {
+//        "backendState": store.state.backendState,
+//        "updateBackendCallback": () =>
+//            store.dispatch(updateStationsAction(store)),
+//      };
+//    }, builder: (context, vm) {
+//      return Opacity(
+//        opacity: 1.0,
+//        child: LoadingButton(
+//          isLoading: (vm['backendState'] as BackendState).isLoading,
+//          onPressed: (vm['updateBackendCallback'] as VoidCallback),
+//          icon: Icon(Icons.refresh),
+//        ),
+//      );
+//    });
 
     final floatingButton =
         new StoreConnector<AppState, VoidCallback>(converter: (store) {
@@ -151,10 +143,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return new Scaffold(
       appBar: new AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: new Text(widget.title),
-        actions: <Widget>[backendRefreshButton],
+        centerTitle: true,
+        title: new Text(widget.title, style: TextStyle(fontFamily: 'Syncopate', fontWeight: FontWeight.bold)),
+        //actions: <Widget>[backendRefreshButton],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(48.0),
           child: Container(

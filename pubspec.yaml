@@ -37,6 +37,11 @@ flutter:
         - asset: fonts/WorkSans-Regular.ttf
         - asset: fonts/WorkSans-Bold.ttf
           weight: 700
+    - family: Syncopate
+      fonts:
+        - asset: fonts/Syncopate-Regular.ttf
+        - asset: fonts/Syncopate-Bold.ttf
+          weight: 700
 
   assets:
     - assets/station_logos/
