@@ -31,7 +31,7 @@ cache:
 
 before_deploy:
 - export LANG=en_US.UTF-8
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then yes | sdkmanager "platforms;android-26";
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then yes | sdkmanager "platforms;android-27";
   yes | sdkmanager "extras;android;m2repository"; yes | sdkmanager "extras;google;m2repository";
   yes | sdkmanager "extras;google;google_play_services"; fi
 
