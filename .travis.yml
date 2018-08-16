@@ -1,0 +1,49 @@
+matrix:
+  include:
+    - os: linux
+      sudo: false
+      language: android
+      android:
+        components:
+          - tools
+          - platform-tools
+          - tools
+      addons:
+        apt:
+          sources:
+            - sourceline: deb https://dl.yarnpkg.com/debian/ stable main
+              key_url: https://dl.yarnpkg.com/debian/pubkey.gpg
+          packages:
+            - oracle-java8-installer
+            - oracle-java8-set-default
+#    - os: osx
+#      language: objective-c
+#      osx_image: xcode9.4
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -f  $HOME/.gradle/caches/transforms-1/transforms-1.lock
+  - rm -rf $HOME/.gradle/caches/3.5/fileHashes/
+  - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+    - $HOME/android/.gradle/caches/
+    - $HOME/android/.gradle/wrapper/
+before_deploy:
+  - export LANG=en_US.UTF-8
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      yes | sdkmanager "platforms;android-26";
+      yes | sdkmanager "extras;android;m2repository";
+      yes | sdkmanager "extras;google;m2repository";
+      yes | sdkmanager "extras;google;google_play_services";
+    fi
+#  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update ; brew install ios-sim
+#    ios-deploy ; bundle update; bundle install; fi
+install:
+  - git clone https://github.com/flutter/flutter.git -b beta
+  - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
+  - flutter doctor
+script:
+  - flutter test
+env:
+  global:
+    - JAVA_HOME=/usr/lib/jvm/java-8-oracle
