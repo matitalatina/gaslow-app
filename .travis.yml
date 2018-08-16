@@ -19,6 +19,8 @@ matrix:
 #    - os: osx
 #      language: objective-c
 #      osx_image: xcode9.4
+env:
+  - FLUTTER_PATH=$HOME/flutter
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -f  $HOME/.gradle/caches/transforms-1/transforms-1.lock
@@ -28,7 +30,7 @@ cache:
   directories:
     - $HOME/android/.gradle/caches/
     - $HOME/android/.gradle/wrapper/
-    - $HOME/flutter/
+    - $FLUTTER_PATH
 before_deploy:
   - export LANG=en_US.UTF-8
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
@@ -40,8 +42,8 @@ before_deploy:
 #  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update ; brew install ios-sim
 #    ios-deploy ; bundle update; bundle install; fi
 install:
-  - git clone https://github.com/flutter/flutter.git -b beta $HOME/flutter
-  - export PATH=$HOME/flutter/bin:$HOME/flutter/bin/cache/dart-sdk/bin:$PATH
+  - if [ -d "$FLUTTER_PATH" ]; then git pull else git clone https://github.com/flutter/flutter.git -b beta $FLUTTER_PATH fi
+  - export PATH=$FLUTTER_PATH/bin:$FLUTTER_PATH/bin/cache/dart-sdk/bin:$PATH
   - flutter doctor
 script:
   - flutter test
