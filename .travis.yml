@@ -46,6 +46,18 @@ install:
   - flutter doctor
 script:
   - flutter test
+deploy:
+  provider: script
+  script:
+    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+        flutter build apk --release;
+        cd android;
+        fastlane android deploy;
+        cd -;
+      fi
+  skip_cleanup: true
+  on:
+    branch: master
 env:
   global:
     - JAVA_HOME=/usr/lib/jvm/java-8-oracle
