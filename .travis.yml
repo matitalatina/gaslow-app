@@ -50,9 +50,7 @@ script:
 
 deploy:
   provider: script
-  script:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then flutter build apk --release; cd android;
-    fastlane android deploy; cd -; fi
+  script: bash travis/deploy.sh
   skip_cleanup: true
   on:
     branch: master
@@ -65,4 +63,4 @@ before_deploy:
 - export ANDROID_SECRETS_PATH=android/secrets
 - openssl aes-256-cbc -K $encrypted_3be385018f2b_key -iv $encrypted_3be385018f2b_iv
   -in $ANDROID_SECRETS_PATH/secrets.tar.enc -out $ANDROID_SECRETS_PATH/secrets.tar -d
-- tar xvf $ANDROID_SECRETS_PATH/secrets.tar
+- tar xvf $ANDROID_SECRETS_PATH/secrets.tar $ANDROID_SECRETS_PATH/
