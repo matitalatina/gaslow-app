@@ -1,63 +1,68 @@
 matrix:
   include:
-    - os: linux
-      sudo: false
-      language: android
-      android:
-        components:
-          - tools
-          - platform-tools
-          - tools
-      addons:
-        apt:
-          sources:
-            - sourceline: deb https://dl.yarnpkg.com/debian/ stable main
-              key_url: https://dl.yarnpkg.com/debian/pubkey.gpg
-          packages:
-            - oracle-java8-installer
-            - oracle-java8-set-default
-#    - os: osx
-#      language: objective-c
-#      osx_image: xcode9.4
+  - os: linux
+    sudo: false
+    language: android
+    android:
+      components:
+      - tools
+      - platform-tools
+      - tools
+    addons:
+      apt:
+        sources:
+        - sourceline: deb https://dl.yarnpkg.com/debian/ stable main
+          key_url: https://dl.yarnpkg.com/debian/pubkey.gpg
+        packages:
+        - oracle-java8-installer
+        - oracle-java8-set-default
+
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -f  $HOME/.gradle/caches/transforms-1/transforms-1.lock
-  - rm -rf $HOME/.gradle/caches/3.5/fileHashes/
-  - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -f  $HOME/.gradle/caches/transforms-1/transforms-1.lock
+- rm -rf $HOME/.gradle/caches/3.5/fileHashes/
+- rm -rf $HOME/.gradle/caches/*/plugin-resolution/
+
 cache:
   directories:
-    - $HOME/android/.gradle/caches/
-    - $HOME/android/.gradle/wrapper/
-    - $HOME/flutter/
+  - "$HOME/android/.gradle/caches/"
+  - "$HOME/android/.gradle/wrapper/"
+  - "$HOME/flutter/"
+
 before_deploy:
-  - export LANG=en_US.UTF-8
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      yes | sdkmanager "platforms;android-26";
-      yes | sdkmanager "extras;android;m2repository";
-      yes | sdkmanager "extras;google;m2repository";
-      yes | sdkmanager "extras;google;google_play_services";
-    fi
-#  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update ; brew install ios-sim
-#    ios-deploy ; bundle update; bundle install; fi
+- export LANG=en_US.UTF-8
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then yes | sdkmanager "platforms;android-26";
+  yes | sdkmanager "extras;android;m2repository"; yes | sdkmanager "extras;google;m2repository";
+  yes | sdkmanager "extras;google;google_play_services"; fi
+
 install:
-  - export FLUTTER_PATH=$HOME/flutter/
-  - if [ -d "$FLUTTER_PATH" ]; then cd $FLUTTER_PATH; git pull; cd -; else git clone https://github.com/flutter/flutter.git -b beta $FLUTTER_PATH; fi
-  - export PATH=$FLUTTER_PATH/bin:$FLUTTER_PATH/bin/cache/dart-sdk/bin:$PATH
-  - flutter doctor
+- export FLUTTER_PATH=$HOME/flutter/
+- if [ -d "$FLUTTER_PATH" ]; then
+    cd $FLUTTER_PATH; git pull; cd -;
+  else git clone
+    https://github.com/flutter/flutter.git -b beta $FLUTTER_PATH;
+  fi
+- export PATH=$FLUTTER_PATH/bin:$FLUTTER_PATH/bin/cache/dart-sdk/bin:$PATH
+- flutter doctor
+
 script:
-  - flutter test
+- flutter test
+
 deploy:
   provider: script
   script:
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-        flutter build apk --release;
-        cd android;
-        fastlane android deploy;
-        cd -;
-      fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then flutter build apk --release; cd android;
+    fastlane android deploy; cd -; fi
   skip_cleanup: true
   on:
     branch: master
+
 env:
   global:
-    - JAVA_HOME=/usr/lib/jvm/java-8-oracle
+  - JAVA_HOME=/usr/lib/jvm/java-8-oracle
+
+before_deploy:
+- export ANDROID_SECRETS_PATH=android/secrets
+- openssl aes-256-cbc -K $encrypted_3be385018f2b_key -iv $encrypted_3be385018f2b_iv
+  -in $ANDROID_SECRETS_PATH/secrets.tar.enc -out $ANDROID_SECRETS_PATH/secrets.tar -d
+- tar xvf $ANDROID_SECRETS_PATH/secrets.tar
