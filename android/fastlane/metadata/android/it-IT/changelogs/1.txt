@@ -1,0 +1,3 @@
+Prima versione!
+- Ricerca delle stazioni di benzina in base alla propria localizzazione.
+- Ricerca delle stazioni in base al luogo inserito nel campo di ricerca.

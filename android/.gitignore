@@ -8,3 +8,7 @@
 /build
 /captures
 GeneratedPluginRegistrant.java
+
+secrets/gaslow-cd.json
+secrets/gaslow.jks
+secrets/key.properties

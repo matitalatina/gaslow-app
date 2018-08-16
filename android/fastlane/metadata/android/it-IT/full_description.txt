@@ -1,0 +1,3 @@
+Trova rapidamente i prezzi dei carburanti in tutta Italia.
+
+Le sorgenti dati sono gli Open Data pubblicati sul sito "Ministero dello sviluppo economico".
