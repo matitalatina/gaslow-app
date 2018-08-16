@@ -19,8 +19,6 @@ matrix:
 #    - os: osx
 #      language: objective-c
 #      osx_image: xcode9.4
-env:
-  - FLUTTER_PATH=$HOME/flutter/
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -f  $HOME/.gradle/caches/transforms-1/transforms-1.lock
@@ -30,8 +28,9 @@ cache:
   directories:
     - $HOME/android/.gradle/caches/
     - $HOME/android/.gradle/wrapper/
-    - $FLUTTER_PATH
+    - $HOME/flutter/
 before_deploy:
+  - export FLUTTER_PATH=$HOME/flutter/
   - export LANG=en_US.UTF-8
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       yes | sdkmanager "platforms;android-26";
