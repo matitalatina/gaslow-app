@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 class Location {
   String type;
   List<double> coordinates;
@@ -8,6 +10,13 @@ class Location {
     return Location(
       type: json['type'],
       coordinates: (json['coordinates'] as List).cast<double>(),
+    );
+  }
+
+  static fromPoint({@required double latitude, @required double longitude}) {
+    return Location(
+      type: "Point",
+      coordinates: [longitude, latitude],
     );
   }
 }

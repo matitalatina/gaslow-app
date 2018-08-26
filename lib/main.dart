@@ -16,7 +16,8 @@ import 'package:redux/redux.dart';
 void main() {
   final store = Store<AppState>(appReducer,
       initialState: new AppState(
-        stationsState: StationsState(isLoading: false, stations: []),
+        stationsState:
+            StationsState(isLoading: false, stations: [], fromLocation: null),
         backendState: BackendState(isLoading: false),
       ));
   store.dispatch(fetchStationsByLocationAction(store));
@@ -49,7 +50,9 @@ class MyApp extends StatelessWidget {
         child: new MaterialApp(
           title: 'GasLow',
           theme: new ThemeData(
-            primarySwatch: allowedColors[Random(DateTime.now().millisecondsSinceEpoch).nextInt(allowedColors.length)],
+            primarySwatch: allowedColors[
+                Random(DateTime.now().millisecondsSinceEpoch)
+                    .nextInt(allowedColors.length)],
             fontFamily: 'WorkSans',
           ),
           home: new MyHomePage(title: 'GasLow'),
@@ -98,8 +101,10 @@ class _MyHomePageState extends State<MyHomePage> {
       converter: (store) => store.state.stationsState,
       builder: (context, stationsState) {
         return StationsWidget(
-            stations: stationsState.stations,
-            isLoading: stationsState.isLoading);
+          stations: stationsState.stations,
+          isLoading: stationsState.isLoading,
+          fromLocation: stationsState.fromLocation,
+        );
       },
     );
 
@@ -135,23 +140,33 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     });
 
-    final searchField = new StoreConnector<AppState, StringCallback>(converter: (store) {
-      return (text) => store.dispatch(fetchStationsByPlaceNameAction(text)(store));
+    final searchField =
+        new StoreConnector<AppState, StringCallback>(converter: (store) {
+      return (text) =>
+          store.dispatch(fetchStationsByPlaceNameAction(text)(store));
     }, builder: (context, searchStationCallback) {
-      return SearchField(onSearch: searchStationCallback, textController: searchController,);
+      return SearchField(
+        onSearch: searchStationCallback,
+        textController: searchController,
+      );
     });
 
     return new Scaffold(
       appBar: new AppBar(
         centerTitle: true,
-        title: new Text(widget.title, style: TextStyle(fontFamily: 'Syncopate', fontWeight: FontWeight.bold)),
+        title: new Text(widget.title,
+            style: TextStyle(
+                fontFamily: 'Syncopate', fontWeight: FontWeight.bold)),
         //actions: <Widget>[backendRefreshButton],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(48.0),
           child: Container(
             height: 48.0,
             alignment: Alignment.topCenter,
-            child: Padding(padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 0.0), child: searchField,),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 0.0),
+              child: searchField,
+            ),
           ),
         ),
       ),
