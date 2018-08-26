@@ -1,0 +1,1 @@
+- Aggiunta la distanza tra la propria posizione, o la ricerca effettuata e la stazione di servizio.
