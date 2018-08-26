@@ -5,7 +5,7 @@ typedef void StringCallback(String text);
 
 class SearchField extends StatelessWidget {
   final StringCallback onSearch;
-  final textController;
+  final TextEditingController textController;
 
   SearchField({this.onSearch, @required this.textController});
 
