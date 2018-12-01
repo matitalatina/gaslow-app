@@ -7,13 +7,16 @@ import 'package:gaslow_app/widgets/StationBrandLogo.dart';
 import 'package:gaslow_app/widgets/StationPriceList.dart';
 import 'package:intl/intl.dart';
 
+typedef void IntCallback(int id);
+
 class StationTile extends StatelessWidget {
   final GasStation station;
-  final VoidCallback onTap;
+  final VoidCallback onMapTap;
   final Location fromLocation;
+  final IntCallback onStationTap;
 
   StationTile(
-      {@required this.station, @required this.onTap, this.fromLocation});
+      {@required this.station, @required this.onMapTap, this.fromLocation, @required this.onStationTap});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +47,9 @@ class StationTile extends StatelessWidget {
       ),
       Text(DateFormat(' dd-MM-yyyy').format(lastUpdate)),
     ]);
-    return Card(
+    return GestureDetector(
+        onTap: () => onStationTap(station.id),
+        child: Card(
         margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
         elevation: 4.0,
         child: Column(children: [
@@ -59,7 +64,7 @@ class StationTile extends StatelessWidget {
               Icons.directions,
               color: Theme.of(context).primaryColor,
             ),
-            onTap: onTap,
+            onTap: onMapTap,
           ),
           Padding(
               padding: EdgeInsets.fromLTRB(15.0, 15.0, 20.0, 15.0),
@@ -82,6 +87,6 @@ class StationTile extends StatelessWidget {
                   ],
                 ),
               ))
-        ]));
+        ])));
   }
 }

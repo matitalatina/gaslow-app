@@ -19,4 +19,8 @@ class Location {
       coordinates: [longitude, latitude],
     );
   }
+
+  double get latitude => coordinates[1];
+  double get longitude => coordinates[0];
+
 }

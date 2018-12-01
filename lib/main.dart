@@ -7,9 +7,13 @@ import 'package:gaslow_app/redux/BackendState.dart';
 import 'package:gaslow_app/redux/StationsState.dart';
 import 'package:gaslow_app/redux/actions/BackendStations.dart';
 import 'package:gaslow_app/redux/actions/FetchStations.dart';
+import 'package:gaslow_app/redux/actions/UiStations.dart';
 import 'package:gaslow_app/redux/reducers/AppStateReducer.dart';
+import 'package:gaslow_app/redux/selectors/StationsSelectors.dart';
 import 'package:gaslow_app/widgets/LoadingButton.dart';
+import 'package:gaslow_app/widgets/MapWidget.dart';
 import 'package:gaslow_app/widgets/SearchField.dart';
+import 'package:gaslow_app/widgets/StationTile.dart';
 import 'package:gaslow_app/widgets/StationsWidget.dart';
 import 'package:redux/redux.dart';
 
@@ -17,7 +21,10 @@ void main() {
   final store = Store<AppState>(appReducer,
       initialState: new AppState(
         stationsState:
-            StationsState(isLoading: false, stations: [], fromLocation: null),
+        StationsState(isLoading: false,
+            stations: [],
+            fromLocation: null,
+            selectedStation: null),
         backendState: BackendState(isLoading: false),
       ));
   store.dispatch(fetchStationsByLocationAction(store));
@@ -51,8 +58,10 @@ class MyApp extends StatelessWidget {
           title: 'GasLow',
           theme: new ThemeData(
             primarySwatch: allowedColors[
-                Random(DateTime.now().millisecondsSinceEpoch)
-                    .nextInt(allowedColors.length)],
+            Random(DateTime
+                .now()
+                .millisecondsSinceEpoch)
+                .nextInt(allowedColors.length)],
             fontFamily: 'WorkSans',
           ),
           home: new MyHomePage(title: 'GasLow'),
@@ -80,6 +89,13 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => new _MyHomePageState();
 }
 
+class HomeVm {
+  final StationsState state;
+  final IntCallback onStationTap;
+
+  HomeVm({@required this.state, @required this.onStationTap});
+}
+
 class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController searchController = TextEditingController();
 
@@ -97,14 +113,37 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    final stationList = new StoreConnector<AppState, StationsState>(
-      converter: (store) => store.state.stationsState,
-      builder: (context, stationsState) {
-        return StationsWidget(
-          stations: stationsState.stations,
-          isLoading: stationsState.isLoading,
-          fromLocation: stationsState.fromLocation,
-        );
+    final stationList = new StoreConnector<AppState, HomeVm>(
+      converter: (store) =>
+          HomeVm(
+            state: store.state.stationsState,
+            onStationTap: (stationId) =>
+                store.dispatch(SelectStationAction(stationId: stationId)),
+          ),
+      builder: (context, homeVm) {
+        var stationsState = homeVm.state;
+        var stations = getStationsSortedByPrice(stationsState);
+        var selectedStation = getSelectedStation(stationsState);
+        return Column(children: [
+          Flexible(
+              flex: 1,
+              child: MapWidget(
+                stations: stations,
+                isLoading: stationsState.isLoading,
+                fromLocation: stationsState.fromLocation,
+                selectedStation: selectedStation,
+                onStationTap: homeVm.onStationTap,
+              )),
+          Flexible(
+              flex: 2,
+              child: StationsWidget(
+                onStationTap: homeVm.onStationTap,
+                stations: stations,
+                isLoading: stationsState.isLoading,
+                fromLocation: stationsState.fromLocation,
+                selectedStation: selectedStation,
+              ))
+        ]);
       },
     );
 
@@ -127,7 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
 //    });
 
     final floatingButton =
-        new StoreConnector<AppState, VoidCallback>(converter: (store) {
+    new StoreConnector<AppState, VoidCallback>(converter: (store) {
       return () => store.dispatch(fetchStationsByLocationAction(store));
     }, builder: (context, updateStation) {
       return FloatingActionButton(
@@ -141,7 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
 
     final searchField =
-        new StoreConnector<AppState, StringCallback>(converter: (store) {
+    new StoreConnector<AppState, StringCallback>(converter: (store) {
       return (text) =>
           store.dispatch(fetchStationsByPlaceNameAction(text)(store));
     }, builder: (context, searchStationCallback) {
@@ -170,10 +209,12 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-      backgroundColor: Theme.of(context).primaryColorLight,
+      backgroundColor: Theme
+          .of(context)
+          .primaryColorLight,
       body: stationList,
       floatingActionButton:
-          floatingButton, // This trailing comma makes auto-formatting nicer for build methods.
+      floatingButton, // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
