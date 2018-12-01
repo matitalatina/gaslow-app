@@ -26,7 +26,7 @@ class UpdateFromLocation {
 
 fetchStationsByLocationAction(Store<AppState> store) async {
   store.dispatch(FetchStationStart());
-  Map<String, double> currentLocation = await new Loc.Location().getLocation;
+  Map<String, double> currentLocation = await new Loc.Location().getLocation();
 
   store.dispatch(new UpdateFromLocation(
       fromLocation: Location.fromPoint(
