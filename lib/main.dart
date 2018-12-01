@@ -20,8 +20,8 @@ import 'package:redux/redux.dart';
 void main() {
   final store = Store<AppState>(appReducer,
       initialState: new AppState(
-        stationsState:
-        StationsState(isLoading: false,
+        stationsState: StationsState(
+            isLoading: false,
             stations: [],
             fromLocation: null,
             selectedStation: null),
@@ -58,10 +58,8 @@ class MyApp extends StatelessWidget {
           title: 'GasLow',
           theme: new ThemeData(
             primarySwatch: allowedColors[
-            Random(DateTime
-                .now()
-                .millisecondsSinceEpoch)
-                .nextInt(allowedColors.length)],
+                Random(DateTime.now().millisecondsSinceEpoch)
+                    .nextInt(allowedColors.length)],
             fontFamily: 'WorkSans',
           ),
           home: new MyHomePage(title: 'GasLow'),
@@ -114,8 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     final stationList = new StoreConnector<AppState, HomeVm>(
-      converter: (store) =>
-          HomeVm(
+      converter: (store) => HomeVm(
             state: store.state.stationsState,
             onStationTap: (stationId) =>
                 store.dispatch(SelectStationAction(stationId: stationId)),
@@ -124,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
         var stationsState = homeVm.state;
         var stations = getStationsSortedByPrice(stationsState);
         var selectedStation = getSelectedStation(stationsState);
-        return Column(children: [
+        var widgets = [
           Flexible(
               flex: 1,
               child: MapWidget(
@@ -143,7 +140,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 fromLocation: stationsState.fromLocation,
                 selectedStation: selectedStation,
               ))
-        ]);
+        ];
+        return OrientationBuilder(
+          builder: (_, orientation) => orientation == Orientation.portrait
+              ? Column(children: widgets)
+              : Row(children: widgets),
+        );
       },
     );
 
@@ -166,7 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
 //    });
 
     final floatingButton =
-    new StoreConnector<AppState, VoidCallback>(converter: (store) {
+        new StoreConnector<AppState, VoidCallback>(converter: (store) {
       return () => store.dispatch(fetchStationsByLocationAction(store));
     }, builder: (context, updateStation) {
       return FloatingActionButton(
@@ -180,7 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
 
     final searchField =
-    new StoreConnector<AppState, StringCallback>(converter: (store) {
+        new StoreConnector<AppState, StringCallback>(converter: (store) {
       return (text) =>
           store.dispatch(fetchStationsByPlaceNameAction(text)(store));
     }, builder: (context, searchStationCallback) {
@@ -209,12 +211,10 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-      backgroundColor: Theme
-          .of(context)
-          .primaryColorLight,
+      backgroundColor: Theme.of(context).primaryColorLight,
       body: stationList,
       floatingActionButton:
-      floatingButton, // This trailing comma makes auto-formatting nicer for build methods.
+          floatingButton, // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

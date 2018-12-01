@@ -69,12 +69,17 @@ class _MapWidgetState extends State<MapWidget> {
   void prepareMap(GoogleMapController controller) {
     controller.onMarkerTapped.add(_onMarkerTapped);
     if (widget.selectedStation != null) {
-      controller.moveCamera(CameraUpdate.newLatLng(LatLng(
+      controller.moveCamera(CameraUpdate.newLatLngZoom(LatLng(
           widget.selectedStation.location.latitude,
-          widget.selectedStation.location.longitude)));
-    } else if (widget.fromLocation != null && widget.selectedStation == null) {
+          widget.selectedStation.location.longitude),
+        13));
+    } else if (widget.fromLocation != null) {
       controller.moveCamera(CameraUpdate.newLatLngZoom(
           LatLng(widget.fromLocation.latitude, widget.fromLocation.longitude),
+          13));
+    } else if (widget.stations.isNotEmpty) {
+      controller.moveCamera(CameraUpdate.newLatLngZoom(
+          LatLng(widget.stations[0].location.latitude, widget.stations[0].location.longitude),
           13));
     }
   }
