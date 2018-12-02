@@ -27,15 +27,10 @@ cache:
   directories:
   - "$HOME/android/.gradle/caches/"
   - "$HOME/android/.gradle/wrapper/"
-  - "$HOME/flutter/"
 
 install:
 - export FLUTTER_PATH=$HOME/flutter/
-- if [ -d "$FLUTTER_PATH" ]; then
-    cd $FLUTTER_PATH; git pull; cd -;
-  else git clone
-    https://github.com/flutter/flutter.git -b beta $FLUTTER_PATH;
-  fi
+- git clone https://github.com/flutter/flutter.git -b beta $FLUTTER_PATH
 - export PATH=$FLUTTER_PATH/bin:$FLUTTER_PATH/bin/cache/dart-sdk/bin:$PATH
 - flutter doctor
 
