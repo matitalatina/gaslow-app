@@ -5,12 +5,10 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:gaslow_app/redux/AppState.dart';
 import 'package:gaslow_app/redux/BackendState.dart';
 import 'package:gaslow_app/redux/StationsState.dart';
-import 'package:gaslow_app/redux/actions/BackendStations.dart';
 import 'package:gaslow_app/redux/actions/FetchStations.dart';
 import 'package:gaslow_app/redux/actions/UiStations.dart';
 import 'package:gaslow_app/redux/reducers/AppStateReducer.dart';
 import 'package:gaslow_app/redux/selectors/StationsSelectors.dart';
-import 'package:gaslow_app/widgets/LoadingButton.dart';
 import 'package:gaslow_app/widgets/MapWidget.dart';
 import 'package:gaslow_app/widgets/SearchField.dart';
 import 'package:gaslow_app/widgets/StationTile.dart';
@@ -105,12 +103,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     final stationList = new StoreConnector<AppState, HomeVm>(
       converter: (store) => HomeVm(
             state: store.state.stationsState,
@@ -141,31 +133,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 selectedStation: selectedStation,
               ))
         ];
-        return OrientationBuilder(
-          builder: (_, orientation) => orientation == Orientation.portrait
-              ? Column(children: widgets)
-              : Row(children: widgets),
-        );
+        return MediaQuery.of(context).orientation == Orientation.portrait ?
+              Column(children: widgets) : Row(children: widgets);
       },
     );
-
-//    final backendRefreshButton =
-//        new StoreConnector<AppState, Map<String, dynamic>>(converter: (store) {
-//      return {
-//        "backendState": store.state.backendState,
-//        "updateBackendCallback": () =>
-//            store.dispatch(updateStationsAction(store)),
-//      };
-//    }, builder: (context, vm) {
-//      return Opacity(
-//        opacity: 1.0,
-//        child: LoadingButton(
-//          isLoading: (vm['backendState'] as BackendState).isLoading,
-//          onPressed: (vm['updateBackendCallback'] as VoidCallback),
-//          icon: Icon(Icons.refresh),
-//        ),
-//      );
-//    });
 
     final floatingButton =
         new StoreConnector<AppState, VoidCallback>(converter: (store) {

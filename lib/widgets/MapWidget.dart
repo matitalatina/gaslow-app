@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:gaslow_app/map/MapMarkers.dart';
 import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/models/Location.dart';
 import 'package:gaslow_app/widgets/StationTile.dart';
@@ -39,12 +40,12 @@ class _MapWidgetState extends State<MapWidget> {
       }
       return Center(child: CircularProgressIndicator());
     }
-    return showMap();
+    return _showMap();
   }
 
-  GoogleMap showMap() {
+  GoogleMap _showMap() {
     if (mapController != null) {
-      prepareMap(mapController);
+      _prepareMap(mapController);
     }
     return GoogleMap(onMapCreated: _onMapCreated);
   }
@@ -55,33 +56,42 @@ class _MapWidgetState extends State<MapWidget> {
     });
     controller.clearMarkers().then((_) => widget.stations
         .asMap()
-        .map((index, s) => MapEntry(
-            index,
-            MarkerOptions(
-                position: LatLng(s.location.latitude, s.location.longitude),
-                icon: BitmapDescriptor.defaultMarkerWithHue(
-                    max(130 - (index / widget.stations.length * 130) * 1.4, 0)),
-                alpha: (1 - index / widget.stations.length))))
+        .map(_createMapEntry)
         .forEach((_, m) => controller.addMarker(m)));
-    prepareMap(controller);
+    controller.moveCamera(CameraUpdate.zoomTo(13));
+    _prepareMap(controller);
   }
 
-  void prepareMap(GoogleMapController controller) {
+  MapEntry<int, MarkerOptions> _createMapEntry(index, station) {
+    var alpha = (1 - index / widget.stations.length);
+    var greenHue = 130;
+    var scaleFactor = 1.4;
+    var icon = BitmapDescriptor.defaultMarkerWithHue(max(
+        greenHue - (index / widget.stations.length * greenHue) * scaleFactor,
+        0));
+    MarkerOptions markerOptions = MapMarkers.station(station, icon, alpha);
+    return MapEntry(index, markerOptions);
+  }
+
+  void _prepareMap(GoogleMapController controller) {
     controller.onMarkerTapped.add(_onMarkerTapped);
+
+    var cameraUpdate;
     if (widget.selectedStation != null) {
-      controller.moveCamera(CameraUpdate.newLatLngZoom(LatLng(
+      cameraUpdate = CameraUpdate.newLatLng(LatLng(
           widget.selectedStation.location.latitude,
-          widget.selectedStation.location.longitude),
-        13));
+          widget.selectedStation.location.longitude));
     } else if (widget.fromLocation != null) {
-      controller.moveCamera(CameraUpdate.newLatLngZoom(
+      cameraUpdate = CameraUpdate.newLatLngZoom(
           LatLng(widget.fromLocation.latitude, widget.fromLocation.longitude),
-          13));
+          13);
     } else if (widget.stations.isNotEmpty) {
-      controller.moveCamera(CameraUpdate.newLatLngZoom(
-          LatLng(widget.stations[0].location.latitude, widget.stations[0].location.longitude),
-          13));
+      cameraUpdate = CameraUpdate.newLatLngZoom(
+          LatLng(widget.stations[0].location.latitude,
+              widget.stations[0].location.longitude),
+          13);
     }
+    controller.moveCamera(cameraUpdate);
   }
 
   void _onMarkerTapped(Marker marker) {
