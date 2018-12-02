@@ -60,5 +60,5 @@ before_deploy:
     openssl aes-256-cbc -K $encrypted_3be385018f2b_key -iv $encrypted_3be385018f2b_iv
       -in $ANDROID_SECRETS_PATH/secrets.tar.enc -out $ANDROID_SECRETS_PATH/secrets.tar -d;
     tar xvf $ANDROID_SECRETS_PATH/secrets.tar -C $ANDROID_SECRETS_PATH/;
-    mv $ANDROID_SECRETS_PATH/resource-secrets.xml android/app/src/main/res/values/secrets.xml
+    mv $ANDROID_SECRETS_PATH/resource-secrets.xml android/app/src/main/res/values/secrets.xml;
   fi
