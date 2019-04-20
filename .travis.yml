@@ -30,7 +30,7 @@ cache:
 
 install:
 - export FLUTTER_PATH=$HOME/flutter/
-- git clone https://github.com/flutter/flutter.git -b beta $FLUTTER_PATH
+- git clone https://github.com/flutter/flutter.git -b master $FLUTTER_PATH
 - export PATH=$FLUTTER_PATH/bin:$FLUTTER_PATH/bin/cache/dart-sdk/bin:$PATH
 - flutter doctor
 
@@ -53,7 +53,7 @@ before_deploy:
 - export LANG=en_US.UTF-8
 - openssl aes-256-cbc -K $encrypted_fd6357e89e9b_key -iv $encrypted_fd6357e89e9b_iv -in assets/secrets.yml.enc -out assets/secrets.yml -d
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-    yes | sdkmanager "platforms;android-27";
+    yes | sdkmanager "platforms;android-28";
     yes | sdkmanager "extras;android;m2repository";
     yes | sdkmanager "extras;google;m2repository";
     yes | sdkmanager "extras;google;google_play_services";
