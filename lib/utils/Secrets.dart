@@ -11,12 +11,7 @@ class Secrets {
     return propertyKeys.fold(ymlFile, (ymlFile, path) => ymlFile[path]).toString();
   }
 
-  static Future<String> getGoogleApiKey() async {
-    if (Platform.isAndroid) {
-      return await Secrets.getString("google_maps.ios_api_key");
-    }
-    else {
-      return await Secrets.getString("google_maps.android_api_key");
-    }
+  static Future<String> getServerlessApiKey() async {
+    return await Secrets.getString("backend.serverless_api_key");
   }
 }

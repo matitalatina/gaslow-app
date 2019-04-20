@@ -9,6 +9,14 @@ For help getting started with Flutter, view our online
 
 ## How to add secrets
 
+### Common
+
+If you want to add a secret in common `assets/secrets.yml`:
+
+- Modify `assets/secrets.yml`.
+- `cd assets`
+- `travis encrypt-file secrets.yml`
+
 ### Android
 
 If you want to add a secret in resources:

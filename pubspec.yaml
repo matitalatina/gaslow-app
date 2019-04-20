@@ -49,6 +49,7 @@ flutter:
 
   assets:
     - assets/station_logos/
+    - assets/secrets.yml
 
 # To update icons:
 # flutter pub pub run flutter_launcher_icons:main
