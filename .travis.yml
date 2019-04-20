@@ -34,6 +34,9 @@ install:
 - export PATH=$FLUTTER_PATH/bin:$FLUTTER_PATH/bin/cache/dart-sdk/bin:$PATH
 - flutter doctor
 
+before_script:
+- openssl aes-256-cbc -K $encrypted_fd6357e89e9b_key -iv $encrypted_fd6357e89e9b_iv -in assets/secrets.yml.enc -out assets/secrets.yml -d
+
 script:
 - flutter test
 
@@ -51,7 +54,6 @@ env:
 
 before_deploy:
 - export LANG=en_US.UTF-8
-- openssl aes-256-cbc -K $encrypted_fd6357e89e9b_key -iv $encrypted_fd6357e89e9b_iv -in assets/secrets.yml.enc -out assets/secrets.yml -d
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
     yes | sdkmanager "platforms;android-28";
     yes | sdkmanager "extras;android;m2repository";
