@@ -64,5 +64,6 @@ before_deploy:
       -in $ANDROID_SECRETS_PATH/secrets.tar.enc -out $ANDROID_SECRETS_PATH/secrets.tar -d;
     tar xvf $ANDROID_SECRETS_PATH/secrets.tar -C $ANDROID_SECRETS_PATH/;
     mv $ANDROID_SECRETS_PATH/resource-secrets.xml android/app/src/main/res/values/secrets.xml;
+    cat $ANDROID_SECRETS_PATH/resource-secrets.xml;
     cat android/app/src/main/res/values/secrets.xml;
   fi
