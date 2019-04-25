@@ -31,15 +31,13 @@ class MapWidget extends StatefulWidget {
 }
 
 class _MapWidgetState extends State<MapWidget> {
+  static const DEFAULT_MAP_ZOOM = 11.0;
+
   GoogleMapController mapController;
 
   @override
   Widget build(BuildContext context) {
     if (widget.isLoading) {
-      if (mapController != null) {
-        mapController.dispose();
-        mapController = null;
-      }
       return Center(child: CircularProgressIndicator());
     }
     return _showMap();
@@ -49,53 +47,65 @@ class _MapWidgetState extends State<MapWidget> {
     if (mapController != null) {
       _prepareMap(mapController);
     }
-    return GoogleMap(onMapCreated: _onMapCreated);
+    return GoogleMap(
+        initialCameraPosition: _getFirstCameraPosition(),
+        onMapCreated: _onMapCreated,
+        markers: _getMarkers(),
+    );
+  }
+
+  CameraPosition _getFirstCameraPosition() {
+    final initialPosition = [
+      widget.fromLocation,
+      widget.toLocation,
+      Location(type: "Point", coordinates: [9.669960, 45.694889]) // Bergamo
+    ].firstWhere((l) => l != null);
+    return CameraPosition(target: LatLng(initialPosition.latitude, initialPosition.longitude), zoom: DEFAULT_MAP_ZOOM);
   }
 
   void _onMapCreated(GoogleMapController controller) {
     setState(() {
       mapController = controller;
     });
-    controller.clearMarkers().then((_) => widget.stations
-        .asMap()
-        .map(_createMapEntry)
-        .forEach((_, m) => controller.addMarker(m)));
-
-    if (widget.fromLocation != null) {
-      controller.addMarker(_createPositionMarker(widget.fromLocation, "Posizione corrente"));
-    }
-
-    if (widget.toLocation != null) {
-      controller.addMarker(_createPositionMarker(widget.toLocation, "Destinazione"));
-    }
-
     controller.moveCamera(CameraUpdate.zoomTo(13));
     _prepareMap(controller);
   }
 
-  MapEntry<int, MarkerOptions> _createMapEntry(index, station) {
+  Set<Marker> _getMarkers() {
+    Set<Marker> setMarkers = Set<Marker>();
+    setMarkers.addAll(widget.stations.asMap().map(_createMapEntry).values);
+    if (widget.fromLocation != null) {
+      setMarkers.add(
+          _createPositionMarker(widget.fromLocation, "Posizione corrente"));
+    }
+    if (widget.toLocation != null) {
+      setMarkers.add(_createPositionMarker(widget.toLocation, "Destinazione"));
+    }
+    return setMarkers;
+  }
+
+  MapEntry<int, Marker> _createMapEntry(index, station) {
     var alpha = (1 - index / widget.stations.length);
     var greenHue = 130;
     var scaleFactor = 1.4;
     var icon = BitmapDescriptor.defaultMarkerWithHue(max(
         greenHue - (index / widget.stations.length * greenHue) * scaleFactor,
         0));
-    MarkerOptions markerOptions = MapMarkers.station(station, icon, alpha);
+    Marker markerOptions = MapMarkers.station(station, icon, alpha, _onStationTapped);
     return MapEntry(index, markerOptions);
   }
 
-  MarkerOptions _createPositionMarker(Location location, String title) {
-    return MarkerOptions(
+  Marker _createPositionMarker(Location location, String title) {
+    return Marker(
+      markerId: MarkerId("position-${location.latitude}-${location.longitude}"),
       position:
       LatLng(location.latitude, location.longitude),
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-      infoWindowText: InfoWindowText(title, null),
+      infoWindow: InfoWindow(title: title),
     );
   }
 
   void _prepareMap(GoogleMapController controller) {
-    controller.onMarkerTapped.add(_onMarkerTapped);
-
     var cameraUpdate;
     if (widget.selectedStation != null) {
       cameraUpdate = CameraUpdate.newLatLng(LatLng(
@@ -104,25 +114,17 @@ class _MapWidgetState extends State<MapWidget> {
     } else if (widget.fromLocation != null) {
       cameraUpdate = CameraUpdate.newLatLngZoom(
           LatLng(widget.fromLocation.latitude, widget.fromLocation.longitude),
-          11);
+          DEFAULT_MAP_ZOOM);
     } else if (widget.stations.isNotEmpty) {
       cameraUpdate = CameraUpdate.newLatLngZoom(
           LatLng(widget.stations[0].location.latitude,
               widget.stations[0].location.longitude),
-          11);
+          DEFAULT_MAP_ZOOM);
     }
     controller.moveCamera(cameraUpdate);
   }
 
-  void _onMarkerTapped(Marker marker) {
-    var stationTapped = widget.stations.firstWhere(
-        (s) =>
-            s.location.latitude == marker.options.position.latitude &&
-            s.location.longitude == marker.options.position.longitude,
-        orElse: () => null);
-
-    if (stationTapped != null) {
-      widget.onStationTap(stationTapped.id);
-    }
+  void _onStationTapped(int stationId) {
+      widget.onStationTap(stationId);
   }
 }

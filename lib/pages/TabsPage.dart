@@ -11,7 +11,7 @@ class TabsPage extends StatefulWidget {
 }
 
 class _TabsPageState extends State<TabsPage> {
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
   final _widgetOptions = [
     LocationPage(title: 'GasLow'),
     RoutePage(title: 'GasLow'),
