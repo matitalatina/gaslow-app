@@ -8,6 +8,7 @@ import 'package:gaslow_app/redux/selectors/StationsSelectors.dart';
 import 'package:gaslow_app/widgets/GaslowTitle.dart';
 import 'package:gaslow_app/widgets/MapWidget.dart';
 import 'package:gaslow_app/widgets/SearchField.dart';
+import 'package:gaslow_app/widgets/StationMapList.dart';
 import 'package:gaslow_app/widgets/StationTile.dart';
 import 'package:gaslow_app/widgets/StationsWidget.dart';
 
@@ -50,28 +51,13 @@ class _LocationPageState extends State<LocationPage> {
         var stationsState = homeVm.state;
         var stations = getStationsSortedByPrice(stationsState);
         var selectedStation = getSelectedStation(stationsState);
-        var widgets = [
-          Flexible(
-              flex: 1,
-              child: MapWidget(
-                stations: stations,
-                isLoading: stationsState.isLoading,
-                fromLocation: stationsState.fromLocation,
-                selectedStation: selectedStation,
-                onStationTap: homeVm.onStationTap,
-              )),
-          Flexible(
-              flex: 2,
-              child: StationsWidget(
-                onStationTap: homeVm.onStationTap,
-                stations: stations,
-                isLoading: stationsState.isLoading,
-                fromLocation: stationsState.fromLocation,
-                selectedStation: selectedStation,
-              ))
-        ];
-        return MediaQuery.of(context).orientation == Orientation.portrait ?
-        Column(children: widgets) : Row(children: widgets);
+        return StationMapList(
+          stations: stations,
+          isLoading: stationsState.isLoading,
+          fromLocation: stationsState.fromLocation,
+          selectedStation: selectedStation,
+          onStationTap: homeVm.onStationTap,
+        );
       },
     );
 

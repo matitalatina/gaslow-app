@@ -58,6 +58,14 @@ class _MapWidgetState extends State<MapWidget> {
         .asMap()
         .map(_createMapEntry)
         .forEach((_, m) => controller.addMarker(m)));
+
+    if (widget.fromLocation != null) {
+      controller.addMarker(MarkerOptions(
+          position: LatLng(widget.fromLocation.latitude, widget.fromLocation.longitude),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+          infoWindowText: InfoWindowText("Posizione corrente", null),
+      ));
+    }
     controller.moveCamera(CameraUpdate.zoomTo(13));
     _prepareMap(controller);
   }
