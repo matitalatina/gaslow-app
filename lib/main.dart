@@ -2,26 +2,24 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:gaslow_app/pages/LocationPage.dart';
 import 'package:gaslow_app/pages/TabsPage.dart';
 import 'package:gaslow_app/redux/AppState.dart';
 import 'package:gaslow_app/redux/BackendState.dart';
-import 'package:gaslow_app/redux/StationsState.dart';
-import 'package:gaslow_app/redux/actions/FetchStations.dart';
+import 'package:gaslow_app/redux/RouteState.dart';
+import 'package:gaslow_app/redux/LocationState.dart';
+import 'package:gaslow_app/redux/actions/LocationStationsActions.dart';
 import 'package:gaslow_app/redux/reducers/AppStateReducer.dart';
 import 'package:redux/redux.dart';
 
 void main() {
   final store = Store<AppState>(appReducer,
       initialState: new AppState(
-        stationsState: StationsState(
-            isLoading: false,
-            stations: [],
-            fromLocation: null,
-            selectedStation: null),
+        stationsState: getDefaultStationsState(),
         backendState: BackendState(isLoading: false),
-      ));
-  store.dispatch(fetchStationsByLocationAction(store));
+        routeState: getDefaultRouteState()
+      )
+  );
+  store.dispatch(fetchStationsByCurrentLocationAction(store));
   runApp(new MyApp(store: store));
 }
 

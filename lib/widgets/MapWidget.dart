@@ -11,18 +11,20 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class MapWidget extends StatefulWidget {
   final List<GasStation> stations;
   final Location fromLocation;
+  final Location toLocation;
   final bool isLoading;
   final GasStation selectedStation;
   final IntCallback onStationTap;
 
-  const MapWidget(
-      {Key key,
-      @required this.stations,
-      @required this.isLoading,
-      this.selectedStation,
-      this.fromLocation,
-      @required this.onStationTap})
-      : super(key: key);
+  const MapWidget({
+    Key key,
+    @required this.stations,
+    @required this.isLoading,
+    this.selectedStation,
+    this.fromLocation,
+    this.toLocation,
+    @required this.onStationTap,
+  }) : super(key: key);
 
   @override
   State createState() => _MapWidgetState();
@@ -60,12 +62,13 @@ class _MapWidgetState extends State<MapWidget> {
         .forEach((_, m) => controller.addMarker(m)));
 
     if (widget.fromLocation != null) {
-      controller.addMarker(MarkerOptions(
-          position: LatLng(widget.fromLocation.latitude, widget.fromLocation.longitude),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-          infoWindowText: InfoWindowText("Posizione corrente", null),
-      ));
+      controller.addMarker(_createPositionMarker(widget.fromLocation, "Posizione corrente"));
     }
+
+    if (widget.toLocation != null) {
+      controller.addMarker(_createPositionMarker(widget.toLocation, "Destinazione"));
+    }
+
     controller.moveCamera(CameraUpdate.zoomTo(13));
     _prepareMap(controller);
   }
@@ -81,6 +84,15 @@ class _MapWidgetState extends State<MapWidget> {
     return MapEntry(index, markerOptions);
   }
 
+  MarkerOptions _createPositionMarker(Location location, String title) {
+    return MarkerOptions(
+      position:
+      LatLng(location.latitude, location.longitude),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+      infoWindowText: InfoWindowText(title, null),
+    );
+  }
+
   void _prepareMap(GoogleMapController controller) {
     controller.onMarkerTapped.add(_onMarkerTapped);
 
@@ -92,12 +104,12 @@ class _MapWidgetState extends State<MapWidget> {
     } else if (widget.fromLocation != null) {
       cameraUpdate = CameraUpdate.newLatLngZoom(
           LatLng(widget.fromLocation.latitude, widget.fromLocation.longitude),
-          13);
+          11);
     } else if (widget.stations.isNotEmpty) {
       cameraUpdate = CameraUpdate.newLatLngZoom(
           LatLng(widget.stations[0].location.latitude,
               widget.stations[0].location.longitude),
-          13);
+          11);
     }
     controller.moveCamera(cameraUpdate);
   }

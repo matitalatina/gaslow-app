@@ -8,18 +8,20 @@ import 'StationsWidget.dart';
 class StationMapList extends StatelessWidget {
   final List<GasStation> stations;
   final Location fromLocation;
+  final Location toLocation;
   final bool isLoading;
   final GasStation selectedStation;
   final ValueChanged<int> onStationTap;
 
-  const StationMapList(
-      {Key key,
-      @required this.stations,
-      this.fromLocation,
-      @required this.isLoading,
-      this.selectedStation,
-      @required this.onStationTap})
-      : super(key: key);
+  const StationMapList({
+    Key key,
+    @required this.stations,
+    this.fromLocation,
+    this.toLocation,
+    @required this.isLoading,
+    this.selectedStation,
+    @required this.onStationTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,7 @@ class StationMapList extends StatelessWidget {
             stations: stations,
             isLoading: isLoading,
             fromLocation: fromLocation,
+            toLocation: toLocation,
             selectedStation: selectedStation,
             onStationTap: onStationTap,
           )),

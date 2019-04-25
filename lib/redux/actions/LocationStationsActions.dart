@@ -11,13 +11,13 @@ import 'package:meta/meta.dart';
 import 'package:redux/redux.dart';
 import 'package:geocoder/geocoder.dart';
 
-class FetchStationSuccess {
+class LocationFetchStationsSuccess {
   final List<GasStation> stations;
 
-  FetchStationSuccess({this.stations});
+  LocationFetchStationsSuccess({this.stations});
 }
 
-class FetchStationStart {}
+class LocationFetchStationsStart {}
 
 class UpdateFromLocation {
   final Location fromLocation;
@@ -25,8 +25,20 @@ class UpdateFromLocation {
   UpdateFromLocation({@required this.fromLocation});
 }
 
-fetchStationsByLocationAction(Store<AppState> store) async {
-  store.dispatch(FetchStationStart());
+class LocationUpdateToLocation {
+  final Location toLocation;
+
+  LocationUpdateToLocation({@required this.toLocation});
+}
+
+class LocationSelectStationAction {
+  final int stationId;
+
+  LocationSelectStationAction({@required this.stationId});
+}
+
+fetchStationsByCurrentLocationAction(Store<AppState> store) async {
+  store.dispatch(LocationFetchStationsStart());
   Map<String, double> currentLocation = await new Loc.Location().getLocation();
 
   store.dispatch(new UpdateFromLocation(
@@ -35,7 +47,7 @@ fetchStationsByLocationAction(Store<AppState> store) async {
     longitude: currentLocation['longitude'],
   )));
 
-  store.dispatch(new FetchStationSuccess(
+  store.dispatch(new LocationFetchStationsSuccess(
       stations: await StationsClient().getStationsByCoords(
     latitude: currentLocation['latitude'],
     longitude: currentLocation['longitude'],
@@ -44,48 +56,21 @@ fetchStationsByLocationAction(Store<AppState> store) async {
 
 fetchStationsByPlaceNameAction(String name) {
   return (Store<AppState> store) async {
-    store.dispatch(FetchStationStart());
+    store.dispatch(LocationFetchStationsStart());
     Address firstAddress =
         (await Geocoder.local.findAddressesFromQuery(name)).first;
 
-    store.dispatch(new UpdateFromLocation(
-        fromLocation: Location.fromPoint(
+    store.dispatch(new LocationUpdateToLocation(
+        toLocation: Location.fromPoint(
       latitude: firstAddress.coordinates.latitude,
       longitude: firstAddress.coordinates.longitude,
     )));
 
 
-    store.dispatch(new FetchStationSuccess(
+    store.dispatch(new LocationFetchStationsSuccess(
         stations: await StationsClient().getStationsByCoords(
       latitude: firstAddress.coordinates.latitude,
       longitude: firstAddress.coordinates.longitude,
     )));
   };
 }
-
-fetchStationsByDestinationNameAction(String name) {
-  return (Store<AppState> store) async {
-    store.dispatch(FetchStationStart());
-    Address firstAddress =
-        (await Geocoder.local.findAddressesFromQuery(name)).first;
-
-    Map<String, double> currentLocation = await new Loc.Location().getLocation();
-
-    store.dispatch(new UpdateFromLocation(
-        fromLocation: Location.fromPoint(
-          latitude: firstAddress.coordinates.latitude,
-          longitude: firstAddress.coordinates.longitude,
-        )));
-
-
-    store.dispatch(new FetchStationSuccess(
-        stations: await StationsClient().getStationsByRoute(
-          fromLatitude: currentLocation['latitude'],
-          fromLongitude: currentLocation['longitude'],
-          toLatitude: firstAddress.coordinates.latitude,
-          toLongitude: firstAddress.coordinates.longitude,
-        )));
-  };
-}
-
-

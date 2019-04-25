@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'LocationPage.dart';
+import 'RoutePage.dart';
 
 class TabsPage extends StatefulWidget {
   TabsPage({Key key}) : super(key: key);
@@ -13,7 +14,7 @@ class _TabsPageState extends State<TabsPage> {
   int _selectedIndex = 1;
   final _widgetOptions = [
     LocationPage(title: 'GasLow'),
-    Text('Index 1: Business'),
+    RoutePage(title: 'GasLow'),
   ];
 
   @override

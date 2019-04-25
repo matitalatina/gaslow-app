@@ -1,8 +1,11 @@
 import 'package:gaslow_app/redux/BackendState.dart';
-import 'package:gaslow_app/redux/StationsState.dart';
+import 'package:gaslow_app/redux/LocationState.dart';
+
+import 'RouteState.dart';
 
 class AppState {
-  StationsState stationsState;
+  LocationState stationsState;
   BackendState backendState;
-  AppState({this.stationsState, this.backendState});
+  RouteState routeState;
+  AppState({this.stationsState, this.backendState, this.routeState});
 }
