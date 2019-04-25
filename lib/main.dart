@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:gaslow_app/pages/LocationPage.dart';
+import 'package:gaslow_app/pages/TabsPage.dart';
 import 'package:gaslow_app/redux/AppState.dart';
 import 'package:gaslow_app/redux/BackendState.dart';
 import 'package:gaslow_app/redux/StationsState.dart';
@@ -55,7 +56,7 @@ class MyApp extends StatelessWidget {
                     .nextInt(allowedColors.length)],
             fontFamily: 'WorkSans',
           ),
-          home: new LocationPage(title: 'GasLow'),
+          home: TabsPage(),
         ));
   }
 

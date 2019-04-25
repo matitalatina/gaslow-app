@@ -5,6 +5,7 @@ import 'package:gaslow_app/redux/StationsState.dart';
 import 'package:gaslow_app/redux/actions/FetchStations.dart';
 import 'package:gaslow_app/redux/actions/UiStations.dart';
 import 'package:gaslow_app/redux/selectors/StationsSelectors.dart';
+import 'package:gaslow_app/widgets/GaslowTitle.dart';
 import 'package:gaslow_app/widgets/MapWidget.dart';
 import 'package:gaslow_app/widgets/SearchField.dart';
 import 'package:gaslow_app/widgets/StationTile.dart';
@@ -89,7 +90,7 @@ class _LocationPageState extends State<LocationPage> {
     });
 
     final searchField =
-    new StoreConnector<AppState, StringCallback>(converter: (store) {
+    new StoreConnector<AppState, ValueChanged<String>>(converter: (store) {
       return (text) =>
           store.dispatch(fetchStationsByPlaceNameAction(text)(store));
     }, builder: (context, searchStationCallback) {
@@ -102,9 +103,7 @@ class _LocationPageState extends State<LocationPage> {
     return new Scaffold(
       appBar: new AppBar(
         centerTitle: true,
-        title: new Text(widget.title,
-            style: TextStyle(
-                fontFamily: 'Syncopate', fontWeight: FontWeight.bold)),
+        title: new GaslowTitle(title: widget.title),
         //actions: <Widget>[backendRefreshButton],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(48.0),
@@ -120,8 +119,7 @@ class _LocationPageState extends State<LocationPage> {
       ),
       backgroundColor: Theme.of(context).primaryColorLight,
       body: stationList,
-      floatingActionButton:
-      floatingButton, // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: floatingButton,
     );
   }
 }

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-typedef void StringCallback(String text);
-
 class SearchField extends StatelessWidget {
-  final StringCallback onSearch;
+  final ValueChanged<String> onSearch;
   final TextEditingController textController;
 
   SearchField({this.onSearch, @required this.textController});
