@@ -63,4 +63,29 @@ fetchStationsByPlaceNameAction(String name) {
   };
 }
 
+fetchStationsByDestinationNameAction(String name) {
+  return (Store<AppState> store) async {
+    store.dispatch(FetchStationStart());
+    Address firstAddress =
+        (await Geocoder.local.findAddressesFromQuery(name)).first;
+
+    Map<String, double> currentLocation = await new Loc.Location().getLocation();
+
+    store.dispatch(new UpdateFromLocation(
+        fromLocation: Location.fromPoint(
+          latitude: firstAddress.coordinates.latitude,
+          longitude: firstAddress.coordinates.longitude,
+        )));
+
+
+    store.dispatch(new FetchStationSuccess(
+        stations: await StationsClient().getStationsByRoute(
+          fromLatitude: currentLocation['latitude'],
+          fromLongitude: currentLocation['longitude'],
+          toLatitude: firstAddress.coordinates.latitude,
+          toLongitude: firstAddress.coordinates.longitude,
+        )));
+  };
+}
+
 
