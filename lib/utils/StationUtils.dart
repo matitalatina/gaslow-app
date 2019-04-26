@@ -14,5 +14,5 @@ List<GasStation> sortStationsByPrice(List<GasStation> stations) {
 }
 
 NumberFormat getNumberFormat() {
-  return NumberFormat("###.000", "it_IT");
+  return NumberFormat("##0.000", "it_IT");
 }
