@@ -61,6 +61,7 @@ class _MapWidgetState extends State<MapWidget> {
 
   LatLng _getFirstLatLng() {
     final initialPosition = [
+      widget.selectedStation?.location,
       widget.toLocation,
       widget.fromLocation,
       Location(type: "Point", coordinates: [9.669960, 45.694889]) // Bergamo
