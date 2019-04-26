@@ -8,7 +8,6 @@ LocationState locationReducer(LocationState state, action) {
       isLoading: false,
       stations: List<GasStation>.from(action.stations),
       fromLocation: state.fromLocation,
-      toLocation: state.toLocation,
       selectedStation: state.selectedStation,
     );
   } else if (action is LocationFetchStationsStart) {
@@ -16,23 +15,13 @@ LocationState locationReducer(LocationState state, action) {
       isLoading: true,
       stations: List<GasStation>.from(state.stations),
       fromLocation: state.fromLocation,
-      toLocation: state.toLocation,
       selectedStation: null,
     );
-  } else if (action is UpdateFromLocation) {
+  } else if (action is LocationUpdateFromLocation) {
     return LocationState(
       isLoading: state.isLoading,
       stations: state.stations,
       fromLocation: action.fromLocation,
-      toLocation: state.toLocation,
-      selectedStation: state.selectedStation,
-    );
-  } else if (action is LocationUpdateToLocation) {
-    return LocationState(
-      isLoading: state.isLoading,
-      stations: state.stations,
-      fromLocation: state.fromLocation,
-      toLocation: action.toLocation,
       selectedStation: state.selectedStation,
     );
   } else if (action is LocationSelectStationAction) {
@@ -40,7 +29,6 @@ LocationState locationReducer(LocationState state, action) {
       isLoading: state.isLoading,
       stations: state.stations,
       fromLocation: state.fromLocation,
-      toLocation: state.toLocation,
       selectedStation: action.stationId,
     );
   }
@@ -48,7 +36,6 @@ LocationState locationReducer(LocationState state, action) {
     isLoading: state.isLoading,
     stations: List<GasStation>.from(state.stations),
     fromLocation: state.fromLocation,
-    toLocation: state.toLocation,
     selectedStation: state.selectedStation,
   );
 }

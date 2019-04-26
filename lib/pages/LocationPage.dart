@@ -40,10 +40,10 @@ class _LocationPageState extends State<LocationPage> {
   Widget build(BuildContext context) {
     final stationList = new StoreConnector<AppState, LocationPageVm>(
       converter: (store) => LocationPageVm(
-        state: store.state.stationsState,
-        onStationTap: (stationId) =>
-            store.dispatch(LocationSelectStationAction(stationId: stationId)),
-      ),
+            state: store.state.stationsState,
+            onStationTap: (stationId) => store
+                .dispatch(LocationSelectStationAction(stationId: stationId)),
+          ),
       builder: (context, homeVm) {
         var stationsState = homeVm.state;
         var stations = getLocationStationsSortedByPrice(stationsState);
@@ -52,7 +52,6 @@ class _LocationPageState extends State<LocationPage> {
           stations: stations,
           isLoading: stationsState.isLoading,
           fromLocation: stationsState.fromLocation,
-          toLocation: stationsState.toLocation,
           selectedStation: selectedStation,
           onStationTap: homeVm.onStationTap,
         );
@@ -60,7 +59,7 @@ class _LocationPageState extends State<LocationPage> {
     );
 
     final floatingButton =
-    new StoreConnector<AppState, VoidCallback>(converter: (store) {
+        new StoreConnector<AppState, VoidCallback>(converter: (store) {
       return () => store.dispatch(fetchStationsByCurrentLocationAction(store));
     }, builder: (context, updateStation) {
       return FloatingActionButton(
@@ -74,7 +73,7 @@ class _LocationPageState extends State<LocationPage> {
     });
 
     final searchField =
-    new StoreConnector<AppState, ValueChanged<String>>(converter: (store) {
+        new StoreConnector<AppState, ValueChanged<String>>(converter: (store) {
       return (text) =>
           store.dispatch(fetchStationsByPlaceNameAction(text)(store));
     }, builder: (context, searchStationCallback) {
@@ -104,6 +103,7 @@ class _LocationPageState extends State<LocationPage> {
       backgroundColor: Theme.of(context).primaryColorLight,
       body: stationList,
       floatingActionButton: floatingButton,
+      resizeToAvoidBottomInset: false,
     );
   }
 }

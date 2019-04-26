@@ -1,5 +1,4 @@
 import 'package:gaslow_app/models/GasStation.dart';
-import 'package:gaslow_app/redux/actions/LocationStationsActions.dart';
 import 'package:gaslow_app/redux/actions/RouteStationsActions.dart';
 
 import '../RouteState.dart';
@@ -21,7 +20,7 @@ RouteState routeReducer(RouteState state, action) {
       toLocation: state.toLocation,
       selectedStation: null,
     );
-  } else if (action is UpdateFromLocation) {
+  } else if (action is RouteUpdateFromLocation) {
     return RouteState(
       isLoading: state.isLoading,
       stations: state.stations,

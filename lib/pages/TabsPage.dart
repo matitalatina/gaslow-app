@@ -44,6 +44,7 @@ class _TabsPageState extends State<TabsPage> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: styledNavigationBar,
+      resizeToAvoidBottomInset: false,
     );
   }
 

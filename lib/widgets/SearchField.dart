@@ -12,7 +12,8 @@ class SearchField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       decoration: InputDecoration(
-        hintText: this.placeholder != null ? this.placeholder : 'Cerca un luogo...',
+        hintText:
+            this.placeholder != null ? this.placeholder : 'Cerca un luogo...',
         filled: false,
         suffixIcon: Icon(Icons.search),
         border: InputBorder.none,
@@ -20,6 +21,7 @@ class SearchField extends StatelessWidget {
       style: Theme.of(context).accentTextTheme.subhead,
       controller: textController,
       onSubmitted: this.onSearch,
+      textInputAction: TextInputAction.search,
     );
   }
 }

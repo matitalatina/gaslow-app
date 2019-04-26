@@ -7,8 +7,6 @@ import 'package:location/location.dart' as Loc;
 import 'package:meta/meta.dart';
 import 'package:redux/redux.dart';
 
-import 'LocationStationsActions.dart';
-
 class RouteFetchStationsSuccess {
   final List<GasStation> stations;
 
@@ -21,6 +19,12 @@ class RouteSelectStationAction {
   final int stationId;
 
   RouteSelectStationAction({@required this.stationId});
+}
+
+class RouteUpdateFromLocation {
+  final Location fromLocation;
+
+  RouteUpdateFromLocation({@required this.fromLocation});
 }
 
 class RouteUpdateToLocation {
@@ -36,7 +40,7 @@ fetchStationsByDestinationNameAction(String name) {
     Map<String, double> currentLocation =
         await new Loc.Location().getLocation();
 
-    store.dispatch(new UpdateFromLocation(
+    store.dispatch(new RouteUpdateFromLocation(
         fromLocation: Location.fromPoint(
       latitude: currentLocation['latitude'],
       longitude: currentLocation['longitude'],

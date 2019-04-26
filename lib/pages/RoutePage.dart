@@ -84,6 +84,7 @@ class _RoutePageState extends State<RoutePage> {
       ),
       backgroundColor: Theme.of(context).primaryColorLight,
       body: stationList,
+      resizeToAvoidBottomInset: false,
     );
   }
 }

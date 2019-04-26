@@ -6,14 +6,12 @@ class LocationState {
   bool isLoading;
   List<GasStation> stations;
   Location fromLocation;
-  Location toLocation;
   int selectedStation;
 
   LocationState({
     @required this.isLoading,
     @required this.stations,
     @required this.fromLocation,
-    @required this.toLocation,
     @required this.selectedStation,
   });
 }
@@ -23,7 +21,6 @@ LocationState getDefaultStationsState(){
       isLoading: false,
       stations: [],
       fromLocation: null,
-      toLocation: null,
       selectedStation: null,
   );
 }

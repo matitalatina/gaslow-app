@@ -60,11 +60,11 @@ class StationTile extends StatelessWidget {
             ),
             title: Text(station.address + ", " + station.city),
             subtitle: Text(station.brand),
-            trailing: Icon(
-              Icons.directions,
+            trailing: IconButton(
+              icon: Icon(Icons.directions),
               color: Theme.of(context).primaryColor,
+              onPressed: onMapTap,
             ),
-            onTap: onMapTap,
           ),
           Padding(
               padding: EdgeInsets.fromLTRB(15.0, 15.0, 20.0, 15.0),
