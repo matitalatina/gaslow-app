@@ -49,7 +49,9 @@ class _MapWidgetState extends State<MapWidget> {
       _prepareMap(mapController);
     }
     return GoogleMap(
-      initialCameraPosition: _getFirstCameraPosition(),
+      initialCameraPosition: CameraPosition(
+          target: _getFirstLatLng(),
+          zoom: DEFAULT_MAP_ZOOM),
       onMapCreated: _onMapCreated,
       markers: _getMarkers(),
       rotateGesturesEnabled: false,
@@ -57,15 +59,13 @@ class _MapWidgetState extends State<MapWidget> {
     );
   }
 
-  CameraPosition _getFirstCameraPosition() {
+  LatLng _getFirstLatLng() {
     final initialPosition = [
       widget.toLocation,
       widget.fromLocation,
       Location(type: "Point", coordinates: [9.669960, 45.694889]) // Bergamo
     ].firstWhere((l) => l != null);
-    return CameraPosition(
-        target: LatLng(initialPosition.latitude, initialPosition.longitude),
-        zoom: DEFAULT_MAP_ZOOM);
+    return LatLng(initialPosition.latitude, initialPosition.longitude);
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -78,7 +78,10 @@ class _MapWidgetState extends State<MapWidget> {
 
   Set<Marker> _getMarkers() {
     Set<Marker> setMarkers = Set<Marker>();
-    setMarkers.addAll(widget.stations.asMap().map(_createMapEntry).values);
+    setMarkers.addAll(widget.stations
+        .asMap()
+        .map(_createMapEntry)
+        .values);
     if (widget.fromLocation != null) {
       setMarkers.add(
           _createPositionMarker(widget.fromLocation, "Posizione corrente"));
@@ -97,7 +100,7 @@ class _MapWidgetState extends State<MapWidget> {
         greenHue - (index / widget.stations.length * greenHue) * scaleFactor,
         0));
     Marker markerOptions =
-        MapMarkers.station(station, icon, alpha, _onStationTapped);
+    MapMarkers.station(station, icon, alpha, _onStationTapped);
     return MapEntry(index, markerOptions);
   }
 
@@ -111,23 +114,10 @@ class _MapWidgetState extends State<MapWidget> {
   }
 
   void _prepareMap(GoogleMapController controller) {
-    var cameraUpdate;
-    if (widget.selectedStation != null) {
-      cameraUpdate = CameraUpdate.newLatLngZoom(
-          LatLng(widget.selectedStation.location.latitude,
-              widget.selectedStation.location.longitude),
-          SELECTED_MAP_ZOOM);
-    } else if (widget.fromLocation != null) {
-      cameraUpdate = CameraUpdate.newLatLngZoom(
-          LatLng(widget.fromLocation.latitude, widget.fromLocation.longitude),
-          DEFAULT_MAP_ZOOM);
-    } else if (widget.stations.isNotEmpty) {
-      cameraUpdate = CameraUpdate.newLatLngZoom(
-          LatLng(widget.stations[0].location.latitude,
-              widget.stations[0].location.longitude),
-          DEFAULT_MAP_ZOOM);
-    }
-    controller.moveCamera(cameraUpdate);
+    final latLng = _getFirstLatLng();
+    controller.moveCamera(CameraUpdate.newLatLngZoom(
+        latLng,
+        widget.selectedStation != null ? SELECTED_MAP_ZOOM : DEFAULT_MAP_ZOOM));
   }
 
   void _onStationTapped(int stationId) {
