@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gaslow_app/models/GasPrice.dart';
+import 'package:gaslow_app/utils/StationUtils.dart';
 import 'package:intl/intl.dart';
 
 class StationTile extends StatelessWidget {
@@ -66,7 +67,7 @@ class StationTile extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: textStyle,
                     ),
-                    Text("€ " + NumberFormat("###.000", "it_IT").format(price.price),
+                    Text("€ " + getNumberFormat().format(price.price),
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: colorDark,
