@@ -32,6 +32,7 @@ class MapWidget extends StatefulWidget {
 
 class _MapWidgetState extends State<MapWidget> {
   static const DEFAULT_MAP_ZOOM = 11.0;
+  static const SELECTED_MAP_ZOOM = 13.0;
 
   GoogleMapController mapController;
 
@@ -48,19 +49,23 @@ class _MapWidgetState extends State<MapWidget> {
       _prepareMap(mapController);
     }
     return GoogleMap(
-        initialCameraPosition: _getFirstCameraPosition(),
-        onMapCreated: _onMapCreated,
-        markers: _getMarkers(),
+      initialCameraPosition: _getFirstCameraPosition(),
+      onMapCreated: _onMapCreated,
+      markers: _getMarkers(),
+      rotateGesturesEnabled: false,
+      tiltGesturesEnabled: false,
     );
   }
 
   CameraPosition _getFirstCameraPosition() {
     final initialPosition = [
-      widget.fromLocation,
       widget.toLocation,
+      widget.fromLocation,
       Location(type: "Point", coordinates: [9.669960, 45.694889]) // Bergamo
     ].firstWhere((l) => l != null);
-    return CameraPosition(target: LatLng(initialPosition.latitude, initialPosition.longitude), zoom: DEFAULT_MAP_ZOOM);
+    return CameraPosition(
+        target: LatLng(initialPosition.latitude, initialPosition.longitude),
+        zoom: DEFAULT_MAP_ZOOM);
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -91,15 +96,15 @@ class _MapWidgetState extends State<MapWidget> {
     var icon = BitmapDescriptor.defaultMarkerWithHue(max(
         greenHue - (index / widget.stations.length * greenHue) * scaleFactor,
         0));
-    Marker markerOptions = MapMarkers.station(station, icon, alpha, _onStationTapped);
+    Marker markerOptions =
+        MapMarkers.station(station, icon, alpha, _onStationTapped);
     return MapEntry(index, markerOptions);
   }
 
   Marker _createPositionMarker(Location location, String title) {
     return Marker(
       markerId: MarkerId("position-${location.latitude}-${location.longitude}"),
-      position:
-      LatLng(location.latitude, location.longitude),
+      position: LatLng(location.latitude, location.longitude),
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
       infoWindow: InfoWindow(title: title),
     );
@@ -108,9 +113,10 @@ class _MapWidgetState extends State<MapWidget> {
   void _prepareMap(GoogleMapController controller) {
     var cameraUpdate;
     if (widget.selectedStation != null) {
-      cameraUpdate = CameraUpdate.newLatLng(LatLng(
-          widget.selectedStation.location.latitude,
-          widget.selectedStation.location.longitude));
+      cameraUpdate = CameraUpdate.newLatLngZoom(
+          LatLng(widget.selectedStation.location.latitude,
+              widget.selectedStation.location.longitude),
+          SELECTED_MAP_ZOOM);
     } else if (widget.fromLocation != null) {
       cameraUpdate = CameraUpdate.newLatLngZoom(
           LatLng(widget.fromLocation.latitude, widget.fromLocation.longitude),
@@ -125,6 +131,6 @@ class _MapWidgetState extends State<MapWidget> {
   }
 
   void _onStationTapped(int stationId) {
-      widget.onStationTap(stationId);
+    widget.onStationTap(stationId);
   }
 }

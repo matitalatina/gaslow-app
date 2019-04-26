@@ -19,18 +19,31 @@ class _TabsPageState extends State<TabsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
+    final styledNavigationBar = new Theme(
+      data: Theme.of(context).copyWith(
+        // sets the background color of the `BottomNavigationBar`
+          canvasColor: Theme.of(context).accentColor,
+          // sets the active color of the `BottomNavigationBar` if `Brightness` is light
+          primaryColor: Theme.of(context).primaryTextTheme.body1.color,
+          textTheme: Theme
+              .of(context)
+              .textTheme
+              .copyWith(caption: new TextStyle(color: Theme.of(context).primaryColorDark))), // sets the inactive color of the `BottomNavigationBar`
+      child: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.location_on), title: Text('Posizione')),
-          BottomNavigationBarItem(icon: Icon(Icons.near_me), title: Text('Viaggio')),
+          BottomNavigationBarItem(icon: Icon(Icons.location_on), title: Text('Esplora')),
+          BottomNavigationBarItem(icon: Icon(Icons.near_me), title: Text('Tragitto')),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
+    );
+
+    return Scaffold(
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: styledNavigationBar,
     );
   }
 

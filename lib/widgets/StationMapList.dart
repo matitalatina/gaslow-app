@@ -37,7 +37,7 @@ class StationMapList extends StatelessWidget {
             onStationTap: onStationTap,
           )),
       Flexible(
-          flex: 2,
+          flex: 1,
           child: StationsWidget(
             onStationTap: onStationTap,
             stations: stations,

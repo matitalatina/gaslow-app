@@ -68,9 +68,9 @@ class _RoutePageState extends State<RoutePage> {
     return new Scaffold(
       appBar: new AppBar(
         centerTitle: true,
-        title: new GaslowTitle(title: widget.title),
+        //title: new GaslowTitle(title: widget.title),
         //actions: <Widget>[backendRefreshButton],
-        bottom: PreferredSize(
+        title: PreferredSize(
           preferredSize: const Size.fromHeight(48.0),
           child: Container(
             height: 48.0,
