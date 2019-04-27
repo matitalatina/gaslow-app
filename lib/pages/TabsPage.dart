@@ -42,7 +42,10 @@ class _TabsPageState extends State<TabsPage> {
 
     return Scaffold(
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: IndexedStack(
+          index: _selectedIndex,
+          children: _widgetOptions
+        ),
       ),
       bottomNavigationBar: styledNavigationBar,
       resizeToAvoidBottomInset: false,
