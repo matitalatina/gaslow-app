@@ -1,0 +1,2 @@
+- Aggiunta animazione nella mappa.
+- Performance migliorate durante la selezione della stazione di servizio.
