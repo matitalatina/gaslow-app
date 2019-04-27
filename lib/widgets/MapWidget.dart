@@ -35,6 +35,7 @@ class _MapWidgetState extends State<MapWidget> {
   static const SELECTED_MAP_ZOOM = 13.0;
 
   GoogleMapController mapController;
+  GoogleMap cachedMap;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,10 @@ class _MapWidgetState extends State<MapWidget> {
     if (mapController != null) {
       _prepareMap(mapController);
     }
-    return GoogleMap(
+    if (cachedMap != null) {
+      return cachedMap;
+    }
+    cachedMap = GoogleMap(
       initialCameraPosition: CameraPosition(
           target: _getFirstLatLng(),
           zoom: DEFAULT_MAP_ZOOM),
@@ -57,6 +61,7 @@ class _MapWidgetState extends State<MapWidget> {
       rotateGesturesEnabled: false,
       tiltGesturesEnabled: false,
     );
+    return cachedMap;
   }
 
   LatLng _getFirstLatLng() {
@@ -116,7 +121,7 @@ class _MapWidgetState extends State<MapWidget> {
 
   void _prepareMap(GoogleMapController controller) {
     final latLng = _getFirstLatLng();
-    controller.moveCamera(CameraUpdate.newLatLngZoom(
+    controller.animateCamera(CameraUpdate.newLatLngZoom(
         latLng,
         widget.selectedStation != null ? SELECTED_MAP_ZOOM : DEFAULT_MAP_ZOOM));
   }
