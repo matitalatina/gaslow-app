@@ -60,7 +60,7 @@ class _LocationPageState extends State<LocationPage> {
 
     final floatingButton =
         new StoreConnector<AppState, VoidCallback>(converter: (store) {
-      return () => store.dispatch(fetchStationsByCurrentLocationAction(store));
+      return () => store.dispatch(fetchStationsByCurrentLocationAction);
     }, builder: (context, updateStation) {
       return FloatingActionButton(
         onPressed: () {
@@ -75,7 +75,7 @@ class _LocationPageState extends State<LocationPage> {
     final searchField =
         new StoreConnector<AppState, ValueChanged<String>>(converter: (store) {
       return (text) =>
-          store.dispatch(fetchStationsByPlaceNameAction(text)(store));
+          store.dispatch(fetchStationsByPlaceNameAction(text));
     }, builder: (context, searchStationCallback) {
       return SearchField(
         onSearch: searchStationCallback,

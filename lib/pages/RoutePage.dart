@@ -56,7 +56,7 @@ class _RoutePageState extends State<RoutePage> {
     final searchField =
     new StoreConnector<AppState, ValueChanged<String>>(converter: (store) {
       return (text) =>
-          store.dispatch(fetchStationsByDestinationNameAction(text)(store));
+          store.dispatch(fetchStationsByDestinationNameAction(text));
     }, builder: (context, searchStationCallback) {
       return SearchField(
         onSearch: searchStationCallback,

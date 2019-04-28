@@ -6,6 +6,7 @@ import 'package:geocoder/geocoder.dart';
 import 'package:location/location.dart' as Loc;
 import 'package:meta/meta.dart';
 import 'package:redux/redux.dart';
+import 'package:redux_thunk/redux_thunk.dart';
 
 class RouteFetchStationsSuccess {
   final List<GasStation> stations;
@@ -33,7 +34,7 @@ class RouteUpdateToLocation {
   RouteUpdateToLocation({@required this.toLocation});
 }
 
-fetchStationsByDestinationNameAction(String name) {
+ThunkAction<AppState> fetchStationsByDestinationNameAction(String name) {
   return (Store<AppState> store) async {
     store.dispatch(RouteFetchStationsStart());
 

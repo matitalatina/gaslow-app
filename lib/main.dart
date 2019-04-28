@@ -10,16 +10,19 @@ import 'package:gaslow_app/redux/LocationState.dart';
 import 'package:gaslow_app/redux/actions/LocationStationsActions.dart';
 import 'package:gaslow_app/redux/reducers/AppStateReducer.dart';
 import 'package:redux/redux.dart';
+import 'package:redux_thunk/redux_thunk.dart';
 
 void main() {
-  final store = Store<AppState>(appReducer,
+  final store = Store<AppState>(
+      appReducer,
       initialState: new AppState(
         stationsState: getDefaultStationsState(),
         backendState: BackendState(isLoading: false),
         routeState: getDefaultRouteState()
-      )
+      ),
+      middleware: [thunkMiddleware],
   );
-  store.dispatch(fetchStationsByCurrentLocationAction(store));
+  store.dispatch(fetchStationsByCurrentLocationAction);
   runApp(new MyApp(store: store));
 }
 

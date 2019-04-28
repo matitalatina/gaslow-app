@@ -1,15 +1,12 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/models/Location.dart';
 import 'package:gaslow_app/redux/AppState.dart';
 import 'package:gaslow_app/services/StationsClient.dart';
-import 'package:http/http.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:location/location.dart' as Loc;
 import 'package:meta/meta.dart';
 import 'package:redux/redux.dart';
-import 'package:geocoder/geocoder.dart';
+import 'package:redux_thunk/redux_thunk.dart';
 
 import 'RouteStationsActions.dart';
 
@@ -51,7 +48,7 @@ fetchStationsByCurrentLocationAction(Store<AppState> store) async {
   )));
 }
 
-fetchStationsByPlaceNameAction(String name) {
+ThunkAction<AppState> fetchStationsByPlaceNameAction(String name) {
   return (Store<AppState> store) async {
     store.dispatch(LocationFetchStationsStart());
     Address firstAddress =
