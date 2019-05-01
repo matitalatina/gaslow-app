@@ -152,7 +152,7 @@ packages:
       name: google_maps_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.7"
+    version: "0.5.11"
   html:
     dependency: transitive
     description:
@@ -236,7 +236,7 @@ packages:
       name: location
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.4.1"
+    version: "2.3.5"
   logging:
     dependency: transitive
     description:
@@ -437,7 +437,7 @@ packages:
       name: test
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.2"
+    version: "1.6.3"
   test_api:
     dependency: transitive
     description:
@@ -451,7 +451,7 @@ packages:
       name: test_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.4"
+    version: "0.2.5"
   typed_data:
     dependency: transitive
     description:
@@ -486,7 +486,7 @@ packages:
       name: vm_service_client
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.6+1"
+    version: "0.2.6+2"
   watcher:
     dependency: transitive
     description:

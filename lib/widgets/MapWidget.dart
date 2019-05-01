@@ -32,7 +32,7 @@ class MapWidget extends StatefulWidget {
 
 class _MapWidgetState extends State<MapWidget> {
   static const DEFAULT_MAP_ZOOM = 11.0;
-  static const SELECTED_MAP_ZOOM = 13.0;
+  static const SELECTED_MAP_ZOOM = 14.0;
 
   GoogleMapController mapController;
   GoogleMap cachedMap;

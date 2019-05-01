@@ -38,13 +38,13 @@ ThunkAction<AppState> fetchStationsByDestinationNameAction(String name) {
   return (Store<AppState> store) async {
     store.dispatch(RouteFetchStationsStart());
 
-    Map<String, double> currentLocation =
+    Loc.LocationData currentLocation =
         await new Loc.Location().getLocation();
 
     store.dispatch(new RouteUpdateFromLocation(
         fromLocation: Location.fromPoint(
-      latitude: currentLocation['latitude'],
-      longitude: currentLocation['longitude'],
+      latitude: currentLocation.latitude,
+      longitude: currentLocation.longitude,
     )));
 
     Address firstAddress =
@@ -58,8 +58,8 @@ ThunkAction<AppState> fetchStationsByDestinationNameAction(String name) {
 
     store.dispatch(new RouteFetchStationsSuccess(
         stations: await StationsClient().getStationsByRoute(
-      fromLatitude: currentLocation['latitude'],
-      fromLongitude: currentLocation['longitude'],
+      fromLatitude: currentLocation.latitude,
+      fromLongitude: currentLocation.longitude,
       toLatitude: firstAddress.coordinates.latitude,
       toLongitude: firstAddress.coordinates.longitude,
     )));

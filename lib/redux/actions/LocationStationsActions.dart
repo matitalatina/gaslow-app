@@ -32,10 +32,10 @@ class LocationSelectStationAction {
 
 fetchStationsByCurrentLocationAction(Store<AppState> store) async {
   store.dispatch(LocationFetchStationsStart());
-  Map<String, double> currentLocationRaw = await new Loc.Location().getLocation();
+  Loc.LocationData currentLocationRaw = await new Loc.Location().getLocation();
   final currentLocation = Location.fromPoint(
-    latitude: currentLocationRaw['latitude'],
-    longitude: currentLocationRaw['longitude'],
+    latitude: currentLocationRaw.latitude,
+    longitude: currentLocationRaw.longitude,
   );
 
   store.dispatch(new LocationUpdateFromLocation(fromLocation: currentLocation));
@@ -43,8 +43,8 @@ fetchStationsByCurrentLocationAction(Store<AppState> store) async {
 
   store.dispatch(new LocationFetchStationsSuccess(
       stations: await StationsClient().getStationsByCoords(
-    latitude: currentLocationRaw['latitude'],
-    longitude: currentLocationRaw['longitude'],
+    latitude: currentLocationRaw.latitude,
+    longitude: currentLocationRaw.longitude,
   )));
 }
 
