@@ -14,4 +14,8 @@ class Secrets {
   static Future<String> getServerlessApiKey() async {
     return await Secrets.getString("backend.serverless_api_key");
   }
+
+  static Future<String> getAdmobAppId() async {
+    return await Secrets.getString("app.admob_app_id");
+  }
 }

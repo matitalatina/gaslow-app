@@ -1,7 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gaslow_app/utils/Secrets.dart';
 
 import 'LocationPage.dart';
 import 'RoutePage.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 
 class TabsPage extends StatefulWidget {
   TabsPage({Key key}) : super(key: key);
@@ -12,13 +15,30 @@ class TabsPage extends StatefulWidget {
 
 class _TabsPageState extends State<TabsPage> {
   int _selectedIndex = 0;
+  InterstitialAd interstitialAd;
+
   final _widgetOptions = [
     LocationPage(title: 'GasLow'),
     RoutePage(title: 'GasLow'),
   ];
 
+  static final MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
+      keywords: ['cars', 'fuel', 'suv'],
+      testDevices: [],
+  );
+
+
+  @override
+  void dispose() {
+    interstitialAd.dispose();
+    interstitialAd = null;
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    _loadAdmob();
+
     final styledNavigationBar = new Theme(
       data: Theme.of(context).copyWith(
         // sets the background color of the `BottomNavigationBar`
@@ -56,5 +76,25 @@ class _TabsPageState extends State<TabsPage> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  _loadAdmob() async {
+    if (interstitialAd == null) {
+      await FirebaseAdMob.instance.initialize(
+          appId: await Secrets.getAdmobAppId());
+      interstitialAd = _loadInterstitialAd()
+        ..load()
+        ..show(
+        anchorType: AnchorType.bottom,
+        anchorOffset: 0.0,
+      );
+    }
+  }
+
+  _loadInterstitialAd() {
+    return InterstitialAd(
+      adUnitId: kReleaseMode ? 'ca-app-pub-7145772846945296/9083312901' : InterstitialAd.testAdUnitId,
+      targetingInfo: targetingInfo,
+    );
   }
 }
