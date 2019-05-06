@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:gaslow_app/pages/TabsPage.dart';
 import 'package:gaslow_app/redux/AppState.dart';
-import 'package:gaslow_app/redux/BackendState.dart';
-import 'package:gaslow_app/redux/RouteState.dart';
+import 'package:gaslow_app/redux/CoreState.dart';
 import 'package:gaslow_app/redux/LocationState.dart';
-import 'package:gaslow_app/redux/actions/LocationStationsActions.dart';
+import 'package:gaslow_app/redux/RouteState.dart';
+import 'package:gaslow_app/redux/actions/CoreActions.dart';
 import 'package:gaslow_app/redux/reducers/AppStateReducer.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -17,12 +17,12 @@ void main() {
       appReducer,
       initialState: new AppState(
         stationsState: getDefaultStationsState(),
-        backendState: BackendState(isLoading: false),
+        backendState: getDefaultCoreState(),
         routeState: getDefaultRouteState()
       ),
       middleware: [thunkMiddleware],
   );
-  store.dispatch(fetchStationsByCurrentLocationAction);
+  store.dispatch(checkLocationPermissionAndFetchStations);
   runApp(new MyApp(store: store));
 }
 

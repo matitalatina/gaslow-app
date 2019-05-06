@@ -5,8 +5,9 @@ class SearchField extends StatelessWidget {
   final ValueChanged<String> onSearch;
   final TextEditingController textController;
   final String placeholder;
+  final bool enabled;
 
-  SearchField({this.onSearch, @required this.textController, this.placeholder});
+  SearchField({this.onSearch, @required this.textController, this.placeholder, this.enabled});
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +23,7 @@ class SearchField extends StatelessWidget {
       controller: textController,
       onSubmitted: this.onSearch,
       textInputAction: TextInputAction.search,
+      enabled: enabled,
     );
   }
 }

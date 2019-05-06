@@ -5,6 +5,7 @@ import 'package:gaslow_app/redux/RouteState.dart';
 import 'package:gaslow_app/redux/LocationState.dart';
 import 'package:gaslow_app/redux/actions/LocationStationsActions.dart';
 import 'package:gaslow_app/redux/actions/RouteStationsActions.dart';
+import 'package:gaslow_app/redux/actions/CoreActions.dart';
 import 'package:gaslow_app/redux/selectors/LocationSelectors.dart';
 import 'package:gaslow_app/redux/selectors/RouteSelectors.dart';
 import 'package:gaslow_app/widgets/GaslowTitle.dart';
@@ -34,10 +35,14 @@ class _RoutePageState extends State<RoutePage> {
   Widget build(BuildContext context) {
     final stationList = new StoreConnector<AppState, RoutePageVm>(
       converter: (store) => RoutePageVm(
-        state: store.state.routeState,
-        onStationTap: (stationId) =>
-            store.dispatch(RouteSelectStationAction(stationId: stationId)),
-      ),
+            state: store.state.routeState,
+            onStationTap: (stationId) =>
+                store.dispatch(RouteSelectStationAction(stationId: stationId)),
+            hasLocationPermission:
+                store.state.backendState.hasLocationPermission,
+            onRequestLocationPermission: () =>
+                store.dispatch(requestLocationPermission),
+          ),
       builder: (context, homeVm) {
         var stationsState = homeVm.state;
         var stations = getRouteStationsSortedByPrice(stationsState);
@@ -49,19 +54,23 @@ class _RoutePageState extends State<RoutePage> {
           toLocation: stationsState.toLocation,
           selectedStation: selectedStation,
           onStationTap: homeVm.onStationTap,
+          onRequestPermission: homeVm.onRequestLocationPermission,
+          hasLocationPermission: homeVm.hasLocationPermission,
         );
       },
     );
 
     final searchField =
-    new StoreConnector<AppState, ValueChanged<String>>(converter: (store) {
-      return (text) =>
-          store.dispatch(fetchStationsByDestinationNameAction(text));
+        new StoreConnector<AppState, ValueChanged<String>>(converter: (store) {
+      return store.state.backendState.hasLocationPermission
+          ? (text) => store.dispatch(fetchStationsByDestinationNameAction(text))
+          : null;
     }, builder: (context, searchStationCallback) {
       return SearchField(
         onSearch: searchStationCallback,
         textController: searchController,
         placeholder: "Cerca la destinazione...",
+        enabled: searchStationCallback != null,
       );
     });
 
@@ -92,6 +101,12 @@ class _RoutePageState extends State<RoutePage> {
 class RoutePageVm {
   final RouteState state;
   final IntCallback onStationTap;
+  final bool hasLocationPermission;
+  final VoidCallback onRequestLocationPermission;
 
-  RoutePageVm({@required this.state, @required this.onStationTap});
+  RoutePageVm(
+      {@required this.state,
+      @required this.onStationTap,
+      @required this.hasLocationPermission,
+      @required this.onRequestLocationPermission});
 }

@@ -8,6 +8,7 @@ import 'package:gaslow_app/widgets/GaslowTitle.dart';
 import 'package:gaslow_app/widgets/SearchField.dart';
 import 'package:gaslow_app/widgets/StationMapList.dart';
 import 'package:gaslow_app/widgets/StationTile.dart';
+import 'package:gaslow_app/redux/actions/CoreActions.dart';
 
 class LocationPage extends StatefulWidget {
   LocationPage({Key key, this.title}) : super(key: key);
@@ -40,10 +41,12 @@ class _LocationPageState extends State<LocationPage> {
   Widget build(BuildContext context) {
     final stationList = new StoreConnector<AppState, LocationPageVm>(
       converter: (store) => LocationPageVm(
-            state: store.state.stationsState,
-            onStationTap: (stationId) => store
-                .dispatch(LocationSelectStationAction(stationId: stationId)),
-          ),
+          state: store.state.stationsState,
+          onStationTap: (stationId) =>
+              store.dispatch(LocationSelectStationAction(stationId: stationId)),
+          hasLocationPermission: store.state.backendState.hasLocationPermission,
+          onRequestLocationPermission: () =>
+              store.dispatch(checkLocationPermissionAndFetchStations)),
       builder: (context, homeVm) {
         var stationsState = homeVm.state;
         var stations = getLocationStationsSortedByPrice(stationsState);
@@ -54,32 +57,40 @@ class _LocationPageState extends State<LocationPage> {
           fromLocation: stationsState.fromLocation,
           selectedStation: selectedStation,
           onStationTap: homeVm.onStationTap,
+          onRequestPermission: homeVm.onRequestLocationPermission,
+          hasLocationPermission: homeVm.hasLocationPermission,
         );
       },
     );
 
     final floatingButton =
         new StoreConnector<AppState, VoidCallback>(converter: (store) {
-      return () => store.dispatch(fetchStationsByCurrentLocationAction);
+      return store.state.backendState.hasLocationPermission
+          ? () => store.dispatch(fetchStationsByCurrentLocationAction)
+          : null;
     }, builder: (context, updateStation) {
-      return FloatingActionButton(
-        onPressed: () {
-          searchController.clear();
-          updateStation();
-        },
-        tooltip: 'Trova i benzinai in zona',
-        child: new Icon(Icons.my_location),
-      );
+      return updateStation != null
+          ? FloatingActionButton(
+              onPressed: () {
+                searchController.clear();
+                updateStation();
+              },
+              tooltip: 'Trova i benzinai in zona',
+              child: new Icon(Icons.my_location),
+            )
+          : Container();
     });
 
     final searchField =
         new StoreConnector<AppState, ValueChanged<String>>(converter: (store) {
-      return (text) =>
-          store.dispatch(fetchStationsByPlaceNameAction(text));
+      return store.state.backendState.hasLocationPermission
+          ? (text) => store.dispatch(fetchStationsByPlaceNameAction(text))
+          : null;
     }, builder: (context, searchStationCallback) {
       return SearchField(
         onSearch: searchStationCallback,
         textController: searchController,
+        enabled: searchStationCallback != null,
       );
     });
 
@@ -111,6 +122,12 @@ class _LocationPageState extends State<LocationPage> {
 class LocationPageVm {
   final LocationState state;
   final IntCallback onStationTap;
+  final bool hasLocationPermission;
+  final VoidCallback onRequestLocationPermission;
 
-  LocationPageVm({@required this.state, @required this.onStationTap});
+  LocationPageVm(
+      {@required this.state,
+      @required this.onStationTap,
+      @required this.hasLocationPermission,
+      @required this.onRequestLocationPermission});
 }
