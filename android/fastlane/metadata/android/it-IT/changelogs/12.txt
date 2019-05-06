@@ -1,0 +1,1 @@
+- Aggiunta la gestione dei mancati permessi di localizzazione.
