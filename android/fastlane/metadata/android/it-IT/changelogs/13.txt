@@ -1,0 +1,2 @@
+- Aggiunta la sezione impostazioni.
+- Aggiunta la possibilità di scegliere il tipo di carburante.
