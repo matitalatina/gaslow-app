@@ -11,7 +11,7 @@ class PreferredFuelTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text("Carburante preferito"),
+      title: Text("Carburante"),
       trailing: DropdownButton<FuelTypeEnum>(
         value: value,
         items: FuelTypeEnum.values

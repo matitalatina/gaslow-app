@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gaslow_app/map/MapMarkers.dart';
@@ -47,11 +48,18 @@ class _MapWidgetState extends State<MapWidget> {
     return _showMap();
   }
 
+  bool _stationsAreTheSame() {
+    return ListEquality().equals(
+        stations ?? [],
+        widget.stations,
+    );
+  }
+
   GoogleMap _showMap() {
     if (mapController != null) {
       _prepareMap(mapController);
     }
-    if (cachedMap != null && stations?.length == widget.stations.length) {
+    if (cachedMap != null && _stationsAreTheSame()) {
       return cachedMap;
     }
     cachedMap = GoogleMap(

@@ -10,8 +10,6 @@ class StationPriceList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isSelfPrices = prices.where((p) => p.isSelf).toList();
-    final servedPrices = prices.where((p) => !p.isSelf).toList();
     return Row(children: [
       Expanded(
           child: Wrap(
@@ -20,7 +18,7 @@ class StationPriceList extends StatelessWidget {
         runSpacing: 15.0,
         spacing: 15.0,
         direction: Axis.horizontal,
-        children: (isSelfPrices + servedPrices)
+        children: prices
             .map((p) => StationTile(price: p))
             .toList(),
       ))
