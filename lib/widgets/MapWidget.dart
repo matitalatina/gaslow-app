@@ -37,6 +37,8 @@ class _MapWidgetState extends State<MapWidget> {
   GoogleMapController mapController;
   GoogleMap cachedMap;
 
+  List<GasStation> stations;
+
   @override
   Widget build(BuildContext context) {
     if (widget.isLoading) {
@@ -49,7 +51,7 @@ class _MapWidgetState extends State<MapWidget> {
     if (mapController != null) {
       _prepareMap(mapController);
     }
-    if (cachedMap != null) {
+    if (cachedMap != null && stations?.length == widget.stations.length) {
       return cachedMap;
     }
     cachedMap = GoogleMap(
@@ -61,6 +63,7 @@ class _MapWidgetState extends State<MapWidget> {
       rotateGesturesEnabled: false,
       tiltGesturesEnabled: false,
     );
+    stations = widget.stations;
     return cachedMap;
   }
 

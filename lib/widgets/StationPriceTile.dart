@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:gaslow_app/models/FuelTypeEnum.dart';
 import 'package:gaslow_app/models/GasPrice.dart';
 import 'package:gaslow_app/utils/StationUtils.dart';
 import 'package:intl/intl.dart';
@@ -9,32 +10,9 @@ class StationTile extends StatelessWidget {
 
   StationTile({@required this.price});
 
-//  @override
-//  Widget build(BuildContext context) {
-//    return Chip(
-//        shape: UnderlineInputBorder(),
-//        backgroundColor: price.fuelType.contains("enzin")
-//            ? Colors.lightGreen
-//            : Colors.yellow,
-//        avatar: price.isSelf ? null : Icon(Icons.star),
-//        label: Column(
-//          children: [Text(price.fuelType), Text("€ " + price.price.toString())],
-//        ));
-//  }
-
   @override
   Widget build(BuildContext context) {
-    MaterialColor color;
-    if (price.fuelType.contains("enzin")) {
-      color = Colors.lightGreen;
-    } else if (price.fuelType.contains("asolio") ||
-        price.fuelType.contains("iesel") ||
-        price.fuelType.contains("uper")) {
-      color = Colors.yellow;
-    } else {
-      color = Colors.blue;
-    }
-
+    MaterialColor color = FuelTypeEnumHelper.getColor(price.fuelTypeEnum);
     Color colorDark = color[900];
     TextStyle textStyle = TextStyle(color: colorDark);
     return SizedBox(

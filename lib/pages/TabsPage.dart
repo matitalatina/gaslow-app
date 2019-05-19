@@ -6,6 +6,8 @@ import 'LocationPage.dart';
 import 'RoutePage.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 
+import 'SettingsPage.dart';
+
 class TabsPage extends StatefulWidget {
   TabsPage({Key key}) : super(key: key);
 
@@ -20,6 +22,7 @@ class _TabsPageState extends State<TabsPage> {
   final _widgetOptions = [
     LocationPage(title: 'GasLow'),
     RoutePage(title: 'GasLow'),
+    SettingsPage(),
   ];
 
   static final MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
@@ -54,6 +57,7 @@ class _TabsPageState extends State<TabsPage> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.location_on), title: Text('Dintorni')),
           BottomNavigationBarItem(icon: Icon(Icons.timeline), title: Text('Tragitto')),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), title: Text('Impostazioni')),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,

@@ -7,23 +7,36 @@ import 'package:gaslow_app/redux/AppState.dart';
 import 'package:gaslow_app/redux/CoreState.dart';
 import 'package:gaslow_app/redux/LocationState.dart';
 import 'package:gaslow_app/redux/RouteState.dart';
+import 'package:gaslow_app/redux/SettingsState.dart';
 import 'package:gaslow_app/redux/actions/CoreActions.dart';
 import 'package:gaslow_app/redux/reducers/AppStateReducer.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 
-void main() {
+Future<Store> prepareStore() async {
   final store = Store<AppState>(
-      appReducer,
-      initialState: new AppState(
-        stationsState: getDefaultStationsState(),
-        backendState: getDefaultCoreState(),
-        routeState: getDefaultRouteState()
-      ),
-      middleware: [thunkMiddleware],
+    appReducer,
+    initialState: new AppState(
+      stationsState: getDefaultStationsState(),
+      backendState: getDefaultCoreState(),
+      routeState: getDefaultRouteState(),
+      settingsState: await getDefaultSettingsState(),
+    ),
+    middleware: [thunkMiddleware],
   );
   store.dispatch(checkLocationPermissionAndFetchStations);
-  runApp(new MyApp(store: store));
+  return store;
+}
+
+void main() {
+  runApp(FutureBuilder<Store>(
+      future: prepareStore(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Center(child: CircularProgressIndicator());
+        }
+      return MyApp(store: snapshot.data);
+  }));
 }
 
 class MyApp extends StatelessWidget {
@@ -53,8 +66,10 @@ class MyApp extends StatelessWidget {
           title: 'GasLow',
           theme: new ThemeData(
             primarySwatch: allowedColors[
-                Random(DateTime.now().millisecondsSinceEpoch)
-                    .nextInt(allowedColors.length)],
+            Random(DateTime
+                .now()
+                .millisecondsSinceEpoch)
+                .nextInt(allowedColors.length)],
             fontFamily: 'WorkSans',
           ),
           home: TabsPage(),

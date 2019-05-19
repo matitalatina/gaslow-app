@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:gaslow_app/models/FuelTypeEnum.dart';
 import 'package:gaslow_app/redux/AppState.dart';
 import 'package:gaslow_app/redux/RouteState.dart';
 import 'package:gaslow_app/redux/LocationState.dart';
@@ -36,6 +37,7 @@ class _RoutePageState extends State<RoutePage> {
     final stationList = new StoreConnector<AppState, RoutePageVm>(
       converter: (store) => RoutePageVm(
             state: store.state.routeState,
+            preferredFuelType: store.state.settingsState.preferredFuelType,
             onStationTap: (stationId) =>
                 store.dispatch(RouteSelectStationAction(stationId: stationId)),
             hasLocationPermission:
@@ -45,7 +47,7 @@ class _RoutePageState extends State<RoutePage> {
           ),
       builder: (context, homeVm) {
         var stationsState = homeVm.state;
-        var stations = getRouteStationsSortedByPrice(stationsState);
+        var stations = getRouteStationsSortedByPrice(stationsState, homeVm.preferredFuelType);
         var selectedStation = getRouteSelectedStation(stationsState);
         return StationMapList(
           stations: stations,
@@ -100,6 +102,7 @@ class _RoutePageState extends State<RoutePage> {
 
 class RoutePageVm {
   final RouteState state;
+  final FuelTypeEnum preferredFuelType;
   final IntCallback onStationTap;
   final bool hasLocationPermission;
   final VoidCallback onRequestLocationPermission;
@@ -107,6 +110,7 @@ class RoutePageVm {
   RoutePageVm(
       {@required this.state,
       @required this.onStationTap,
+      @required this.preferredFuelType,
       @required this.hasLocationPermission,
       @required this.onRequestLocationPermission});
 }
