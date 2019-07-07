@@ -29,7 +29,7 @@ cache:
 
 install:
 - export FLUTTER_PATH=$HOME/flutter/
-- git clone https://github.com/flutter/flutter.git -b master $FLUTTER_PATH
+- git clone https://github.com/flutter/flutter.git -b stable $FLUTTER_PATH
 - export PATH=$FLUTTER_PATH/bin:$FLUTTER_PATH/bin/cache/dart-sdk/bin:$PATH
 - flutter doctor
 
