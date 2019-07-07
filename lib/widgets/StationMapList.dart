@@ -39,6 +39,10 @@ class StationMapList extends StatelessWidget {
       return NoLocationPermission(onRequestPermission: onRequestPermission);
     }
 
+    if (fromLocation == null) {
+      return SizedBox.shrink();
+    }
+
     var widgets = [
       Flexible(
           flex: 1,

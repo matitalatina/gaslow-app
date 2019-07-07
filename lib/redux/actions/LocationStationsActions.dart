@@ -39,7 +39,6 @@ fetchStationsByCurrentLocationAction(Store<AppState> store) async {
   );
 
   store.dispatch(new LocationUpdateFromLocation(fromLocation: currentLocation));
-  store.dispatch(new RouteUpdateFromLocation(fromLocation: currentLocation));
 
   store.dispatch(new LocationFetchStationsSuccess(
       stations: await StationsClient().getStationsByCoords(
