@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:gaslow_app/models/ErrorType.dart';
 import 'package:gaslow_app/models/FuelTypeEnum.dart';
 import 'package:gaslow_app/redux/AppState.dart';
 import 'package:gaslow_app/redux/LocationState.dart';
 import 'package:gaslow_app/redux/actions/LocationStationsActions.dart';
 import 'package:gaslow_app/redux/selectors/LocationSelectors.dart';
 import 'package:gaslow_app/widgets/GaslowTitle.dart';
+import 'package:gaslow_app/widgets/call_to_action/NoConnection.dart';
+import 'package:gaslow_app/widgets/call_to_action/NoLocationPermission.dart';
 import 'package:gaslow_app/widgets/SearchField.dart';
 import 'package:gaslow_app/widgets/StationMapList.dart';
 import 'package:gaslow_app/widgets/StationTile.dart';
@@ -48,19 +51,30 @@ class _LocationPageState extends State<LocationPage> {
               store.dispatch(LocationSelectStationAction(stationId: stationId)),
           hasLocationPermission: store.state.backendState.hasLocationPermission,
           onRequestLocationPermission: () =>
-              store.dispatch(checkLocationPermissionAndFetchStations)),
+              store.dispatch(checkLocationPermissionAndFetchStations),
+          onSearch: () => store.dispatch(fetchStationsByCurrentLocationAction),
+      ),
       builder: (context, homeVm) {
         var stationsState = homeVm.state;
-        var stations = getLocationStationsSortedByPrice(stationsState, homeVm.preferredFuelType);
+        var stations = getLocationStationsSortedByPrice(
+            stationsState, homeVm.preferredFuelType);
         var selectedStation = getLocationSelectedStation(stationsState);
+
+        if (!homeVm.hasLocationPermission) {
+          return NoLocationPermission(
+              onRequestPermission: homeVm.onRequestLocationPermission);
+        }
+
+        if (homeVm.state.error == ErrorType.CONNECTION) {
+          return NoConnection(onRetry: homeVm.onSearch);
+        }
+
         return StationMapList(
           stations: stations,
           isLoading: stationsState.isLoading,
           fromLocation: stationsState.fromLocation,
           selectedStation: selectedStation,
           onStationTap: homeVm.onStationTap,
-          onRequestPermission: homeVm.onRequestLocationPermission,
-          hasLocationPermission: homeVm.hasLocationPermission,
         );
       },
     );
@@ -127,11 +141,14 @@ class LocationPageVm {
   final IntCallback onStationTap;
   final bool hasLocationPermission;
   final VoidCallback onRequestLocationPermission;
+  final VoidCallback onSearch;
 
-  LocationPageVm(
-      {@required this.state,
-      @required this.preferredFuelType,
-      @required this.onStationTap,
-      @required this.hasLocationPermission,
-      @required this.onRequestLocationPermission});
+  LocationPageVm({
+    @required this.state,
+    @required this.preferredFuelType,
+    @required this.onStationTap,
+    @required this.hasLocationPermission,
+    @required this.onRequestLocationPermission,
+    @required this.onSearch,
+  });
 }

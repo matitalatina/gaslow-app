@@ -1,3 +1,4 @@
+import 'package:gaslow_app/models/ErrorType.dart';
 import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/models/Location.dart';
 import 'package:gaslow_app/redux/AppState.dart';
@@ -8,12 +9,16 @@ import 'package:meta/meta.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 
-import 'RouteStationsActions.dart';
-
 class LocationFetchStationsSuccess {
   final List<GasStation> stations;
 
   LocationFetchStationsSuccess({this.stations});
+}
+
+class LocationFetchStationsError {
+  final ErrorType error;
+
+  LocationFetchStationsError({this.error});
 }
 
 class LocationFetchStationsStart {}
@@ -40,11 +45,17 @@ fetchStationsByCurrentLocationAction(Store<AppState> store) async {
 
   store.dispatch(new LocationUpdateFromLocation(fromLocation: currentLocation));
 
-  store.dispatch(new LocationFetchStationsSuccess(
-      stations: await StationsClient().getStationsByCoords(
-    latitude: currentLocationRaw.latitude,
-    longitude: currentLocationRaw.longitude,
-  )));
+  try {
+    store.dispatch(new LocationFetchStationsSuccess(
+        stations: await StationsClient().getStationsByCoords(
+          latitude: currentLocationRaw.latitude,
+          longitude: currentLocationRaw.longitude,
+        )));
+  } catch (e) {
+    store.dispatch(
+        new LocationFetchStationsError(error: ErrorType.CONNECTION)
+    );
+  }
 }
 
 ThunkAction<AppState> fetchStationsByPlaceNameAction(String name) {

@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:gaslow_app/models/ErrorType.dart';
 import 'package:gaslow_app/models/FuelTypeEnum.dart';
 import 'package:gaslow_app/redux/AppState.dart';
 import 'package:gaslow_app/redux/RouteState.dart';
-import 'package:gaslow_app/redux/LocationState.dart';
-import 'package:gaslow_app/redux/actions/LocationStationsActions.dart';
-import 'package:gaslow_app/redux/actions/RouteStationsActions.dart';
 import 'package:gaslow_app/redux/actions/CoreActions.dart';
-import 'package:gaslow_app/redux/selectors/LocationSelectors.dart';
+import 'package:gaslow_app/redux/actions/RouteStationsActions.dart';
 import 'package:gaslow_app/redux/selectors/RouteSelectors.dart';
-import 'package:gaslow_app/widgets/GaslowTitle.dart';
+import 'package:gaslow_app/widgets/call_to_action/NoLocationPermission.dart';
 import 'package:gaslow_app/widgets/SearchField.dart';
 import 'package:gaslow_app/widgets/StationMapList.dart';
 import 'package:gaslow_app/widgets/StationTile.dart';
@@ -47,8 +45,15 @@ class _RoutePageState extends State<RoutePage> {
           ),
       builder: (context, homeVm) {
         var stationsState = homeVm.state;
-        var stations = getRouteStationsSortedByPrice(stationsState, homeVm.preferredFuelType);
+        var stations = getRouteStationsSortedByPrice(
+            stationsState, homeVm.preferredFuelType);
         var selectedStation = getRouteSelectedStation(stationsState);
+
+        if (!homeVm.hasLocationPermission) {
+          return NoLocationPermission(
+              onRequestPermission: homeVm.onRequestLocationPermission);
+        }
+
         return StationMapList(
           stations: stations,
           isLoading: stationsState.isLoading,
@@ -56,8 +61,6 @@ class _RoutePageState extends State<RoutePage> {
           toLocation: stationsState.toLocation,
           selectedStation: selectedStation,
           onStationTap: homeVm.onStationTap,
-          onRequestPermission: homeVm.onRequestLocationPermission,
-          hasLocationPermission: homeVm.hasLocationPermission,
         );
       },
     );
@@ -112,5 +115,6 @@ class RoutePageVm {
       @required this.onStationTap,
       @required this.preferredFuelType,
       @required this.hasLocationPermission,
-      @required this.onRequestLocationPermission});
+      @required this.onRequestLocationPermission,
+      });
 }

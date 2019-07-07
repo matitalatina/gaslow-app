@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:gaslow_app/models/ErrorType.dart';
 import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/models/Location.dart';
-import 'package:gaslow_app/widgets/NoLocationPermission.dart';
+import 'package:gaslow_app/widgets/call_to_action/NoLocationPermission.dart';
 
 import 'MapWidget.dart';
 import 'StationsWidget.dart';
@@ -14,8 +15,6 @@ class StationMapList extends StatelessWidget {
   final bool isLoading;
   final GasStation selectedStation;
   final ValueChanged<int> onStationTap;
-  final bool hasLocationPermission;
-  final VoidCallback onRequestPermission;
 
   const StationMapList({
     Key key,
@@ -25,18 +24,12 @@ class StationMapList extends StatelessWidget {
     @required this.isLoading,
     this.selectedStation,
     @required this.onStationTap,
-    this.hasLocationPermission = true,
-    this.onRequestPermission,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
       return Center(child: CircularProgressIndicator());
-    }
-
-    if (!hasLocationPermission) {
-      return NoLocationPermission(onRequestPermission: onRequestPermission);
     }
 
     if (fromLocation == null) {
