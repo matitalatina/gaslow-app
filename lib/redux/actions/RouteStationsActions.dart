@@ -1,3 +1,4 @@
+import 'package:gaslow_app/models/ErrorType.dart';
 import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/models/Location.dart';
 import 'package:gaslow_app/redux/AppState.dart';
@@ -12,6 +13,12 @@ class RouteFetchStationsSuccess {
   final List<GasStation> stations;
 
   RouteFetchStationsSuccess({this.stations});
+}
+
+class RouteFetchStationsError {
+  final ErrorType error;
+
+  RouteFetchStationsError({this.error});
 }
 
 class RouteFetchStationsStart {}
@@ -38,30 +45,32 @@ ThunkAction<AppState> fetchStationsByDestinationNameAction(String name) {
   return (Store<AppState> store) async {
     store.dispatch(RouteFetchStationsStart());
 
-    Loc.LocationData currentLocation =
-        await new Loc.Location().getLocation();
+    try {
+      Loc.LocationData currentLocation = await new Loc.Location().getLocation();
 
-    store.dispatch(new RouteUpdateFromLocation(
-        fromLocation: Location.fromPoint(
-      latitude: currentLocation.latitude,
-      longitude: currentLocation.longitude,
-    )));
+      store.dispatch(new RouteUpdateFromLocation(
+          fromLocation: Location.fromPoint(
+        latitude: currentLocation.latitude,
+        longitude: currentLocation.longitude,
+      )));
 
-    Address firstAddress =
-        (await Geocoder.local.findAddressesFromQuery(name)).first;
+      Address firstAddress =
+          (await Geocoder.local.findAddressesFromQuery(name)).first;
 
-    store.dispatch(new RouteUpdateToLocation(
-        toLocation: Location.fromPoint(
-      latitude: firstAddress.coordinates.latitude,
-      longitude: firstAddress.coordinates.longitude,
-    )));
-
-    store.dispatch(new RouteFetchStationsSuccess(
-        stations: await StationsClient().getStationsByRoute(
-      fromLatitude: currentLocation.latitude,
-      fromLongitude: currentLocation.longitude,
-      toLatitude: firstAddress.coordinates.latitude,
-      toLongitude: firstAddress.coordinates.longitude,
-    )));
+      store.dispatch(new RouteUpdateToLocation(
+          toLocation: Location.fromPoint(
+        latitude: firstAddress.coordinates.latitude,
+        longitude: firstAddress.coordinates.longitude,
+      )));
+      store.dispatch(new RouteFetchStationsSuccess(
+          stations: await StationsClient().getStationsByRoute(
+        fromLatitude: currentLocation.latitude,
+        fromLongitude: currentLocation.longitude,
+        toLatitude: firstAddress.coordinates.latitude,
+        toLongitude: firstAddress.coordinates.longitude,
+      )));
+    } catch (e) {
+      store.dispatch(new RouteFetchStationsError(error: ErrorType.CONNECTION));
+    }
   };
 }

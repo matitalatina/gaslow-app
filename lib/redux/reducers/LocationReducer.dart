@@ -15,7 +15,7 @@ LocationState locationReducer(LocationState state, action) {
   } else if (action is LocationFetchStationsStart) {
     return LocationState(
       isLoading: true,
-      stations: List<GasStation>.from(state.stations),
+      stations: state.stations,
       fromLocation: state.fromLocation,
       selectedStation: null,
       error: ErrorType.NONE,
@@ -47,7 +47,7 @@ LocationState locationReducer(LocationState state, action) {
   }
   return LocationState(
     isLoading: state.isLoading,
-    stations: List<GasStation>.from(state.stations),
+    stations: state.stations,
     fromLocation: state.fromLocation,
     selectedStation: state.selectedStation,
     error: state.error,

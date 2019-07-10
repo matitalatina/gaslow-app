@@ -6,10 +6,11 @@ import 'RouteState.dart';
 import 'SettingsState.dart';
 
 class AppState {
-  LocationState stationsState;
-  CoreState backendState;
-  RouteState routeState;
-  SettingsState settingsState;
+  final LocationState stationsState;
+  final CoreState backendState;
+  final RouteState routeState;
+  final SettingsState settingsState;
+
   AppState({
     @required this.stationsState,
     @required this.backendState,

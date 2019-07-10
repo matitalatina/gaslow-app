@@ -1,8 +1,8 @@
 import 'package:meta/meta.dart';
 
 class CoreState {
-  bool isLoading;
-  bool hasLocationPermission;
+  final bool isLoading;
+  final bool hasLocationPermission;
 
   CoreState({@required this.isLoading, @required this.hasLocationPermission});
 }

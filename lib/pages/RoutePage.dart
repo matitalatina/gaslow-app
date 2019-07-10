@@ -7,6 +7,7 @@ import 'package:gaslow_app/redux/RouteState.dart';
 import 'package:gaslow_app/redux/actions/CoreActions.dart';
 import 'package:gaslow_app/redux/actions/RouteStationsActions.dart';
 import 'package:gaslow_app/redux/selectors/RouteSelectors.dart';
+import 'package:gaslow_app/widgets/call_to_action/NoConnection.dart';
 import 'package:gaslow_app/widgets/call_to_action/NoLocationPermission.dart';
 import 'package:gaslow_app/widgets/SearchField.dart';
 import 'package:gaslow_app/widgets/StationMapList.dart';
@@ -34,15 +35,17 @@ class _RoutePageState extends State<RoutePage> {
   Widget build(BuildContext context) {
     final stationList = new StoreConnector<AppState, RoutePageVm>(
       converter: (store) => RoutePageVm(
-            state: store.state.routeState,
-            preferredFuelType: store.state.settingsState.preferredFuelType,
-            onStationTap: (stationId) =>
-                store.dispatch(RouteSelectStationAction(stationId: stationId)),
-            hasLocationPermission:
-                store.state.backendState.hasLocationPermission,
-            onRequestLocationPermission: () =>
-                store.dispatch(requestLocationPermission),
-          ),
+        state: store.state.routeState,
+        preferredFuelType: store.state.settingsState.preferredFuelType,
+        onStationTap: (stationId) =>
+            store.dispatch(RouteSelectStationAction(stationId: stationId)),
+        hasLocationPermission: store.state.backendState.hasLocationPermission,
+        onRequestLocationPermission: () =>
+            store.dispatch(requestLocationPermission),
+        onFindRoute: () => store.dispatch(
+            fetchStationsByDestinationNameAction(searchController.text)),
+        error: store.state.routeState.error,
+      ),
       builder: (context, homeVm) {
         var stationsState = homeVm.state;
         var stations = getRouteStationsSortedByPrice(
@@ -52,6 +55,11 @@ class _RoutePageState extends State<RoutePage> {
         if (!homeVm.hasLocationPermission) {
           return NoLocationPermission(
               onRequestPermission: homeVm.onRequestLocationPermission);
+        }
+
+        if (homeVm.error == ErrorType.CONNECTION) {
+          return NoConnection(
+              onRetry: homeVm.onFindRoute);
         }
 
         return StationMapList(
@@ -109,12 +117,16 @@ class RoutePageVm {
   final IntCallback onStationTap;
   final bool hasLocationPermission;
   final VoidCallback onRequestLocationPermission;
+  final VoidCallback onFindRoute;
+  final ErrorType error;
 
-  RoutePageVm(
-      {@required this.state,
-      @required this.onStationTap,
-      @required this.preferredFuelType,
-      @required this.hasLocationPermission,
-      @required this.onRequestLocationPermission,
-      });
+  RoutePageVm({
+    @required this.state,
+    @required this.onStationTap,
+    @required this.preferredFuelType,
+    @required this.hasLocationPermission,
+    @required this.onRequestLocationPermission,
+    @required this.onFindRoute,
+    @required this.error,
+  });
 }

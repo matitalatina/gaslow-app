@@ -4,11 +4,11 @@ import 'package:gaslow_app/models/Location.dart';
 import 'package:meta/meta.dart';
 
 class LocationState {
-  bool isLoading;
-  List<GasStation> stations;
-  Location fromLocation;
-  int selectedStation;
-  ErrorType error;
+  final bool isLoading;
+  final List<GasStation> stations;
+  final Location fromLocation;
+  final int selectedStation;
+  final ErrorType error;
 
   LocationState({
     @required this.isLoading,

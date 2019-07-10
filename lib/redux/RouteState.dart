@@ -1,13 +1,15 @@
+import 'package:gaslow_app/models/ErrorType.dart';
 import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/models/Location.dart';
 import 'package:meta/meta.dart';
 
 class RouteState {
-  bool isLoading;
-  List<GasStation> stations;
-  Location fromLocation;
-  Location toLocation;
-  int selectedStation;
+  final bool isLoading;
+  final List<GasStation> stations;
+  final Location fromLocation;
+  final Location toLocation;
+  final int selectedStation;
+  final ErrorType error;
 
   RouteState({
     @required this.isLoading,
@@ -15,6 +17,7 @@ class RouteState {
     @required this.fromLocation,
     @required this.toLocation,
     @required this.selectedStation,
+    @required this.error,
   });
 }
 
@@ -25,5 +28,6 @@ RouteState getDefaultRouteState() {
       fromLocation: null,
       toLocation: null,
       selectedStation: null,
+      error: ErrorType.NONE,
   );
 }

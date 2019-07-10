@@ -1,3 +1,4 @@
+import 'package:gaslow_app/models/ErrorType.dart';
 import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/redux/actions/RouteStationsActions.dart';
 
@@ -11,14 +12,16 @@ RouteState routeReducer(RouteState state, action) {
       fromLocation: state.fromLocation,
       toLocation: state.toLocation,
       selectedStation: state.selectedStation,
+      error: state.error,
     );
   } else if (action is RouteFetchStationsStart) {
     return RouteState(
       isLoading: true,
-      stations: List<GasStation>.from(state.stations),
+      stations: state.stations,
       fromLocation: state.fromLocation,
       toLocation: state.toLocation,
       selectedStation: null,
+      error: ErrorType.NONE,
     );
   } else if (action is RouteUpdateFromLocation) {
     return RouteState(
@@ -27,6 +30,7 @@ RouteState routeReducer(RouteState state, action) {
       fromLocation: action.fromLocation,
       toLocation: state.toLocation,
       selectedStation: state.selectedStation,
+      error: state.error,
     );
   } else if (action is RouteUpdateToLocation) {
     return RouteState(
@@ -35,6 +39,7 @@ RouteState routeReducer(RouteState state, action) {
       fromLocation: state.fromLocation,
       toLocation: action.toLocation,
       selectedStation: state.selectedStation,
+      error: state.error,
     );
   } else if (action is RouteSelectStationAction) {
     return RouteState(
@@ -43,13 +48,24 @@ RouteState routeReducer(RouteState state, action) {
       fromLocation: state.fromLocation,
       toLocation: state.toLocation,
       selectedStation: action.stationId,
+      error: state.error,
+    );
+  } else if (action is RouteFetchStationsError) {
+    return RouteState(
+      isLoading: false,
+      stations: state.stations,
+      fromLocation: state.fromLocation,
+      toLocation: state.toLocation,
+      selectedStation: state.selectedStation,
+      error: action.error,
     );
   }
   return RouteState(
     isLoading: state.isLoading,
-    stations: List<GasStation>.from(state.stations),
+    stations: state.stations,
     fromLocation: state.fromLocation,
     toLocation: state.toLocation,
     selectedStation: state.selectedStation,
+    error: state.error,
   );
 }

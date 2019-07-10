@@ -9,7 +9,10 @@ dependencies:
   url_launcher: ^3.0.3
   location: ^2.3.5
   intl: ^0.15.7
-  geocoder: ^0.1.2
+  geocoder:
+    git:
+      url: https://github.com/Eimji/flutter_geocoder.git
+      ref: bc34cfe473bfd1934fe098bb7053248b75200241
   latlong: ^0.6.1
   http: ^0.12.0
   google_maps_flutter: ^0.5.11
