@@ -23,6 +23,9 @@ matrix:
         - oracle-java8-installer
         - oracle-java8-set-default
 
+licenses:
+  - 'android-sdk-license-.+'
+
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
 - rm -f  $HOME/.gradle/caches/transforms-1/transforms-1.lock
