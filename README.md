@@ -23,6 +23,7 @@ If you want to add a secret in resources:
 
 - Add it in `android/resource-secrets.xml`
 - `cd android/secrets`
+- `rm secrets.tar secrets.tar.enc`
 - `tar cvf secrets.tar *`
 - `travis encrypt-file secrets.tar`
 

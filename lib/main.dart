@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:gaslow_app/pages/TabsPage.dart';
@@ -39,6 +41,8 @@ void main() {
   }));
 }
 
+FirebaseAnalytics analytics = FirebaseAnalytics();
+
 class MyApp extends StatelessWidget {
   final Store<AppState> store;
 
@@ -73,6 +77,9 @@ class MyApp extends StatelessWidget {
             fontFamily: 'WorkSans',
           ),
           home: TabsPage(),
+          navigatorObservers: [
+            FirebaseAnalyticsObserver(analytics: analytics),
+          ],
         ));
   }
 
