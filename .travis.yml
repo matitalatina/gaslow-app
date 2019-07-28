@@ -17,17 +17,14 @@ matrix:
       - android-28
     licenses:
       - 'android-sdk-license-.+'
-
-before_cache:
-- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-- rm -f  $HOME/.gradle/caches/transforms-1/transforms-1.lock
-- rm -rf $HOME/.gradle/caches/3.5/fileHashes/
-- rm -rf $HOME/.gradle/caches/*/plugin-resolution/
-
-cache:
-  directories:
-  - "$HOME/android/.gradle/caches/"
-  - "$HOME/android/.gradle/wrapper/"
+    before_cache:
+      - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+      - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+    cache:
+      directories:
+        - $HOME/.gradle/caches/
+        - $HOME/.gradle/wrapper/
+        - $HOME/.android/build-cache
 
 install:
 - export FLUTTER_PATH=$HOME/flutter/
