@@ -14,17 +14,8 @@ matrix:
       - build-tools-28.0.3
       - android-27
       - android-28
-    addons:
-      apt:
-        sources:
-        - sourceline: deb https://dl.yarnpkg.com/debian/ stable main
-          key_url: https://dl.yarnpkg.com/debian/pubkey.gpg
-        packages:
-        - oracle-java8-installer
-        - oracle-java8-set-default
-
-licenses:
-  - 'android-sdk-license-.+'
+    licenses:
+      - 'android-sdk-license-.+'
 
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
