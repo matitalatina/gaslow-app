@@ -49,10 +49,9 @@ class _MapWidgetState extends State<MapWidget> {
   }
 
   bool _stationsAreTheSame() {
-    return ListEquality().equals(
-        stations ?? [],
-        widget.stations,
-    );
+    final oldStationsIds = (stations ?? []).map((s) => s.id).join(",");
+    final newStationsIds = (widget.stations ?? []).map((s) => s.id).join(",");
+    return oldStationsIds == newStationsIds;
   }
 
   GoogleMap _showMap() {
