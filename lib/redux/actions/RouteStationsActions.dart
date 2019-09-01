@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:gaslow_app/locator.dart';
 import 'package:gaslow_app/models/ErrorType.dart';
 import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/models/Location.dart';
@@ -43,6 +45,11 @@ class RouteUpdateToLocation {
 
 ThunkAction<AppState> fetchStationsByDestinationNameAction(String name) {
   return (Store<AppState> store) async {
+    final analytics = getIt<FirebaseAnalytics>();
+    await analytics.logSearch(
+      searchTerm: 'Route: ' + name,
+      destination: name,
+    );
     store.dispatch(RouteFetchStationsStart());
 
     try {

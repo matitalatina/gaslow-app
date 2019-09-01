@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:gaslow_app/locator.dart';
 import 'package:gaslow_app/models/ErrorType.dart';
 import 'package:gaslow_app/models/FuelTypeEnum.dart';
 import 'package:gaslow_app/redux/AppState.dart';
@@ -59,8 +60,7 @@ class _RoutePageState extends State<RoutePage> {
         }
 
         if (homeVm.error == ErrorType.CONNECTION) {
-          return NoConnection(
-              onRetry: homeVm.onFindRoute);
+          return NoConnection(onRetry: homeVm.onFindRoute);
         }
 
         return StationMapList(
@@ -70,7 +70,8 @@ class _RoutePageState extends State<RoutePage> {
           toLocation: stationsState.toLocation,
           selectedStation: selectedStation,
           onStationTap: homeVm.onStationTap,
-          onShareTap: (stationId) => ShareService.shareStation(stations.firstWhere((s) => s.id == stationId)),
+          onShareTap: (stationId) => getIt<ShareService>()
+              .shareStation(stations.firstWhere((s) => s.id == stationId)),
         );
       },
     );

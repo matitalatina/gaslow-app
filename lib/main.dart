@@ -4,6 +4,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:gaslow_app/locator.dart';
 import 'package:gaslow_app/pages/TabsPage.dart';
 import 'package:gaslow_app/redux/AppState.dart';
 import 'package:gaslow_app/redux/CoreState.dart';
@@ -14,6 +15,7 @@ import 'package:gaslow_app/redux/actions/CoreActions.dart';
 import 'package:gaslow_app/redux/reducers/AppStateReducer.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
+
 
 Future<Store> prepareStore() async {
   final store = Store<AppState>(
@@ -31,6 +33,7 @@ Future<Store> prepareStore() async {
 }
 
 void main() {
+  initializeServiceLocator();
   runApp(FutureBuilder<Store>(
       future: prepareStore(),
       builder: (context, snapshot) {
@@ -40,8 +43,6 @@ void main() {
       return MyApp(store: snapshot.data);
   }));
 }
-
-FirebaseAnalytics analytics = FirebaseAnalytics();
 
 class MyApp extends StatelessWidget {
   final Store<AppState> store;
@@ -78,7 +79,7 @@ class MyApp extends StatelessWidget {
           ),
           home: TabsPage(),
           navigatorObservers: [
-            FirebaseAnalyticsObserver(analytics: analytics),
+            FirebaseAnalyticsObserver(analytics: getIt<FirebaseAnalytics>()),
           ],
         ));
   }

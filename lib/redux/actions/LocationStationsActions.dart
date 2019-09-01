@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:gaslow_app/locator.dart';
 import 'package:gaslow_app/models/ErrorType.dart';
 import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/models/Location.dart';
@@ -48,18 +50,21 @@ fetchStationsByCurrentLocationAction(Store<AppState> store) async {
   try {
     store.dispatch(new LocationFetchStationsSuccess(
         stations: await StationsClient().getStationsByCoords(
-          latitude: currentLocationRaw.latitude,
-          longitude: currentLocationRaw.longitude,
-        )));
+      latitude: currentLocationRaw.latitude,
+      longitude: currentLocationRaw.longitude,
+    )));
   } catch (e) {
-    store.dispatch(
-        new LocationFetchStationsError(error: ErrorType.CONNECTION)
-    );
+    store.dispatch(new LocationFetchStationsError(error: ErrorType.CONNECTION));
   }
 }
 
 ThunkAction<AppState> fetchStationsByPlaceNameAction(String name) {
   return (Store<AppState> store) async {
+    final analytics = getIt<FirebaseAnalytics>();
+    await analytics.logSearch(
+      searchTerm: 'Location: ' + name,
+      destination: name,
+    );
     store.dispatch(LocationFetchStationsStart());
     Address firstAddress =
         (await Geocoder.local.findAddressesFromQuery(name)).first;
@@ -69,7 +74,6 @@ ThunkAction<AppState> fetchStationsByPlaceNameAction(String name) {
       latitude: firstAddress.coordinates.latitude,
       longitude: firstAddress.coordinates.longitude,
     )));
-
 
     store.dispatch(new LocationFetchStationsSuccess(
         stations: await StationsClient().getStationsByCoords(

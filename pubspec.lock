@@ -148,6 +148,13 @@ packages:
       url: "https://github.com/Eimji/flutter_geocoder.git"
     source: git
     version: "0.1.1"
+  get_it:
+    dependency: "direct main"
+    description:
+      name: get_it
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.3"
   glob:
     dependency: transitive
     description:
