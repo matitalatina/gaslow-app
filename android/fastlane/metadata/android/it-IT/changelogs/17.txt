@@ -1,0 +1,2 @@
+- Ridotta la pubblicità.
+- Aggiunta la possibilità di condividere una stazione.
