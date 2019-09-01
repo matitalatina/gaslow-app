@@ -32,6 +32,11 @@ class _TabsPageState extends State<TabsPage> {
 
 
   @override
+  void initState() {
+    _loadAdmob();
+  }
+
+  @override
   void dispose() {
     interstitialAd.dispose();
     interstitialAd = null;
@@ -40,8 +45,6 @@ class _TabsPageState extends State<TabsPage> {
 
   @override
   Widget build(BuildContext context) {
-    _loadAdmob();
-
     final styledNavigationBar = new Theme(
       data: Theme.of(context).copyWith(
         // sets the background color of the `BottomNavigationBar`
@@ -83,6 +86,7 @@ class _TabsPageState extends State<TabsPage> {
   }
 
   _loadAdmob() async {
+    await Future.delayed(Duration(minutes: 1, seconds: 30));
     if (interstitialAd == null) {
       await FirebaseAdMob.instance.initialize(
           appId: await Secrets.getAdmobAppId());
