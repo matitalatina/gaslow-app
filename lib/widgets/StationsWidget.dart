@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/models/Location.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:gaslow_app/utils/StationUtils.dart';
 import 'package:gaslow_app/widgets/StationTile.dart';
 
 class StationsWidget extends StatefulWidget {
@@ -12,6 +12,7 @@ class StationsWidget extends StatefulWidget {
   final GasStation selectedStation;
 
   final IntCallback onStationTap;
+  final IntCallback onStationShare;
 
   StationsWidget({
     @required this.stations,
@@ -19,15 +20,8 @@ class StationsWidget extends StatefulWidget {
     @required this.onStationTap,
     @required this.selectedStation,
     this.fromLocation,
+    this.onStationShare,
   });
-
-  openMap(GasStation station) async {
-    var url =
-        'https://www.google.com/maps/search/?api=1&query=${station.location.coordinates[1]},${station.location.coordinates[0]}';
-    if (await canLaunch(url)) {
-      await launch(url);
-    }
-  }
 
   @override
   State<StatefulWidget> createState() => _StationWidgetState();
@@ -47,17 +41,18 @@ class _StationWidgetState extends State<StationsWidget> {
     return widget.isLoading
         ? Center(child: CircularProgressIndicator())
         : ListView.builder(
-        shrinkWrap: false,
-        itemCount: widget.stations.length,
-        itemBuilder: (context, index) {
-          final station = widget.stations[index];
-          return GestureDetector(
-              child: StationTile(
+            shrinkWrap: false,
+            itemCount: widget.stations.length,
+            itemBuilder: (context, index) {
+              final station = widget.stations[index];
+              return GestureDetector(
+                  child: StationTile(
                 onStationTap: widget.onStationTap,
                 station: station,
-                onMapTap: () => widget.openMap(station),
+                onMapTap: () => openMap(station),
                 fromLocation: widget.fromLocation,
+                onShareTap: widget.onStationShare,
               ));
-        });
+            });
   }
 }

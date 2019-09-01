@@ -2,17 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:gaslow_app/models/ErrorType.dart';
 import 'package:gaslow_app/models/FuelTypeEnum.dart';
+import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/redux/AppState.dart';
 import 'package:gaslow_app/redux/LocationState.dart';
 import 'package:gaslow_app/redux/actions/LocationStationsActions.dart';
 import 'package:gaslow_app/redux/selectors/LocationSelectors.dart';
-import 'package:gaslow_app/widgets/GaslowTitle.dart';
+import 'package:gaslow_app/services/ShareService.dart';
 import 'package:gaslow_app/widgets/call_to_action/NoConnection.dart';
 import 'package:gaslow_app/widgets/call_to_action/NoLocationPermission.dart';
 import 'package:gaslow_app/widgets/SearchField.dart';
 import 'package:gaslow_app/widgets/StationMapList.dart';
 import 'package:gaslow_app/widgets/StationTile.dart';
 import 'package:gaslow_app/redux/actions/CoreActions.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
+
 
 class LocationPage extends StatefulWidget {
   LocationPage({Key key, this.title}) : super(key: key);
@@ -75,6 +78,7 @@ class _LocationPageState extends State<LocationPage> {
           fromLocation: stationsState.fromLocation,
           selectedStation: selectedStation,
           onStationTap: homeVm.onStationTap,
+          onShareTap: (stationId) => ShareService.shareStation(stations.firstWhere((s) => s.id == stationId)),
         );
       },
     );

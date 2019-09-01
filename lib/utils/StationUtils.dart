@@ -1,6 +1,7 @@
 import 'package:gaslow_app/models/FuelTypeEnum.dart';
 import 'package:gaslow_app/models/GasStation.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 List<GasStation> sortStationsByPrice(List<GasStation> stations, FuelTypeEnum fuelTypeEnum) {
   final sortedStations = stations.where((s) => s.prices.any((p) => p.fuelTypeEnum == fuelTypeEnum)).toList()
@@ -23,3 +24,15 @@ List<GasStation> sortStationsByPrice(List<GasStation> stations, FuelTypeEnum fue
 NumberFormat getNumberFormat() {
   return NumberFormat("##0.000", "it_IT");
 }
+
+String getGoogleMapsUrl(GasStation station) {
+  return 'https://www.google.com/maps/search/?api=1&query=${station.location.coordinates[1]},${station.location.coordinates[0]}';
+}
+
+openMap(GasStation station) async {
+  var url = getGoogleMapsUrl(station);
+  if (await canLaunch(url)) {
+    await launch(url);
+  }
+}
+

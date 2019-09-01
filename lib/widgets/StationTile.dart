@@ -14,9 +14,14 @@ class StationTile extends StatelessWidget {
   final VoidCallback onMapTap;
   final Location fromLocation;
   final IntCallback onStationTap;
+  final IntCallback onShareTap;
 
   StationTile(
-      {@required this.station, @required this.onMapTap, this.fromLocation, @required this.onStationTap});
+      {@required this.station,
+      @required this.onMapTap,
+      this.fromLocation,
+      @required this.onStationTap,
+      this.onShareTap});
 
   @override
   Widget build(BuildContext context) {
@@ -25,68 +30,81 @@ class StationTile extends StatelessWidget {
         .reduce((d1, d2) => d1.isAfter(d2) ? d1 : d2);
 
     final Widget distanceWidget = fromLocation != null
-        ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Icon(
-              Icons.map,
-              size: 15.0,
-            ),
-            Text(
-              " " +
-                  NumberFormat("0.#", "it-IT").format(DistanceUtils.calc(
-                      from: fromLocation, to: station.location)) +
-                  "Km",
-            ),
-          ])
+        ? Opacity(
+            opacity: 0.3,
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Icon(
+                Icons.map,
+                size: 15.0,
+              ),
+              Text(
+                " " +
+                    NumberFormat("0.#", "it-IT").format(DistanceUtils.calc(
+                        from: fromLocation, to: station.location)) +
+                    "Km",
+              ),
+            ]))
         : Container();
 
-    final Widget lastUpdateWidget =
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Icon(
-        Icons.access_time,
-        size: 15.0,
-      ),
-      Text(DateFormat(' dd-MM-yyyy').format(lastUpdate)),
-    ]);
+    final Widget lastUpdateWidget = Opacity(
+        opacity: 0.3,
+        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Icon(
+            Icons.access_time,
+            size: 15.0,
+          ),
+          Text(DateFormat(' dd-MM-yyyy').format(lastUpdate)),
+        ]));
+
+    final Widget shareButton = onShareTap != null
+        ? FlatButton(
+            child: Row(children: [Icon(Icons.share), Text(" Condividi")]),
+            padding: EdgeInsets.all(0.0),
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            textColor: Theme.of(context).primaryColor,
+            onPressed: () => onShareTap(station.id))
+        : null;
     return GestureDetector(
         onTap: () => onStationTap(station.id),
         child: Card(
-        margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-        elevation: 4.0,
-        child: Column(children: [
-          ListTile(
-            dense: true,
-            leading: StationBrandLogo(
-              brand: station.brand,
-            ),
-            title: Text(station.address + ", " + station.city),
-            subtitle: Text(station.brand),
-            trailing: IconButton(
-              icon: Icon(Icons.directions),
-              color: Theme.of(context).primaryColor,
-              onPressed: onMapTap,
-            ),
-          ),
-          Padding(
-              padding: EdgeInsets.fromLTRB(15.0, 15.0, 20.0, 15.0),
-              child: Column(
-                children: <Widget>[
-                  StationPriceList(
-                    prices: station.prices,
-                  )
-                ],
-              )),
-          Padding(
-              padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
-              child: Opacity(
-                opacity: 0.3,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    distanceWidget,
-                    lastUpdateWidget,
-                  ],
+            margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+            elevation: 4.0,
+            child: Column(children: [
+              ListTile(
+                dense: true,
+                leading: StationBrandLogo(
+                  brand: station.brand,
                 ),
-              ))
-        ])));
+                title: Text(station.address + ", " + station.city),
+                subtitle: Text(station.brand),
+                trailing: IconButton(
+                  icon: Icon(Icons.directions),
+                  color: Theme.of(context).primaryColor,
+                  onPressed: onMapTap,
+                ),
+              ),
+              Padding(
+                  padding: EdgeInsets.fromLTRB(15.0, 15.0, 20.0, 15.0),
+                  child: Column(
+                    children: <Widget>[
+                      StationPriceList(
+                        prices: station.prices,
+                      )
+                    ],
+                  )),
+              Padding(
+                  padding:
+                      EdgeInsets.symmetric(vertical: shareButton != null ? 8.0 : 15.0, horizontal: 15.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      lastUpdateWidget,
+                      distanceWidget,
+                      shareButton,
+                    ]
+                        .where((w) => w != null)
+                        .toList(),
+                  ))
+            ])));
   }
 }

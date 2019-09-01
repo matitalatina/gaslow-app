@@ -7,6 +7,7 @@ import 'package:gaslow_app/redux/RouteState.dart';
 import 'package:gaslow_app/redux/actions/CoreActions.dart';
 import 'package:gaslow_app/redux/actions/RouteStationsActions.dart';
 import 'package:gaslow_app/redux/selectors/RouteSelectors.dart';
+import 'package:gaslow_app/services/ShareService.dart';
 import 'package:gaslow_app/widgets/call_to_action/NoConnection.dart';
 import 'package:gaslow_app/widgets/call_to_action/NoLocationPermission.dart';
 import 'package:gaslow_app/widgets/SearchField.dart';
@@ -69,6 +70,7 @@ class _RoutePageState extends State<RoutePage> {
           toLocation: stationsState.toLocation,
           selectedStation: selectedStation,
           onStationTap: homeVm.onStationTap,
+          onShareTap: (stationId) => ShareService.shareStation(stations.firstWhere((s) => s.id == stationId)),
         );
       },
     );

@@ -15,6 +15,7 @@ class StationMapList extends StatelessWidget {
   final bool isLoading;
   final GasStation selectedStation;
   final ValueChanged<int> onStationTap;
+  final ValueChanged<int> onShareTap;
 
   const StationMapList({
     Key key,
@@ -24,6 +25,7 @@ class StationMapList extends StatelessWidget {
     @required this.isLoading,
     this.selectedStation,
     @required this.onStationTap,
+    this.onShareTap,
   }) : super(key: key);
 
   @override
@@ -55,6 +57,7 @@ class StationMapList extends StatelessWidget {
             isLoading: isLoading,
             fromLocation: fromLocation,
             selectedStation: selectedStation,
+            onStationShare: onShareTap,
           ))
     ];
     return MediaQuery.of(context).orientation == Orientation.portrait
