@@ -1,0 +1,4 @@
+- Ridotta la pubblicità.
+- Aggiunta la possibilità di condividere una stazione.
+- Migliorate performance della mappa.
+- Aggiornamento delle librerie.
