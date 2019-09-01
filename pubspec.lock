@@ -94,13 +94,6 @@ packages:
       url: "https://github.com/MarkOSullivan94/dart_config.git"
     source: git
     version: "0.5.0"
-  esys_flutter_share:
-    dependency: "direct main"
-    description:
-      name: esys_flutter_share
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.2"
   firebase_admob:
     dependency: "direct main"
     description:
@@ -309,13 +302,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.6.2"
-  path_provider:
-    dependency: transitive
-    description:
-      name: path_provider
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.0"
   pedantic:
     dependency: transitive
     description:
@@ -372,6 +358,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.1"
+  share:
+    dependency: "direct main"
+    description:
+      name: share
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.2+1"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -547,4 +540,4 @@ packages:
     version: "2.1.15"
 sdks:
   dart: ">=2.2.2 <3.0.0"
-  flutter: ">=1.5.0 <2.0.0"
+  flutter: ">=1.6.0 <2.0.0"

@@ -14,7 +14,6 @@ import 'package:gaslow_app/widgets/SearchField.dart';
 import 'package:gaslow_app/widgets/StationMapList.dart';
 import 'package:gaslow_app/widgets/StationTile.dart';
 import 'package:gaslow_app/redux/actions/CoreActions.dart';
-import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 
 class LocationPage extends StatefulWidget {
