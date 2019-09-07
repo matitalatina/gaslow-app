@@ -62,7 +62,7 @@ ThunkAction<AppState> fetchStationsByPlaceNameAction(String name) {
   return (Store<AppState> store) async {
     final analytics = getIt<FirebaseAnalytics>();
     await analytics.logSearch(
-      searchTerm: 'Location: ' + name,
+      searchTerm: 'Location',
       destination: name,
     );
     store.dispatch(LocationFetchStationsStart());

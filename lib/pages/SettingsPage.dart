@@ -29,7 +29,7 @@ class SettingsPage extends StatelessWidget {
     );
     final shareAppTile = ListTile(
       leading: Column(children: <Widget>[Icon(Icons.share)], mainAxisAlignment: MainAxisAlignment.center,),
-      title: Text("Aiuta i tuoi amici"),
+      title: Text("Aiuta i tuoi amici a risparmiare"),
       subtitle: Text("Condividi l'app con loro"),
       onTap: () => getIt<ShareService>().shareApp(),
     );

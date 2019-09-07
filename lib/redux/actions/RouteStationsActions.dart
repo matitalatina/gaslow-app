@@ -47,7 +47,7 @@ ThunkAction<AppState> fetchStationsByDestinationNameAction(String name) {
   return (Store<AppState> store) async {
     final analytics = getIt<FirebaseAnalytics>();
     await analytics.logSearch(
-      searchTerm: 'Route: ' + name,
+      searchTerm: 'Route',
       destination: name,
     );
     store.dispatch(RouteFetchStationsStart());

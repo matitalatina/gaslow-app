@@ -45,14 +45,13 @@ class _StationWidgetState extends State<StationsWidget> {
             itemCount: widget.stations.length,
             itemBuilder: (context, index) {
               final station = widget.stations[index];
-              return GestureDetector(
-                  child: StationTile(
+              return StationTile(
                 onStationTap: widget.onStationTap,
                 station: station,
                 onMapTap: () => openMap(station),
                 fromLocation: widget.fromLocation,
                 onShareTap: widget.onStationShare,
-              ));
+              );
             });
   }
 }

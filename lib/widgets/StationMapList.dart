@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:gaslow_app/models/ErrorType.dart';
 import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/models/Location.dart';
-import 'package:gaslow_app/widgets/call_to_action/NoLocationPermission.dart';
 
 import 'MapWidget.dart';
 import 'StationsWidget.dart';

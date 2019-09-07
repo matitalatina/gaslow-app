@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:gaslow_app/locator.dart';
 import 'package:gaslow_app/models/FuelTypeEnum.dart';
 import 'package:gaslow_app/models/GasPrice.dart';
 import 'package:gaslow_app/models/GasStation.dart';
@@ -47,4 +49,6 @@ openMap(GasStation station) async {
   if (await canLaunch(url)) {
     await launch(url);
   }
+  final analytics = getIt<FirebaseAnalytics>();
+  await analytics.logViewItem(itemId: '${station.id}', itemName: 'directions', itemCategory: 'station');
 }

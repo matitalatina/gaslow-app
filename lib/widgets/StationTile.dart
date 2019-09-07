@@ -64,11 +64,12 @@ class StationTile extends StatelessWidget {
             textColor: Theme.of(context).primaryColor,
             onPressed: () => onShareTap(station.id))
         : null;
-    return GestureDetector(
-        onTap: () => onStationTap(station.id),
-        child: Card(
-            margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-            elevation: 4.0,
+    return Card(
+        margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+        elevation: 4.0,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(4.0),
+            onTap: () => onStationTap(station.id),
             child: Column(children: [
               ListTile(
                 dense: true,
@@ -85,25 +86,21 @@ class StationTile extends StatelessWidget {
               ),
               Padding(
                   padding: EdgeInsets.fromLTRB(15.0, 15.0, 20.0, 15.0),
-                  child: Column(
-                    children: <Widget>[
-                      StationPriceList(
+                  child: StationPriceList(
                         prices: station.prices,
-                      )
-                    ],
-                  )),
+                      ),
+                  ),
               Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: shareButton != null ? 8.0 : 15.0, horizontal: 15.0),
+                  padding: EdgeInsets.symmetric(
+                      vertical: shareButton != null ? 8.0 : 15.0,
+                      horizontal: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       lastUpdateWidget,
                       distanceWidget,
                       shareButton,
-                    ]
-                        .where((w) => w != null)
-                        .toList(),
+                    ].where((w) => w != null).toList(),
                   ))
             ])));
   }
