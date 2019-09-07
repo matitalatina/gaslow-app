@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gaslow_app/locator.dart';
+import 'package:gaslow_app/services/ReviewService.dart';
 import 'package:gaslow_app/utils/Secrets.dart';
 
 import 'LocationPage.dart';
@@ -34,6 +36,7 @@ class _TabsPageState extends State<TabsPage> {
   @override
   void initState() {
     _loadAdmob();
+    getIt<ReviewService>().handleDeferredReview(context);
   }
 
   @override
