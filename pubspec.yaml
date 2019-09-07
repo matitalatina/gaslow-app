@@ -20,6 +20,7 @@ dependencies:
   shared_preferences: ^0.5.3+4
   firebase_analytics: ^5.0.1
   #esys_flutter_share: ^1.0.2
+  app_review: ^1.0.0
   share: ^0.6.2+1
   get_it: ^2.0.3
 
