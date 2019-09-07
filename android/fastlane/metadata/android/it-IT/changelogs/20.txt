@@ -1,0 +1,2 @@
+- Interfaccia migliorata.
+- Performance migliorate.
