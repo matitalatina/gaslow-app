@@ -26,7 +26,6 @@ List<GasStation> sortStationsByPrice(
             .firstWhere((p) => p.fuelTypeEnum == fuelTypeEnum,
                 orElse: () => s2.prices[0])
             .price));
-  ;
 }
 
 _getPriceWeight(GasPrice price, FuelTypeEnum selectedFuelType) {

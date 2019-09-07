@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/models/Location.dart';
+import 'package:gaslow_app/widgets/LoaderVerbose.dart';
+import 'package:gaslow_app/widgets/MapWidget.dart';
+import 'package:gaslow_app/widgets/StationsWidget.dart';
 
-import 'MapWidget.dart';
-import 'StationsWidget.dart';
 
 class StationMapList extends StatelessWidget {
   final List<GasStation> stations;
@@ -29,7 +30,9 @@ class StationMapList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      return Center(child: CircularProgressIndicator());
+      return Center(
+          child: LoaderVerbose(),
+      );
     }
 
     if (fromLocation == null) {

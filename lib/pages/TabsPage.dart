@@ -37,6 +37,7 @@ class _TabsPageState extends State<TabsPage> {
   void initState() {
     _loadAdmob();
     getIt<ReviewService>().handleDeferredReview(context);
+    super.initState();
   }
 
   @override

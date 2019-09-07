@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:gaslow_app/models/FuelTypeEnum.dart';
 import 'package:gaslow_app/models/GasPrice.dart';
 import 'package:gaslow_app/utils/StationUtils.dart';
-import 'package:intl/intl.dart';
 
 class StationTile extends StatelessWidget {
   final GasPrice price;
