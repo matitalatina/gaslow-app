@@ -1,0 +1,2 @@
+- Migliorata l'interfaccia.
+- Aggiunta la possibilità di recensire GasLow.
