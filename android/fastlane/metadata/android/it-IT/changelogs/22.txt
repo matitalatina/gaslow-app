@@ -1,0 +1,1 @@
+- Aggiunto lo scroll automatico della lista quando si seleziona una stazione sulla mappa.
