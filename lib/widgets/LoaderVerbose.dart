@@ -25,7 +25,7 @@ class LoaderVerbose extends StatelessWidget {
                     "Aggregando i dati trovati",
                     "Ordinando le stazioni in ordine di prezzo",
                     "Posizionando le stazioni sulla mappa",
-                    "Rimuovendo i dati errati"
+                    "Rimuovendo i dati obsoleti"
                   ]..shuffle(),
                   textStyle: Theme.of(context).textTheme.body1.copyWith(color: Theme.of(context).primaryColor.withOpacity(0.7)),
                   textAlign: TextAlign.center,

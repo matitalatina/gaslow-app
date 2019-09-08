@@ -4,7 +4,7 @@ import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/models/Location.dart';
 import 'package:gaslow_app/widgets/LoaderVerbose.dart';
 import 'package:gaslow_app/widgets/MapWidget.dart';
-import 'package:gaslow_app/widgets/StationsWidget.dart';
+import 'package:gaslow_app/widgets/StationsList.dart';
 
 
 class StationMapList extends StatelessWidget {
@@ -52,7 +52,7 @@ class StationMapList extends StatelessWidget {
           )),
       Flexible(
           flex: 1,
-          child: StationsWidget(
+          child: StationsList(
             onStationTap: onStationTap,
             stations: stations,
             isLoading: isLoading,
