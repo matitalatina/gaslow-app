@@ -33,6 +33,8 @@ Future<Store> prepareStore() async {
 }
 
 void main() {
+  // https://github.com/flutter/flutter/issues/38056
+  WidgetsFlutterBinding.ensureInitialized();
   initializeServiceLocator();
   runApp(FutureBuilder<Store>(
       future: prepareStore(),
