@@ -68,6 +68,7 @@ class _MapWidgetState extends State<MapWidget> {
       markers: _getMarkers(),
       rotateGesturesEnabled: false,
       tiltGesturesEnabled: false,
+      myLocationButtonEnabled: false,
     );
     stations = widget.stations;
     return cachedMap;

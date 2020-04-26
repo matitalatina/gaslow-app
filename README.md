@@ -30,3 +30,7 @@ If you want to add a secret in resources:
 If you want to check if it works locally:
 
 - `cp android/secrets/resource-secrets.xml android/app/src/main/res/values/secrets.xml`
+
+### iOS
+
+- TODO: add xcconfig.

@@ -19,6 +19,11 @@ PODS:
     - Firebase/Analytics (~> 6.0)
     - Firebase/Core
     - Flutter
+  - firebase_core (0.0.1):
+    - Firebase/Core
+    - Flutter
+  - firebase_core_web (0.1.0):
+    - Flutter
   - FirebaseAnalytics (6.4.2):
     - FirebaseCore (~> 6.6)
     - FirebaseInstallations (~> 1.2)
@@ -103,7 +108,7 @@ PODS:
   - PromisesObjC (1.2.8)
   - rate_my_app (0.1):
     - Flutter
-  - share (0.5.2):
+  - share (0.0.1):
     - Flutter
   - shared_preferences (0.0.1):
     - Flutter
@@ -122,6 +127,8 @@ DEPENDENCIES:
   - app_review (from `.symlinks/plugins/app_review/ios`)
   - firebase_admob (from `.symlinks/plugins/firebase_admob/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
+  - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
+  - firebase_core_web (from `.symlinks/plugins/firebase_core_web/ios`)
   - Flutter (from `Flutter`)
   - flutter_plugin_android_lifecycle (from `.symlinks/plugins/flutter_plugin_android_lifecycle/ios`)
   - geocoder (from `.symlinks/plugins/geocoder/ios`)
@@ -162,6 +169,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_admob/ios"
   firebase_analytics:
     :path: ".symlinks/plugins/firebase_analytics/ios"
+  firebase_core:
+    :path: ".symlinks/plugins/firebase_core/ios"
+  firebase_core_web:
+    :path: ".symlinks/plugins/firebase_core_web/ios"
   Flutter:
     :path: Flutter
   flutter_plugin_android_lifecycle:
@@ -198,6 +209,8 @@ SPEC CHECKSUMS:
   Firebase: 585ae467b3edda6a5444e788fda6888f024d8d6f
   firebase_admob: d8c2bc95b5e0069406280ce6adb816cdee6aa595
   firebase_analytics: dacdcfc524d722fff13dcff942f0dfa47e6be567
+  firebase_core: 0d8be0e0d14c4902953aeb5ac5d7316d1fe4b978
+  firebase_core_web: d501d8b946b60c8af265428ce483b0fff5ad52d1
   FirebaseAnalytics: 558f7a03d19de451093032c806f39d5f9dff096e
   FirebaseCore: a2788a0d5f6c1dff17b8f79b4a73654a8d4bfdbd
   FirebaseCoreDiagnostics: b59c024493a409f8aecba02c99928d0d8431d159
@@ -219,8 +232,8 @@ SPEC CHECKSUMS:
   package_info: 48b108e75b8802c2d5e126f208ef540561c98aef
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   rate_my_app: 45513a2f4d9a55b7b46d19b64fc13882fd101157
-  share: bae0a282aab4483288913fc4dc0b935d4b491f2e
-  shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
+  share: 0b2c3e82132f5888bccca3351c504d0003b3b410
+  shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   shared_preferences_macos: f3f29b71ccbb56bf40c9dd6396c9acf15e214087
   shared_preferences_web: 141cce0c3ed1a1c5bf2a0e44f52d31eeb66e5ea9
   url_launcher: a1c0cc845906122c4784c542523d8cacbded5626
