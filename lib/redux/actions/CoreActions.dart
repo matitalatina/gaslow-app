@@ -30,9 +30,9 @@ checkLocationPermissionAndFetchStations(Store<AppState> store) async {
 
 Future<bool> requestLocationPermission(Store<AppState> store) async {
   Location location = new Location();
-  bool hasLocationPermission = await location.hasPermission();
+  bool hasLocationPermission = await location.hasPermission() == PermissionStatus.granted;
   if (!hasLocationPermission) {
-    hasLocationPermission = await location.requestPermission();
+    hasLocationPermission = await location.requestPermission() == PermissionStatus.granted;
   }
   store.dispatch(UpdateLocationPermission(hasLocationPermission: hasLocationPermission));
   return hasLocationPermission;

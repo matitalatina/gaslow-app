@@ -18,6 +18,18 @@ def keystorePropertiesFile = rootProject.file("secrets/key.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
+
 android {
     compileSdkVersion 28
 
@@ -29,8 +41,8 @@ android {
         applicationId "it.mattianatali.gaslowapp"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 23
-        versionName "1.3.10"
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

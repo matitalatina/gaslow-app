@@ -42,8 +42,8 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSLocationUsageDescription</key>
-    <string>We need your location to find your nearby stations.</string>
+    <string>Dobbiamo sapere la tua posizione per trovare le stazioni vicine.</string>
     <key>NSLocationWhenInUseUsageDescription</key>
-    <string>We need your location to find your nearby stations.</string>
+    <string>Dobbiamo sapere la tua posizione per trovare le stazioni vicine.</string>
 </dict>
 </plist>
