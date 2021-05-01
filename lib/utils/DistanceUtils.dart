@@ -1,14 +1,19 @@
+import 'dart:math';
+
 import 'package:gaslow_app/models/Location.dart';
 import 'package:meta/meta.dart';
-import 'package:latlong/latlong.dart';
 
 class DistanceUtils {
   static calc({@required Location from, @required Location to}) {
-    return Distance().as(
-          LengthUnit.Meter,
-          LatLng(from.coordinates[1], from.coordinates[0]),
-          LatLng(to.coordinates[1], to.coordinates[0]),
-        ) /
-        1000;
+    return calculateDistanceKm(from.coordinates[1], from.coordinates[0], to.coordinates[1], to.coordinates[0]);
+  }
+
+  static double calculateDistanceKm(lat1, lon1, lat2, lon2){
+    var p = 0.017453292519943295;
+    var c = cos;
+    var a = 0.5 - c((lat2 - lat1) * p)/2 +
+        c(lat1 * p) * c(lat2 * p) *
+            (1 - c((lon2 - lon1) * p))/2;
+    return 12742 * asin(sqrt(a));
   }
 }

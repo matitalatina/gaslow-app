@@ -13,6 +13,7 @@ import 'package:gaslow_app/redux/RouteState.dart';
 import 'package:gaslow_app/redux/SettingsState.dart';
 import 'package:gaslow_app/redux/actions/CoreActions.dart';
 import 'package:gaslow_app/redux/reducers/AppStateReducer.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 
@@ -36,6 +37,7 @@ void main() {
   // https://github.com/flutter/flutter/issues/38056
   WidgetsFlutterBinding.ensureInitialized();
   initializeServiceLocator();
+  MobileAds.instance.initialize();
   runApp(FutureBuilder<Store>(
       future: prepareStore(),
       builder: (context, snapshot) {

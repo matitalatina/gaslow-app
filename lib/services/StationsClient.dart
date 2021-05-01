@@ -8,7 +8,7 @@ class StationsClient {
   //static const BACKEND_URL = "https://8ed24646q5.execute-api.eu-west-1.amazonaws.com/prod";
   static const BACKEND_URL = "https://gaslow.herokuapp.com";
   Future<List<GasStation>> getStationsByCoords({num latitude, num longitude}) async {
-    final url = "$BACKEND_URL/stations/find/location?lat=$latitude&lng=$longitude";
+    final url = Uri.parse("$BACKEND_URL/stations/find/location?lat=$latitude&lng=$longitude");
     final headers = {
       'X-API-KEY': await Secrets.getServerlessApiKey(),
     };
@@ -23,7 +23,7 @@ class StationsClient {
   }
 
   Future<List<GasStation>> getStationsByRoute({num fromLatitude, num fromLongitude, num toLatitude, num toLongitude}) async {
-    final url = "$BACKEND_URL/stations/find/route?from=$fromLatitude,$fromLongitude&to=$toLatitude,$toLongitude";
+    final url = Uri.parse("$BACKEND_URL/stations/find/route?from=$fromLatitude,$fromLongitude&to=$toLatitude,$toLongitude");
     final headers = {
       'X-API-KEY': await Secrets.getServerlessApiKey(),
     };

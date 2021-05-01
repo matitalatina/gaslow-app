@@ -33,7 +33,6 @@ class ReviewService {
         rateButton: 'OK!',
         noButton: 'NO GRAZIE',
         laterButton: 'PIÙ TARDI',
-        ignoreIOS: false,
       );
       await analytics.logEvent(name: "review", parameters: {
         "source": "prompt",

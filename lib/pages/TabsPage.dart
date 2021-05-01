@@ -2,11 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gaslow_app/locator.dart';
 import 'package:gaslow_app/services/ReviewService.dart';
-import 'package:gaslow_app/utils/Secrets.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'LocationPage.dart';
 import 'RoutePage.dart';
-import 'package:firebase_admob/firebase_admob.dart';
 
 import 'SettingsPage.dart';
 
@@ -26,12 +25,6 @@ class _TabsPageState extends State<TabsPage> {
     RoutePage(title: 'GasLow'),
     SettingsPage(),
   ];
-
-  static final MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-      keywords: ['cars', 'fuel', 'suv'],
-      testDevices: [],
-  );
-
 
   @override
   void initState() {
@@ -62,9 +55,9 @@ class _TabsPageState extends State<TabsPage> {
               .copyWith(caption: new TextStyle(color: Theme.of(context).hintColor))),
       child: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.location_on), title: Text('Dintorni')),
-          BottomNavigationBarItem(icon: Icon(Icons.timeline), title: Text('Tragitto')),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), title: Text('Impostazioni')),
+          BottomNavigationBarItem(icon: Icon(Icons.location_on), label: 'Dintorni'),
+          BottomNavigationBarItem(icon: Icon(Icons.timeline), label: 'Tragitto'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Impostazioni'),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
@@ -92,21 +85,24 @@ class _TabsPageState extends State<TabsPage> {
   _loadAdmob() async {
     await Future.delayed(Duration(minutes: 1, seconds: 30));
     if (interstitialAd == null) {
-      await FirebaseAdMob.instance.initialize(
-          appId: await Secrets.getAdmobAppId());
       interstitialAd = _loadInterstitialAd()
-        ..load()
-        ..show(
-        anchorType: AnchorType.bottom,
-        anchorOffset: 0.0,
-      );
+        ..load();
     }
   }
 
   _loadInterstitialAd() {
     return InterstitialAd(
       adUnitId: kReleaseMode ? 'ca-app-pub-7145772846945296/9083312901' : InterstitialAd.testAdUnitId,
-      targetingInfo: targetingInfo,
+      listener: AdListener(
+        onAdLoaded: (Ad ad) => interstitialAd.show(),
+        onAdFailedToLoad: (Ad ad, LoadAdError error) {
+          ad.dispose();
+        },
+        onAdClosed: (Ad ad) {
+          ad.dispose();
+        },
+      ),
+      request: AdRequest()
     );
   }
 }

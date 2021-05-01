@@ -4,6 +4,8 @@
 <dict>
 	<key>GOOGLE_MAPS_API_KEY</key>
 	<string>$(GOOGLE_MAPS_API_KEY)</string>
+	<key>GADApplicationIdentifier</key>
+	<string>$(ADMOB_APP_ID)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -22,8 +24,6 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
-	<key>GADApplicationIdentifier</key>
-	<string>$(ADMOB_APP_ID)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -45,15 +45,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>io.flutter.embedded_views_preview</key>
-	<true/>
 	<key>NSLocationUsageDescription</key>
-    <string>Dobbiamo sapere la tua posizione per trovare le stazioni vicine.</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Dobbiamo sapere la tua posizione per trovare le stazioni vicine.</string>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>itms</string>
-    </array>
+	<string>Dobbiamo sapere la tua posizione per trovare le stazioni vicine.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Dobbiamo sapere la tua posizione per trovare le stazioni vicine.</string>
 </dict>
 </plist>
