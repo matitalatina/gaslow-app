@@ -85,21 +85,20 @@ class _TabsPageState extends State<TabsPage> {
   _loadAdmob() async {
     await Future.delayed(Duration(minutes: 1, seconds: 30));
     if (interstitialAd == null) {
-      interstitialAd = _loadInterstitialAd()
-        ..load();
+      _loadInterstitialAd();
     }
   }
 
   _loadInterstitialAd() {
-    return InterstitialAd(
+    return InterstitialAd.load(
       adUnitId: kReleaseMode ? 'ca-app-pub-7145772846945296/9083312901' : InterstitialAd.testAdUnitId,
-      listener: AdListener(
-        onAdLoaded: (Ad ad) => interstitialAd.show(),
-        onAdFailedToLoad: (Ad ad, LoadAdError error) {
-          ad.dispose();
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (Ad ad) {
+          interstitialAd = ad;
+          interstitialAd.show();
         },
-        onAdClosed: (Ad ad) {
-          ad.dispose();
+        onAdFailedToLoad: (LoadAdError error) {
+          print('InterstitialAd failed to load: $error');
         },
       ),
       request: AdRequest()
