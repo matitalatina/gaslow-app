@@ -42,18 +42,17 @@ class _TabsPageState extends State<TabsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final styledNavigationBar = new Theme(
-      data: Theme.of(context).copyWith(
-        // sets the background color of the `BottomNavigationBar`
-          canvasColor: Theme.of(context).accentColor,
-          // sets the active color of the `BottomNavigationBar` if `Brightness` is light
-          primaryColor: Theme.of(context).canvasColor,
-          // sets the inactive color of the `BottomNavigationBar`
-          textTheme: Theme
-              .of(context)
-              .textTheme
-              .copyWith(caption: new TextStyle(color: Theme.of(context).hintColor))),
-      child: BottomNavigationBar(
+    return Scaffold(
+      body: Center(
+        child: IndexedStack(
+          index: _selectedIndex,
+          children: _widgetOptions
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Theme.of(context).accentColor,
+        selectedItemColor: Theme.of(context).canvasColor,
+        unselectedItemColor: Theme.of(context).hintColor,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.location_on), label: 'Dintorni'),
           BottomNavigationBarItem(icon: Icon(Icons.timeline), label: 'Tragitto'),
@@ -62,16 +61,6 @@ class _TabsPageState extends State<TabsPage> {
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
-    );
-
-    return Scaffold(
-      body: Center(
-        child: IndexedStack(
-          index: _selectedIndex,
-          children: _widgetOptions
-        ),
-      ),
-      bottomNavigationBar: styledNavigationBar,
       resizeToAvoidBottomInset: false,
     );
   }
