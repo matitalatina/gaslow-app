@@ -5,7 +5,7 @@ import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/models/Location.dart';
 import 'package:gaslow_app/redux/AppState.dart';
 import 'package:gaslow_app/services/StationsClient.dart';
-import 'package:geocoder/geocoder.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:location/location.dart' as Loc;
 import 'package:meta/meta.dart';
 import 'package:redux/redux.dart';
@@ -26,7 +26,7 @@ class LocationFetchStationsError {
 class LocationFetchStationsStart {}
 
 class LocationUpdateFromLocation {
-  final Location fromLocation;
+  final MyLocation fromLocation;
 
   LocationUpdateFromLocation({@required this.fromLocation});
 }
@@ -40,7 +40,7 @@ class LocationSelectStationAction {
 fetchStationsByCurrentLocationAction(Store<AppState> store) async {
   store.dispatch(LocationFetchStationsStart());
   Loc.LocationData currentLocationRaw = await new Loc.Location().getLocation();
-  final currentLocation = Location.fromPoint(
+  final currentLocation = MyLocation.fromPoint(
     latitude: currentLocationRaw.latitude,
     longitude: currentLocationRaw.longitude,
   );
@@ -66,19 +66,19 @@ ThunkAction<AppState> fetchStationsByPlaceNameAction(String name) {
       destination: name,
     );
     store.dispatch(LocationFetchStationsStart());
-    Address firstAddress =
-        (await Geocoder.local.findAddressesFromQuery(name)).first;
+    var firstAddress =
+        (await locationFromAddress(name)).first;
 
     store.dispatch(new LocationUpdateFromLocation(
-        fromLocation: Location.fromPoint(
-      latitude: firstAddress.coordinates.latitude,
-      longitude: firstAddress.coordinates.longitude,
+        fromLocation: MyLocation.fromPoint(
+      latitude: firstAddress.latitude,
+      longitude: firstAddress.longitude,
     )));
 
     store.dispatch(new LocationFetchStationsSuccess(
         stations: await StationsClient().getStationsByCoords(
-      latitude: firstAddress.coordinates.latitude,
-      longitude: firstAddress.coordinates.longitude,
+      latitude: firstAddress.latitude,
+      longitude: firstAddress.longitude,
     )));
   };
 }

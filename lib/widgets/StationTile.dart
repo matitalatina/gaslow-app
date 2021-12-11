@@ -12,7 +12,7 @@ typedef void IntCallback(int id);
 class StationTile extends StatelessWidget {
   final GasStation station;
   final VoidCallback onMapTap;
-  final Location fromLocation;
+  final MyLocation fromLocation;
   final IntCallback onStationTap;
   final IntCallback onShareTap;
 

@@ -27,7 +27,7 @@ class LoaderVerbose extends StatelessWidget {
                     "Posizionando le stazioni sulla mappa",
                     "Rimuovendo i dati obsoleti"
                   ]..shuffle(),
-                  textStyle: Theme.of(context).textTheme.body1.copyWith(color: Theme.of(context).primaryColor.withOpacity(0.7)),
+                  textStyle: Theme.of(context).textTheme.bodyText1.copyWith(color: Theme.of(context).primaryColor.withOpacity(0.7)),
                   textAlign: TextAlign.center,
                   alignment: AlignmentDirectional.center // or Alignment.topLeft
               ),

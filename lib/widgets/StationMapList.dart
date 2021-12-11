@@ -9,8 +9,8 @@ import 'package:gaslow_app/widgets/StationsList.dart';
 
 class StationMapList extends StatelessWidget {
   final List<GasStation> stations;
-  final Location fromLocation;
-  final Location toLocation;
+  final MyLocation fromLocation;
+  final MyLocation toLocation;
   final bool isLoading;
   final GasStation selectedStation;
   final ValueChanged<int> onStationTap;

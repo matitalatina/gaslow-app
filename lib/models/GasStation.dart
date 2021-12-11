@@ -11,7 +11,7 @@ class GasStation {
   String city;
   String province;
   List<GasPrice> prices;
-  Location location;
+  MyLocation location;
 
   GasStation({this.id, this.manager, this.brand, this.type, this.name,
       this.address, this.city, this.province, this.prices, this.location});
@@ -27,7 +27,7 @@ class GasStation {
       city: json['city'],
       province: json['province'],
       prices: (json['prices'] as List).cast<Map<String, dynamic>>().map((p) => GasPrice.fromJson(p)).toList(),
-      location: Location.fromJson(json['location']),
+      location: MyLocation.fromJson(json['location']),
     );
   }
 

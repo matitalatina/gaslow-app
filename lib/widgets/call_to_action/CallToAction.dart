@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class CallToAction extends StatelessWidget {
   final String description;
@@ -33,15 +32,13 @@ class CallToAction extends StatelessWidget {
                 child: Text(
                   description,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline,
+                  style: Theme.of(context).textTheme.headline6,
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
               ),
-              RaisedButton(
+              ElevatedButton(
                 onPressed: onAction,
                 child: Text(actionLabel),
-                color: Theme.of(context).accentColor,
-                textTheme: ButtonTextTheme.primary,
               )
             ],
           ),

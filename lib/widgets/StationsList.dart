@@ -9,7 +9,7 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 class StationsList extends StatefulWidget {
   final List<GasStation> stations;
   final bool isLoading;
-  final Location fromLocation;
+  final MyLocation fromLocation;
   final GasStation selectedStation;
 
   final IntCallback onStationTap;

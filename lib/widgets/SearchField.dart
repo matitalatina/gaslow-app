@@ -19,7 +19,6 @@ class SearchField extends StatelessWidget {
         suffixIcon: Icon(Icons.search),
         border: InputBorder.none,
       ),
-      style: Theme.of(context).accentTextTheme.subhead,
       controller: textController,
       onSubmitted: this.onSearch,
       textInputAction: TextInputAction.search,

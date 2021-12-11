@@ -6,7 +6,7 @@ import 'package:meta/meta.dart';
 class LocationState {
   final bool isLoading;
   final List<GasStation> stations;
-  final Location fromLocation;
+  final MyLocation fromLocation;
   final int selectedStation;
   final ErrorType error;
 

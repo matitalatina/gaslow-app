@@ -10,8 +10,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapWidget extends StatefulWidget {
   final List<GasStation> stations;
-  final Location fromLocation;
-  final Location toLocation;
+  final MyLocation fromLocation;
+  final MyLocation toLocation;
   final bool isLoading;
   final GasStation selectedStation;
   final IntCallback onStationTap;
@@ -79,7 +79,7 @@ class _MapWidgetState extends State<MapWidget> {
       widget.selectedStation?.location,
       widget.toLocation,
       widget.fromLocation,
-      Location(type: "Point", coordinates: [9.669960, 45.694889]) // Bergamo
+      MyLocation(type: "Point", coordinates: [9.669960, 45.694889]) // Bergamo
     ].firstWhere((l) => l != null);
     return LatLng(initialPosition.latitude, initialPosition.longitude);
   }
@@ -120,7 +120,7 @@ class _MapWidgetState extends State<MapWidget> {
     return MapEntry(index, markerOptions);
   }
 
-  Marker _createPositionMarker(Location location, String title) {
+  Marker _createPositionMarker(MyLocation location, String title) {
     return Marker(
       markerId: MarkerId("position-${location.latitude}-${location.longitude}"),
       position: LatLng(location.latitude, location.longitude),

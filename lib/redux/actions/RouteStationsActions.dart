@@ -5,7 +5,7 @@ import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/models/Location.dart';
 import 'package:gaslow_app/redux/AppState.dart';
 import 'package:gaslow_app/services/StationsClient.dart';
-import 'package:geocoder/geocoder.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:location/location.dart' as Loc;
 import 'package:meta/meta.dart';
 import 'package:redux/redux.dart';
@@ -32,13 +32,13 @@ class RouteSelectStationAction {
 }
 
 class RouteUpdateFromLocation {
-  final Location fromLocation;
+  final MyLocation fromLocation;
 
   RouteUpdateFromLocation({@required this.fromLocation});
 }
 
 class RouteUpdateToLocation {
-  final Location toLocation;
+  final MyLocation toLocation;
 
   RouteUpdateToLocation({@required this.toLocation});
 }
@@ -56,25 +56,25 @@ ThunkAction<AppState> fetchStationsByDestinationNameAction(String name) {
       Loc.LocationData currentLocation = await new Loc.Location().getLocation();
 
       store.dispatch(new RouteUpdateFromLocation(
-          fromLocation: Location.fromPoint(
+          fromLocation: MyLocation.fromPoint(
         latitude: currentLocation.latitude,
         longitude: currentLocation.longitude,
       )));
 
-      Address firstAddress =
-          (await Geocoder.local.findAddressesFromQuery(name)).first;
+      var firstAddress =
+          (await locationFromAddress(name)).first;
 
       store.dispatch(new RouteUpdateToLocation(
-          toLocation: Location.fromPoint(
-        latitude: firstAddress.coordinates.latitude,
-        longitude: firstAddress.coordinates.longitude,
+          toLocation: MyLocation.fromPoint(
+        latitude: firstAddress.latitude,
+        longitude: firstAddress.longitude,
       )));
       store.dispatch(new RouteFetchStationsSuccess(
           stations: await StationsClient().getStationsByRoute(
         fromLatitude: currentLocation.latitude,
         fromLongitude: currentLocation.longitude,
-        toLatitude: firstAddress.coordinates.latitude,
-        toLongitude: firstAddress.coordinates.longitude,
+        toLatitude: firstAddress.latitude,
+        toLongitude: firstAddress.longitude,
       )));
     } catch (e) {
       store.dispatch(new RouteFetchStationsError(error: ErrorType.CONNECTION));
