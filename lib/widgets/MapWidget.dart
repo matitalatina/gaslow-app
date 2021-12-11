@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gaslow_app/map/MapMarkers.dart';
 import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/models/Location.dart';
@@ -30,7 +31,7 @@ class MapWidget extends StatefulWidget {
   State createState() => _MapWidgetState();
 }
 
-class _MapWidgetState extends State<MapWidget> {
+class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
   static const DEFAULT_MAP_ZOOM = 11.0;
   static const SELECTED_MAP_ZOOM = 14.0;
 
@@ -45,6 +46,26 @@ class _MapWidgetState extends State<MapWidget> {
       return Center(child: CircularProgressIndicator());
     }
     return _showMap();
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  // https://github.com/flutter/flutter/issues/40284#issuecomment-866377474
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _initMapStyle();
+    }
+  }
+
+  Future<void> _initMapStyle() async {
+    var mapController = await mapControllerCompleter.future;
+    mapController.setMapStyle("[]");
   }
 
   bool _stationsAreTheSame() {
