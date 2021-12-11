@@ -1,7 +1,7 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gaslow_app/map/MapMarkers.dart';
 import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/models/Location.dart';
@@ -34,7 +34,7 @@ class _MapWidgetState extends State<MapWidget> {
   static const DEFAULT_MAP_ZOOM = 11.0;
   static const SELECTED_MAP_ZOOM = 14.0;
 
-  GoogleMapController mapController;
+  Completer<GoogleMapController> mapControllerCompleter = Completer();
   GoogleMap cachedMap;
 
   List<GasStation> stations;
@@ -54,9 +54,7 @@ class _MapWidgetState extends State<MapWidget> {
   }
 
   GoogleMap _showMap() {
-    if (mapController != null) {
-      _prepareMap(mapController);
-    }
+    mapControllerCompleter.future.then((value) => _prepareMap(value));
     if (cachedMap != null && _stationsAreTheSame()) {
       return cachedMap;
     }
@@ -85,9 +83,7 @@ class _MapWidgetState extends State<MapWidget> {
   }
 
   void _onMapCreated(GoogleMapController controller) {
-    setState(() {
-      mapController = controller;
-    });
+    mapControllerCompleter.complete(controller);
     controller.moveCamera(CameraUpdate.zoomTo(13));
     _prepareMap(controller);
   }

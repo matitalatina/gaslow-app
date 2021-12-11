@@ -15,7 +15,7 @@ dependencies:
   intl: ^0.17.0
   geocoding: ^2.0.1
   http: ^0.13.1
-  google_maps_flutter: ^2.0.6
+  google_maps_flutter: ^2.1.1
   google_mobile_ads: ^0.13.2+1
   shared_preferences: ^2.0.5
   firebase_analytics: ^8.0.0
