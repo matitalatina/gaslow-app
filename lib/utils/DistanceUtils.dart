@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:gaslow_app/models/Location.dart';
+import 'package:gaslow_app/models/MyLocation.dart';
 import 'package:meta/meta.dart';
 
 class DistanceUtils {

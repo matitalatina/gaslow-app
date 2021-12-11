@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gaslow_app/models/GasStation.dart';
-import 'package:gaslow_app/models/Location.dart';
+import 'package:gaslow_app/models/MyLocation.dart';
 import 'package:gaslow_app/widgets/LoaderVerbose.dart';
 import 'package:gaslow_app/widgets/MapWidget.dart';
 import 'package:gaslow_app/widgets/StationsList.dart';

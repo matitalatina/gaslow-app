@@ -1,5 +1,5 @@
 import 'package:gaslow_app/models/GasPrice.dart';
-import 'package:gaslow_app/models/Location.dart';
+import 'package:gaslow_app/models/MyLocation.dart';
 
 class GasStation {
   int id;

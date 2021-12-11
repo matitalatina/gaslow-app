@@ -1,6 +1,6 @@
 import 'package:gaslow_app/models/ErrorType.dart';
 import 'package:gaslow_app/models/GasStation.dart';
-import 'package:gaslow_app/models/Location.dart';
+import 'package:gaslow_app/models/MyLocation.dart';
 import 'package:meta/meta.dart';
 
 class LocationState {
