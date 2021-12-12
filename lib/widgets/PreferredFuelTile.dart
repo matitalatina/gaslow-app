@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gaslow_app/models/FuelTypeEnum.dart';
 
 class PreferredFuelTile extends StatelessWidget {

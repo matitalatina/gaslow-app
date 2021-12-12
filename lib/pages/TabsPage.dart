@@ -50,7 +50,7 @@ class _TabsPageState extends State<TabsPage> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).accentColor,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         selectedItemColor: Theme.of(context).canvasColor,
         unselectedItemColor: Theme.of(context).hintColor,
         items: <BottomNavigationBarItem>[

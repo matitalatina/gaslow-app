@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class StationBrandLogo extends StatelessWidget {
   final String brand;
@@ -48,7 +47,7 @@ class StationBrandLogo extends StatelessWidget {
           )
         : Icon(
             Icons.local_gas_station,
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).colorScheme.secondary,
             size: 40.0,
           );
   }

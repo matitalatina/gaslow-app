@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:gaslow_app/locator.dart';
 import 'package:gaslow_app/models/FuelTypeEnum.dart';
@@ -32,7 +31,7 @@ class SettingsPage extends StatelessWidget {
     );
     final shareAppTile = ListTile(
       leading: Column(
-        children: [Icon(Icons.share, color: Theme.of(context).accentColor,),],
+        children: [Icon(Icons.share, color: Theme.of(context).colorScheme.secondary,),],
         mainAxisAlignment: MainAxisAlignment.center,
       ),
       title: Text("Aiuta i tuoi amici a risparmiare"),
@@ -41,7 +40,7 @@ class SettingsPage extends StatelessWidget {
     );
     final reviewApp = ListTile(
       leading: Column(
-        children: [Icon(Icons.star, color: Theme.of(context).accentColor,)],
+        children: [Icon(Icons.star, color: Theme.of(context).colorScheme.secondary,)],
         mainAxisAlignment: MainAxisAlignment.center,
       ),
       title: Text("Ami risparmiare con GasLow?"),

@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:gaslow_app/map/MapMarkers.dart';
 import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/models/MyLocation.dart';

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gaslow_app/models/GasStation.dart';
-import 'package:gaslow_app/models/Location.dart';
+import 'package:gaslow_app/models/MyLocation.dart';
 import 'package:gaslow_app/utils/DistanceUtils.dart';
 import 'package:gaslow_app/widgets/StationBrandLogo.dart';
 import 'package:gaslow_app/widgets/StationPriceList.dart';

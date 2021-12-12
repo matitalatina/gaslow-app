@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class SearchField extends StatelessWidget {
   final ValueChanged<String> onSearch;
@@ -19,6 +18,7 @@ class SearchField extends StatelessWidget {
         suffixIcon: Icon(Icons.search),
         border: InputBorder.none,
       ),
+      cursorColor: Theme.of(context).colorScheme.onPrimary,
       controller: textController,
       onSubmitted: this.onSearch,
       textInputAction: TextInputAction.search,
