@@ -9,21 +9,21 @@ import 'package:gaslow_app/widgets/StationsList.dart';
 
 class StationMapList extends StatelessWidget {
   final List<GasStation> stations;
-  final MyLocation fromLocation;
-  final MyLocation toLocation;
+  final MyLocation? fromLocation;
+  final MyLocation? toLocation;
   final bool isLoading;
-  final GasStation selectedStation;
+  final GasStation? selectedStation;
   final ValueChanged<int> onStationTap;
-  final ValueChanged<int> onShareTap;
+  final ValueChanged<int>? onShareTap;
 
   const StationMapList({
-    Key key,
-    @required this.stations,
+    Key? key,
+    required this.stations,
     this.fromLocation,
     this.toLocation,
-    @required this.isLoading,
+    required this.isLoading,
     this.selectedStation,
-    @required this.onStationTap,
+    required this.onStationTap,
     this.onShareTap,
   }) : super(key: key);
 

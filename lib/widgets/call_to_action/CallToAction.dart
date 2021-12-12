@@ -7,10 +7,10 @@ class CallToAction extends StatelessWidget {
   final IconData icon;
 
   CallToAction({
-    @required this.description,
-    @required this.onAction,
-    @required this.actionLabel,
-    @required this.icon
+    required this.description,
+    required this.onAction,
+    required this.actionLabel,
+    required this.icon
   });
 
   @override

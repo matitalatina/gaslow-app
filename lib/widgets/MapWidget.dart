@@ -10,20 +10,20 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapWidget extends StatefulWidget {
   final List<GasStation> stations;
-  final MyLocation fromLocation;
-  final MyLocation toLocation;
+  final MyLocation? fromLocation;
+  final MyLocation? toLocation;
   final bool isLoading;
-  final GasStation selectedStation;
+  final GasStation? selectedStation;
   final IntCallback onStationTap;
 
   const MapWidget({
-    Key key,
-    @required this.stations,
-    @required this.isLoading,
+    Key? key,
+    required this.stations,
+    required this.isLoading,
     this.selectedStation,
     this.fromLocation,
     this.toLocation,
-    @required this.onStationTap,
+    required this.onStationTap,
   }) : super(key: key);
 
   @override
@@ -35,9 +35,9 @@ class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
   static const SELECTED_MAP_ZOOM = 14.0;
 
   Completer<GoogleMapController> mapControllerCompleter = Completer();
-  GoogleMap cachedMap;
+  GoogleMap? cachedMap;
 
-  List<GasStation> stations;
+  List<GasStation> stations = [];
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance?.addObserver(this);
   }
 
   // https://github.com/flutter/flutter/issues/40284#issuecomment-866377474
@@ -68,15 +68,15 @@ class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
   }
 
   bool _stationsAreTheSame() {
-    final oldStationsIds = (stations ?? []).map((s) => s.id).join(",");
-    final newStationsIds = (widget.stations ?? []).map((s) => s.id).join(",");
+    final oldStationsIds = stations.map((s) => s.id).join(",");
+    final newStationsIds = widget.stations.map((s) => s.id).join(",");
     return oldStationsIds == newStationsIds;
   }
 
   GoogleMap _showMap() {
     mapControllerCompleter.future.then((value) => _prepareMap(value));
     if (cachedMap != null && _stationsAreTheSame()) {
-      return cachedMap;
+      return cachedMap!;
     }
     cachedMap = GoogleMap(
       initialCameraPosition: CameraPosition(
@@ -89,7 +89,7 @@ class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
       myLocationButtonEnabled: false,
     );
     stations = widget.stations;
-    return cachedMap;
+    return cachedMap!;
   }
 
   LatLng _getFirstLatLng() {
@@ -98,7 +98,7 @@ class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
       widget.toLocation,
       widget.fromLocation,
       MyLocation(type: "Point", coordinates: [9.669960, 45.694889]) // Bergamo
-    ].firstWhere((l) => l != null);
+    ].firstWhere((l) => l != null) as MyLocation;
     return LatLng(initialPosition.latitude, initialPosition.longitude);
   }
 
@@ -116,20 +116,20 @@ class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
         .values);
     if (widget.fromLocation != null) {
       setMarkers.add(
-          _createPositionMarker(widget.fromLocation, "Posizione corrente"));
+          _createPositionMarker(widget.fromLocation!, "Posizione corrente"));
     }
     if (widget.toLocation != null) {
-      setMarkers.add(_createPositionMarker(widget.toLocation, "Destinazione"));
+      setMarkers.add(_createPositionMarker(widget.toLocation!, "Destinazione"));
     }
     return setMarkers;
   }
 
   MapEntry<int, Marker> _createMapEntry(index, station) {
-    var alpha = (1 - index / widget.stations.length);
+    var alpha = (1 - index / widget.stations.length) as double;
     var greenHue = 130;
     var scaleFactor = 1.4;
     var icon = BitmapDescriptor.defaultMarkerWithHue(max(
-        greenHue - (index / widget.stations.length * greenHue) * scaleFactor,
+        greenHue - (index / widget.stations.length * greenHue) * scaleFactor as double,
         0));
     Marker markerOptions =
     MapMarkers.station(station, icon, alpha, _onStationTapped);

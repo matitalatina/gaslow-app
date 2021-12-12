@@ -8,17 +8,17 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 class StationsList extends StatefulWidget {
   final List<GasStation> stations;
   final bool isLoading;
-  final MyLocation fromLocation;
-  final GasStation selectedStation;
+  final MyLocation? fromLocation;
+  final GasStation? selectedStation;
 
   final IntCallback onStationTap;
-  final IntCallback onStationShare;
+  final IntCallback? onStationShare;
 
   StationsList({
-    @required this.stations,
-    @required this.isLoading,
-    @required this.onStationTap,
-    @required this.selectedStation,
+    required this.stations,
+    required this.isLoading,
+    required this.onStationTap,
+    required this.selectedStation,
     this.fromLocation,
     this.onStationShare,
   });
@@ -28,7 +28,7 @@ class StationsList extends StatefulWidget {
 }
 
 class _StationsListState extends State<StationsList> {
-  AutoScrollController controller;
+  AutoScrollController? controller;
   final scrollDirection = Axis.vertical;
 
   @override
@@ -47,9 +47,11 @@ class _StationsListState extends State<StationsList> {
       return Center(child: CircularProgressIndicator());
     }
 
-    final selectedIndex = widget.stations.indexOf(widget.selectedStation);
+    final selectedIndex = widget.selectedStation != null
+        ? widget.stations.indexOf(widget.selectedStation!)
+        : -1;
     if (selectedIndex != -1) {
-      controller.scrollToIndex(
+      controller?.scrollToIndex(
         selectedIndex,
         preferPosition: AutoScrollPosition.begin,
       );
@@ -74,9 +76,10 @@ class _StationsListState extends State<StationsList> {
         });
   }
 
-  Widget _wrapScrollTag({int index, Widget child}) => AutoScrollTag(
+  Widget _wrapScrollTag({required int index, required Widget child}) =>
+      AutoScrollTag(
         key: ValueKey(index),
-        controller: controller,
+        controller: controller!,
         index: index,
         child: child,
         highlightColor: Colors.black.withOpacity(0.1),

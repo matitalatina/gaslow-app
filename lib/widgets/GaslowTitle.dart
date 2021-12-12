@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class GaslowTitle extends StatelessWidget {
   const GaslowTitle({
-    Key key,
-    @required this.title,
+    Key? key,
+    required this.title,
   }) : super(key: key);
 
   final String title;

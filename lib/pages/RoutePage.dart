@@ -16,7 +16,7 @@ import 'package:gaslow_app/widgets/StationMapList.dart';
 import 'package:gaslow_app/widgets/StationTile.dart';
 
 class RoutePage extends StatefulWidget {
-  RoutePage({Key key, this.title}) : super(key: key);
+  RoutePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -77,7 +77,7 @@ class _RoutePageState extends State<RoutePage> {
     );
 
     final searchField =
-        new StoreConnector<AppState, ValueChanged<String>>(converter: (store) {
+        new StoreConnector<AppState, ValueChanged<String>?>(converter: (store) {
       return store.state.backendState.hasLocationPermission
           ? (text) => store.dispatch(fetchStationsByDestinationNameAction(text))
           : null;
@@ -124,12 +124,12 @@ class RoutePageVm {
   final ErrorType error;
 
   RoutePageVm({
-    @required this.state,
-    @required this.onStationTap,
-    @required this.preferredFuelType,
-    @required this.hasLocationPermission,
-    @required this.onRequestLocationPermission,
-    @required this.onFindRoute,
-    @required this.error,
+    required this.state,
+    required this.onStationTap,
+    required this.preferredFuelType,
+    required this.hasLocationPermission,
+    required this.onRequestLocationPermission,
+    required this.onFindRoute,
+    required this.error,
   });
 }

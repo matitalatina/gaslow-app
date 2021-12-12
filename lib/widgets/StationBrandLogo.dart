@@ -6,7 +6,7 @@ class StationBrandLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String lowerBrand = brand.toLowerCase();
-    String imagePath;
+    String? imagePath;
 
     if (lowerBrand.contains("q8")) {
       imagePath = "q8.png";
@@ -52,5 +52,5 @@ class StationBrandLogo extends StatelessWidget {
           );
   }
 
-  StationBrandLogo({@required this.brand});
+  StationBrandLogo({required this.brand});
 }

@@ -5,7 +5,7 @@ class PreferredFuelTile extends StatelessWidget {
   final FuelTypeEnum value;
   final ValueChanged<FuelTypeEnum> onChange;
 
-  PreferredFuelTile({this.value, this.onChange});
+  PreferredFuelTile({required this.value, required this.onChange});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class PreferredFuelTile extends StatelessWidget {
               ],
             )))
             .toList(),
-        onChanged: onChange,
+        onChanged: (x) => x != null ? onChange(x): null,
       ),
     );
   }

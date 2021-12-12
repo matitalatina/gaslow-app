@@ -5,7 +5,7 @@ import 'package:gaslow_app/widgets/call_to_action/CallToAction.dart';
 class NoLocationPermission extends StatelessWidget {
   final VoidCallback onRequestPermission;
 
-  const NoLocationPermission({Key key, this.onRequestPermission}) : super(key: key);
+  const NoLocationPermission({Key? key, required this.onRequestPermission}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

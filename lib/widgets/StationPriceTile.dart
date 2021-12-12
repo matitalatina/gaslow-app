@@ -6,12 +6,12 @@ import 'package:gaslow_app/utils/StationUtils.dart';
 class StationTile extends StatelessWidget {
   final GasPrice price;
 
-  StationTile({@required this.price});
+  StationTile({required this.price});
 
   @override
   Widget build(BuildContext context) {
     MaterialColor color = FuelTypeEnumHelper.getColor(price.fuelTypeEnum);
-    Color colorDark = color[900];
+    Color colorDark = color.shade900;
     TextStyle textStyle = TextStyle(color: colorDark);
     return SizedBox(
         width: 88.0,

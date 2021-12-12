@@ -16,7 +16,7 @@ import 'package:gaslow_app/redux/actions/CoreActions.dart';
 import 'package:gaslow_app/locator.dart';
 
 class LocationPage extends StatefulWidget {
-  LocationPage({Key key, this.title}) : super(key: key);
+  LocationPage({Key? key, required this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -83,7 +83,7 @@ class _LocationPageState extends State<LocationPage> {
     );
 
     final floatingButton =
-        new StoreConnector<AppState, VoidCallback>(converter: (store) {
+        new StoreConnector<AppState, VoidCallback?>(converter: (store) {
       return store.state.backendState.hasLocationPermission
           ? () => store.dispatch(fetchStationsByCurrentLocationAction)
           : null;
@@ -101,7 +101,7 @@ class _LocationPageState extends State<LocationPage> {
     });
 
     final searchField =
-        new StoreConnector<AppState, ValueChanged<String>>(converter: (store) {
+        new StoreConnector<AppState, ValueChanged<String>?>(converter: (store) {
       return store.state.backendState.hasLocationPermission
           ? (text) => store.dispatch(fetchStationsByPlaceNameAction(text))
           : null;
@@ -147,11 +147,11 @@ class LocationPageVm {
   final VoidCallback onSearch;
 
   LocationPageVm({
-    @required this.state,
-    @required this.preferredFuelType,
-    @required this.onStationTap,
-    @required this.hasLocationPermission,
-    @required this.onRequestLocationPermission,
-    @required this.onSearch,
+    required this.state,
+    required this.preferredFuelType,
+    required this.onStationTap,
+    required this.hasLocationPermission,
+    required this.onRequestLocationPermission,
+    required this.onSearch,
   });
 }

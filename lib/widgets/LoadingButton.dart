@@ -26,7 +26,7 @@ class LoadingButton extends StatelessWidget {
   }
 
   LoadingButton(
-      {@required this.isLoading,
-      @required this.onPressed,
-      @required this.icon});
+      {required this.isLoading,
+      required this.onPressed,
+      required this.icon});
 }

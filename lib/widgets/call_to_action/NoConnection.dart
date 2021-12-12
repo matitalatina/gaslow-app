@@ -5,7 +5,7 @@ import 'package:gaslow_app/widgets/call_to_action/CallToAction.dart';
 class NoConnection extends StatelessWidget {
   final VoidCallback onRetry;
 
-  NoConnection({this.onRetry});
+  NoConnection({required this.onRetry});
 
   @override
   Widget build(BuildContext context) {

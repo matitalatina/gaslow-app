@@ -7,20 +7,19 @@ import 'package:gaslow_app/redux/AppState.dart';
 import 'package:gaslow_app/services/StationsClient.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:location/location.dart' as Loc;
-import 'package:meta/meta.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 
 class LocationFetchStationsSuccess {
   final List<GasStation> stations;
 
-  LocationFetchStationsSuccess({this.stations});
+  LocationFetchStationsSuccess({required this.stations});
 }
 
 class LocationFetchStationsError {
   final ErrorType error;
 
-  LocationFetchStationsError({this.error});
+  LocationFetchStationsError({required this.error});
 }
 
 class LocationFetchStationsStart {}
@@ -28,33 +27,37 @@ class LocationFetchStationsStart {}
 class LocationUpdateFromLocation {
   final MyLocation fromLocation;
 
-  LocationUpdateFromLocation({@required this.fromLocation});
+  LocationUpdateFromLocation({required this.fromLocation});
 }
 
 class LocationSelectStationAction {
   final int stationId;
 
-  LocationSelectStationAction({@required this.stationId});
+  LocationSelectStationAction({required this.stationId});
 }
 
 fetchStationsByCurrentLocationAction(Store<AppState> store) async {
   store.dispatch(LocationFetchStationsStart());
   Loc.LocationData currentLocationRaw = await new Loc.Location().getLocation();
-  final currentLocation = MyLocation.fromPoint(
-    latitude: currentLocationRaw.latitude,
-    longitude: currentLocationRaw.longitude,
-  );
+  if (currentLocationRaw.latitude != null && currentLocationRaw.longitude != null) {
+    final currentLocation = MyLocation.fromPoint(
+      latitude: currentLocationRaw.latitude!,
+      longitude: currentLocationRaw.longitude!,
+    );
 
-  store.dispatch(new LocationUpdateFromLocation(fromLocation: currentLocation));
+    store.dispatch(
+        new LocationUpdateFromLocation(fromLocation: currentLocation));
 
-  try {
-    store.dispatch(new LocationFetchStationsSuccess(
-        stations: await StationsClient().getStationsByCoords(
-      latitude: currentLocationRaw.latitude,
-      longitude: currentLocationRaw.longitude,
-    )));
-  } catch (e) {
-    store.dispatch(new LocationFetchStationsError(error: ErrorType.CONNECTION));
+    try {
+      store.dispatch(new LocationFetchStationsSuccess(
+          stations: await StationsClient().getStationsByCoords(
+            latitude: currentLocationRaw.latitude!,
+            longitude: currentLocationRaw.longitude!,
+          )));
+    } catch (e) {
+      store.dispatch(
+          new LocationFetchStationsError(error: ErrorType.CONNECTION));
+    }
   }
 }
 

@@ -10,7 +10,7 @@ import 'RoutePage.dart';
 import 'SettingsPage.dart';
 
 class TabsPage extends StatefulWidget {
-  TabsPage({Key key}) : super(key: key);
+  TabsPage({Key? key}) : super(key: key);
 
   @override
   _TabsPageState createState() => _TabsPageState();
@@ -18,7 +18,7 @@ class TabsPage extends StatefulWidget {
 
 class _TabsPageState extends State<TabsPage> {
   int _selectedIndex = 0;
-  InterstitialAd interstitialAd;
+  InterstitialAd? interstitialAd;
 
   final _widgetOptions = [
     LocationPage(title: 'GasLow'),
@@ -35,7 +35,7 @@ class _TabsPageState extends State<TabsPage> {
 
   @override
   void dispose() {
-    interstitialAd.dispose();
+    interstitialAd?.dispose();
     interstitialAd = null;
     super.dispose();
   }
@@ -83,8 +83,8 @@ class _TabsPageState extends State<TabsPage> {
       adUnitId: kReleaseMode ? 'ca-app-pub-7145772846945296/9083312901' : InterstitialAd.testAdUnitId,
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (Ad ad) {
-          interstitialAd = ad;
-          interstitialAd.show();
+          interstitialAd = ad as InterstitialAd?;
+          interstitialAd?.show();
         },
         onAdFailedToLoad: (LoadAdError error) {
           print('InterstitialAd failed to load: $error');

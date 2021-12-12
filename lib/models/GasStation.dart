@@ -13,10 +13,10 @@ class GasStation {
   List<GasPrice> prices;
   MyLocation location;
 
-  GasStation({this.id, this.manager, this.brand, this.type, this.name,
-      this.address, this.city, this.province, this.prices, this.location});
+  GasStation({required this.id,required  this.manager,required  this.brand, required this.type,required  this.name,
+    required this.address,required  this.city, required this.province,required  this.prices, required this.location});
 
-  factory GasStation.fromJson(Map<String, dynamic> json) {
+  factory GasStation.fromJson(Map<dynamic, dynamic> json) {
     return GasStation(
       id: json['id'],
       manager: json['manager'],

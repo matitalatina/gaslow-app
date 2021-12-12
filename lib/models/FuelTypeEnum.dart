@@ -20,7 +20,7 @@ class FuelTypeEnumHelper {
     }
   }
   
-  static Color getColor(FuelTypeEnum fuelType) {
+  static MaterialColor getColor(FuelTypeEnum fuelType) {
     switch (fuelType) {
       case FuelTypeEnum.GASOLINE:
         return Colors.lightGreen;
@@ -46,7 +46,7 @@ class FuelTypeEnumHelper {
     }
   }
 
-  static FuelTypeEnum deserialize(String str) {
+  static FuelTypeEnum deserialize(String? str) {
     if (str == null) {
       return FuelTypeEnum.OTHER;
     } else if (str == "DIESEL") {

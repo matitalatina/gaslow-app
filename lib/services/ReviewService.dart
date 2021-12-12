@@ -6,7 +6,7 @@ import 'package:rate_my_app/rate_my_app.dart';
 class ReviewService {
   final FirebaseAnalytics analytics;
 
-  const ReviewService({this.analytics});
+  const ReviewService({required this.analytics});
 
   review() async {
     await AppReview.requestReview;

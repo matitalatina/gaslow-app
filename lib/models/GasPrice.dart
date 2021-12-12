@@ -7,7 +7,12 @@ class GasPrice {
   bool isSelf;
   DateTime updatedAt;
 
-  GasPrice({this.fuelType, this.fuelTypeEnum, this.price, this.isSelf, this.updatedAt});
+  GasPrice(
+      {required this.fuelType,
+      required this.fuelTypeEnum,
+      required this.price,
+      required this.isSelf,
+      required this.updatedAt});
 
   factory GasPrice.fromJson(Map json) {
     return GasPrice(

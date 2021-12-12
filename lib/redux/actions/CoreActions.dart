@@ -11,7 +11,7 @@ class UpdateStationsStart {}
 class UpdateLocationPermission {
   final bool hasLocationPermission;
 
-  UpdateLocationPermission({this.hasLocationPermission});
+  UpdateLocationPermission({required this.hasLocationPermission});
 }
 
 // ignore: strong_mode_top_level_function_literal_block

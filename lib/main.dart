@@ -18,7 +18,7 @@ import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 
 
-Future<Store> prepareStore() async {
+Future<Store<AppState>> prepareStore() async {
   final store = Store<AppState>(
     appReducer,
     initialState: new AppState(
@@ -38,13 +38,13 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   initializeServiceLocator();
   MobileAds.instance.initialize();
-  runApp(FutureBuilder<Store>(
+  runApp(FutureBuilder<Store<AppState>>(
       future: prepareStore(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
         }
-      return MyApp(store: snapshot.data);
+      return MyApp(store: snapshot.data!);
   }));
 }
 
@@ -88,5 +88,5 @@ class MyApp extends StatelessWidget {
         ));
   }
 
-  MyApp({Key key, this.store}) : super(key: key);
+  MyApp({Key? key, required this.store}) : super(key: key);
 }

@@ -6,7 +6,7 @@ import 'package:gaslow_app/widgets/StationPriceTile.dart';
 class StationPriceList extends StatelessWidget {
   final List<GasPrice> prices;
 
-  StationPriceList({@required this.prices});
+  StationPriceList({required this.prices});
 
   @override
   Widget build(BuildContext context) {

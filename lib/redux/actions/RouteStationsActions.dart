@@ -7,20 +7,19 @@ import 'package:gaslow_app/redux/AppState.dart';
 import 'package:gaslow_app/services/StationsClient.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:location/location.dart' as Loc;
-import 'package:meta/meta.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 
 class RouteFetchStationsSuccess {
   final List<GasStation> stations;
 
-  RouteFetchStationsSuccess({this.stations});
+  RouteFetchStationsSuccess({required this.stations});
 }
 
 class RouteFetchStationsError {
   final ErrorType error;
 
-  RouteFetchStationsError({this.error});
+  RouteFetchStationsError({required this.error});
 }
 
 class RouteFetchStationsStart {}
@@ -28,19 +27,19 @@ class RouteFetchStationsStart {}
 class RouteSelectStationAction {
   final int stationId;
 
-  RouteSelectStationAction({@required this.stationId});
+  RouteSelectStationAction({required this.stationId});
 }
 
 class RouteUpdateFromLocation {
   final MyLocation fromLocation;
 
-  RouteUpdateFromLocation({@required this.fromLocation});
+  RouteUpdateFromLocation({required this.fromLocation});
 }
 
 class RouteUpdateToLocation {
   final MyLocation toLocation;
 
-  RouteUpdateToLocation({@required this.toLocation});
+  RouteUpdateToLocation({required this.toLocation});
 }
 
 ThunkAction<AppState> fetchStationsByDestinationNameAction(String name) {
@@ -54,11 +53,13 @@ ThunkAction<AppState> fetchStationsByDestinationNameAction(String name) {
 
     try {
       Loc.LocationData currentLocation = await new Loc.Location().getLocation();
-
+      if (currentLocation.latitude == null || currentLocation.longitude == null) {
+        return;
+      }
       store.dispatch(new RouteUpdateFromLocation(
           fromLocation: MyLocation.fromPoint(
-        latitude: currentLocation.latitude,
-        longitude: currentLocation.longitude,
+        latitude: currentLocation.latitude!,
+        longitude: currentLocation.longitude!,
       )));
 
       var firstAddress =
@@ -71,8 +72,8 @@ ThunkAction<AppState> fetchStationsByDestinationNameAction(String name) {
       )));
       store.dispatch(new RouteFetchStationsSuccess(
           stations: await StationsClient().getStationsByRoute(
-        fromLatitude: currentLocation.latitude,
-        fromLongitude: currentLocation.longitude,
+        fromLatitude: currentLocation.latitude!,
+        fromLongitude: currentLocation.longitude!,
         toLatitude: firstAddress.latitude,
         toLongitude: firstAddress.longitude,
       )));

@@ -1,10 +1,8 @@
-import 'package:meta/meta.dart';
-
 class MyLocation {
   String type;
   List<double> coordinates;
 
-  MyLocation({this.type, this.coordinates});
+  MyLocation({required this.type, required this.coordinates});
 
   factory MyLocation.fromJson(Map json) {
     return MyLocation(
@@ -13,7 +11,7 @@ class MyLocation {
     );
   }
 
-  static fromPoint({@required double latitude, @required double longitude}) {
+  static fromPoint({required double latitude, required double longitude}) {
     return MyLocation(
       type: "Point",
       coordinates: [longitude, latitude],

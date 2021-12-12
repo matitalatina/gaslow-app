@@ -11,15 +11,15 @@ typedef void IntCallback(int id);
 class StationTile extends StatelessWidget {
   final GasStation station;
   final VoidCallback onMapTap;
-  final MyLocation fromLocation;
+  final MyLocation? fromLocation;
   final IntCallback onStationTap;
-  final IntCallback onShareTap;
+  final IntCallback? onShareTap;
 
   StationTile(
-      {@required this.station,
-      @required this.onMapTap,
+      {required this.station,
+      required this.onMapTap,
       this.fromLocation,
-      @required this.onStationTap,
+      required this.onStationTap,
       this.onShareTap});
 
   @override
@@ -39,7 +39,7 @@ class StationTile extends StatelessWidget {
               Text(
                 " " +
                     NumberFormat("0.#", "it-IT").format(DistanceUtils.calc(
-                        from: fromLocation, to: station.location)) +
+                        from: fromLocation!, to: station.location)) +
                     "Km",
               ),
             ]))
@@ -55,13 +55,13 @@ class StationTile extends StatelessWidget {
           Text(DateFormat(' dd-MM-yyyy').format(lastUpdate)),
         ]));
 
-    final Widget shareButton = onShareTap != null
+    final Widget? shareButton = onShareTap != null
         ? FlatButton(
             child: Row(children: [Icon(Icons.share), Text(" Condividi")]),
             padding: EdgeInsets.all(0.0),
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             textColor: Theme.of(context).primaryColor,
-            onPressed: () => onShareTap(station.id))
+            onPressed: () => onShareTap != null ? onShareTap!(station.id) : null)
         : null;
     return Card(
         margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
@@ -95,11 +95,11 @@ class StationTile extends StatelessWidget {
                       horizontal: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
+                    children: <Widget?>[
                       lastUpdateWidget,
                       distanceWidget,
                       shareButton,
-                    ].where((w) => w != null).toList(),
+                    ].where((w) => w != null).cast<Widget>().toList(),
                   ))
             ])));
   }

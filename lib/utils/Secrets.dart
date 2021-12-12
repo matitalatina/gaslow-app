@@ -7,7 +7,7 @@ class Secrets {
   static Future<String> getString(String property) async {
     List<String> propertyKeys = property.split(".");
     var ymlFile = loadYaml(await rootBundle.loadString('assets/secrets.yml'));
-    return propertyKeys.fold(ymlFile, (ymlFile, path) => ymlFile[path]).toString();
+    return propertyKeys.fold(ymlFile, (ymlFile, path) => (ymlFile as dynamic)[path]).toString();
   }
 
   static Future<String> getServerlessApiKey() async {

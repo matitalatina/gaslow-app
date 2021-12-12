@@ -6,7 +6,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 class ShareService {
   final FirebaseAnalytics analytics;
 
-  const ShareService({this.analytics});
+  const ShareService({required this.analytics});
 
   shareStation(GasStation station) async {
     await Share.share(
