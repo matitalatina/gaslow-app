@@ -1,0 +1,3 @@
+- Aggiunta la sezione preferiti!
+- Prestazioni migliorate.
+- Aggiornamento librerie.
