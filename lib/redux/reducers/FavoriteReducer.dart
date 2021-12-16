@@ -38,5 +38,13 @@ FavoriteState favoriteReducer(FavoriteState state, dynamic action) {
         selectedStation: state.selectedStation,
         error: ErrorType.CONNECTION);
   }
+  else if (action is FavoriteSelectStationAction) {
+    return FavoriteState(
+        isLoading: state.isLoading,
+        stationIds: state.stationIds,
+        stations: state.stations,
+        selectedStation: action.stationId,
+        error: state.error);
+  }
   return state;
 }
