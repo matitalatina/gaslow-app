@@ -4,7 +4,7 @@ import 'package:gaslow_app/models/ErrorType.dart';
 import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/models/MyLocation.dart';
 import 'package:gaslow_app/redux/AppState.dart';
-import 'package:gaslow_app/services/StationsClient.dart';
+import 'package:gaslow_app/clients/StationsClient.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:location/location.dart' as Loc;
 import 'package:redux/redux.dart';

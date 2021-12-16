@@ -4,6 +4,7 @@ import 'package:gaslow_app/models/ErrorType.dart';
 import 'package:gaslow_app/models/FuelTypeEnum.dart';
 import 'package:gaslow_app/redux/AppState.dart';
 import 'package:gaslow_app/redux/LocationState.dart';
+import 'package:gaslow_app/redux/actions/FavoriteStationsActions.dart';
 import 'package:gaslow_app/redux/actions/LocationStationsActions.dart';
 import 'package:gaslow_app/redux/selectors/LocationSelectors.dart';
 import 'package:gaslow_app/services/ShareService.dart';
@@ -54,6 +55,11 @@ class _LocationPageState extends State<LocationPage> {
         onRequestLocationPermission: () =>
             store.dispatch(checkLocationPermissionAndFetchStations),
         onSearch: () => store.dispatch(fetchStationsByCurrentLocationAction),
+        onFavoriteChange: (station, isFavorite) {
+          store.dispatch(LocationSelectStationAction(stationId: station.id));
+          store.dispatch(isFavorite ? addFavoriteStation(station) : removeFavoriteStation(station.id));
+        },
+        favoriteStationIds: store.state.favoriteState.stationIds,
       ),
       builder: (context, homeVm) {
         var stationsState = homeVm.state;
@@ -78,6 +84,8 @@ class _LocationPageState extends State<LocationPage> {
           onStationTap: homeVm.onStationTap,
           onShareTap: (stationId) => getIt<ShareService>()
               .shareStation(stations.firstWhere((s) => s.id == stationId)),
+          onFavoriteChange: homeVm.onFavoriteChange,
+          favoriteStationIds: homeVm.favoriteStationIds,
         );
       },
     );
@@ -145,6 +153,8 @@ class LocationPageVm {
   final bool hasLocationPermission;
   final VoidCallback onRequestLocationPermission;
   final VoidCallback onSearch;
+  final FavoriteCallback onFavoriteChange;
+  final Set<int> favoriteStationIds;
 
   LocationPageVm({
     required this.state,
@@ -153,5 +163,7 @@ class LocationPageVm {
     required this.hasLocationPermission,
     required this.onRequestLocationPermission,
     required this.onSearch,
+    required this.onFavoriteChange,
+    required this.favoriteStationIds,
   });
 }

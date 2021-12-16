@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gaslow_app/locator.dart';
 import 'package:gaslow_app/services/ReviewService.dart';
+import 'package:gaslow_app/widgets/pages/FavoritePage.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'LocationPage.dart';
@@ -23,6 +24,7 @@ class _TabsPageState extends State<TabsPage> {
   final _widgetOptions = [
     LocationPage(title: 'GasLow'),
     RoutePage(title: 'GasLow'),
+    FavoritePage(),
     SettingsPage(),
   ];
 
@@ -44,19 +46,22 @@ class _TabsPageState extends State<TabsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: IndexedStack(
-          index: _selectedIndex,
-          children: _widgetOptions
-        ),
+        child: IndexedStack(index: _selectedIndex, children: _widgetOptions),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         backgroundColor: Theme.of(context).colorScheme.secondary,
         selectedItemColor: Theme.of(context).canvasColor,
         unselectedItemColor: Theme.of(context).hintColor,
         items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.location_on), label: 'Dintorni'),
-          BottomNavigationBarItem(icon: Icon(Icons.timeline), label: 'Tragitto'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Impostazioni'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.location_on), label: 'Dintorni'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.timeline), label: 'Tragitto'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite), label: 'Favoriti'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings), label: 'Impostazioni'),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
@@ -80,17 +85,18 @@ class _TabsPageState extends State<TabsPage> {
 
   _loadInterstitialAd() {
     return InterstitialAd.load(
-      adUnitId: kReleaseMode ? 'ca-app-pub-7145772846945296/9083312901' : InterstitialAd.testAdUnitId,
-      adLoadCallback: InterstitialAdLoadCallback(
-        onAdLoaded: (Ad ad) {
-          interstitialAd = ad as InterstitialAd?;
-          interstitialAd?.show();
-        },
-        onAdFailedToLoad: (LoadAdError error) {
-          print('InterstitialAd failed to load: $error');
-        },
-      ),
-      request: AdRequest()
-    );
+        adUnitId: kReleaseMode
+            ? 'ca-app-pub-7145772846945296/9083312901'
+            : InterstitialAd.testAdUnitId,
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (Ad ad) {
+            interstitialAd = ad as InterstitialAd?;
+            interstitialAd?.show();
+          },
+          onAdFailedToLoad: (LoadAdError error) {
+            print('InterstitialAd failed to load: $error');
+          },
+        ),
+        request: AdRequest());
   }
 }

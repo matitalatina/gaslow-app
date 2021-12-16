@@ -97,6 +97,7 @@ class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
       widget.selectedStation?.location,
       widget.toLocation,
       widget.fromLocation,
+      ...stations.map((s) => s.location),
       MyLocation(type: "Point", coordinates: [9.669960, 45.694889]) // Bergamo
     ].firstWhere((l) => l != null) as MyLocation;
     return LatLng(initialPosition.latitude, initialPosition.longitude);

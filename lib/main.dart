@@ -5,14 +5,15 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:gaslow_app/locator.dart';
-import 'package:gaslow_app/pages/TabsPage.dart';
 import 'package:gaslow_app/redux/AppState.dart';
 import 'package:gaslow_app/redux/CoreState.dart';
+import 'package:gaslow_app/redux/FavoriteState.dart';
 import 'package:gaslow_app/redux/LocationState.dart';
 import 'package:gaslow_app/redux/RouteState.dart';
 import 'package:gaslow_app/redux/SettingsState.dart';
 import 'package:gaslow_app/redux/actions/CoreActions.dart';
 import 'package:gaslow_app/redux/reducers/AppStateReducer.dart';
+import 'package:gaslow_app/widgets/pages/TabsPage.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -22,10 +23,11 @@ Future<Store<AppState>> prepareStore() async {
   final store = Store<AppState>(
     appReducer,
     initialState: new AppState(
-      stationsState: getDefaultStationsState(),
       backendState: getDefaultCoreState(),
+      favoriteState: await getDefaultFavoriteState(),
       routeState: getDefaultRouteState(),
       settingsState: await getDefaultSettingsState(),
+      stationsState: getDefaultStationsState(),
     ),
     middleware: [thunkMiddleware],
   );

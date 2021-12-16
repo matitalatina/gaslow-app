@@ -13,8 +13,13 @@ List<GasStation> sortStationsByPrice(
       .toList();
 
   sortedStations.forEach((s) => s.prices.sort((p1, p2) {
-        return (_getPriceWeight(p1, fuelTypeEnum))
+        final priceComparison = (_getPriceWeight(p1, fuelTypeEnum))
             .compareTo(_getPriceWeight(p2, fuelTypeEnum));
+        if (priceComparison != 0) {
+          return priceComparison;
+        }
+        return p2.updatedAt.millisecondsSinceEpoch
+            .compareTo(p1.updatedAt.millisecondsSinceEpoch);
       }));
 
   return sortedStations
@@ -49,5 +54,6 @@ openMap(GasStation station) async {
     await launch(url);
   }
   final analytics = getIt<FirebaseAnalytics>();
-  await analytics.logViewItem(itemId: '${station.id}', itemName: 'directions', itemCategory: 'station');
+  await analytics.logViewItem(
+      itemId: '${station.id}', itemName: 'directions', itemCategory: 'station');
 }

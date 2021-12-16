@@ -6,6 +6,7 @@ import 'package:gaslow_app/models/FuelTypeEnum.dart';
 import 'package:gaslow_app/redux/AppState.dart';
 import 'package:gaslow_app/redux/RouteState.dart';
 import 'package:gaslow_app/redux/actions/CoreActions.dart';
+import 'package:gaslow_app/redux/actions/FavoriteStationsActions.dart';
 import 'package:gaslow_app/redux/actions/RouteStationsActions.dart';
 import 'package:gaslow_app/redux/selectors/RouteSelectors.dart';
 import 'package:gaslow_app/services/ShareService.dart';
@@ -47,6 +48,13 @@ class _RoutePageState extends State<RoutePage> {
         onFindRoute: () => store.dispatch(
             fetchStationsByDestinationNameAction(searchController.text)),
         error: store.state.routeState.error,
+        onFavoriteChange: (station, isFavorite) {
+          store.dispatch(RouteSelectStationAction(stationId: station.id));
+          store.dispatch(isFavorite
+              ? addFavoriteStation(station)
+              : removeFavoriteStation(station.id));
+        },
+        favoriteStationIds: store.state.favoriteState.stationIds,
       ),
       builder: (context, homeVm) {
         var stationsState = homeVm.state;
@@ -72,6 +80,8 @@ class _RoutePageState extends State<RoutePage> {
           onStationTap: homeVm.onStationTap,
           onShareTap: (stationId) => getIt<ShareService>()
               .shareStation(stations.firstWhere((s) => s.id == stationId)),
+          onFavoriteChange: homeVm.onFavoriteChange,
+          favoriteStationIds: homeVm.favoriteStationIds,
         );
       },
     );
@@ -122,6 +132,8 @@ class RoutePageVm {
   final VoidCallback onRequestLocationPermission;
   final VoidCallback onFindRoute;
   final ErrorType error;
+  final FavoriteCallback onFavoriteChange;
+  final Set<int> favoriteStationIds;
 
   RoutePageVm({
     required this.state,
@@ -131,5 +143,7 @@ class RoutePageVm {
     required this.onRequestLocationPermission,
     required this.onFindRoute,
     required this.error,
+    required this.onFavoriteChange,
+    required this.favoriteStationIds,
   });
 }

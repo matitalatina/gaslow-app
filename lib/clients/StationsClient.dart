@@ -12,17 +12,7 @@ class StationsClient {
       {required num latitude, required num longitude}) async {
     final url = Uri.parse(
         "$BACKEND_URL/stations/find/location?lat=$latitude&lng=$longitude");
-    final headers = {
-      'X-API-KEY': await Secrets.getServerlessApiKey(),
-    };
-    final response = await get(url, headers: headers);
-    if (200 <= response.statusCode && response.statusCode <= 299) {
-      return (json.decode(response.body)['items'] as List)
-          .cast<Map<String, dynamic>>()
-          .map((Map g) => new GasStation.fromJson(g))
-          .toList();
-    }
-    return [];
+    return getStations(url);
   }
 
   Future<List<GasStation>> getStationsByRoute(
@@ -32,6 +22,16 @@ class StationsClient {
       required num toLongitude}) async {
     final url = Uri.parse(
         "$BACKEND_URL/stations/find/route?from=$fromLatitude,$fromLongitude&to=$toLatitude,$toLongitude");
+    return getStations(url);
+  }
+
+  Future<List<GasStation>> getByIds(Set<int> ids) async {
+    final url = Uri.parse(
+        "$BACKEND_URL/stations/find?ids=${ids.join(",")}");
+    return getStations(url);
+  }
+
+  Future<List<GasStation>> getStations(Uri url) async {
     final headers = {
       'X-API-KEY': await Secrets.getServerlessApiKey(),
     };

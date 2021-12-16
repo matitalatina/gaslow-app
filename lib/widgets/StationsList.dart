@@ -13,6 +13,8 @@ class StationsList extends StatefulWidget {
 
   final IntCallback onStationTap;
   final IntCallback? onStationShare;
+  final FavoriteCallback onFavoriteChange;
+  final Set<int> favoriteStationIds;
 
   StationsList({
     required this.stations,
@@ -21,6 +23,8 @@ class StationsList extends StatefulWidget {
     required this.selectedStation,
     this.fromLocation,
     this.onStationShare,
+    required this.onFavoriteChange,
+    required this.favoriteStationIds,
   });
 
   @override
@@ -72,6 +76,8 @@ class _StationsListState extends State<StationsList> {
                 onMapTap: () => openMap(station),
                 fromLocation: widget.fromLocation,
                 onShareTap: widget.onStationShare,
+                isFavorite: widget.favoriteStationIds.contains(station.id),
+                onFavoriteChange: widget.onFavoriteChange,
               ));
         });
   }

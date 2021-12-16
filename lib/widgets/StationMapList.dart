@@ -4,6 +4,7 @@ import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/models/MyLocation.dart';
 import 'package:gaslow_app/widgets/LoaderVerbose.dart';
 import 'package:gaslow_app/widgets/MapWidget.dart';
+import 'package:gaslow_app/widgets/StationTile.dart';
 import 'package:gaslow_app/widgets/StationsList.dart';
 
 
@@ -15,6 +16,8 @@ class StationMapList extends StatelessWidget {
   final GasStation? selectedStation;
   final ValueChanged<int> onStationTap;
   final ValueChanged<int>? onShareTap;
+  final FavoriteCallback onFavoriteChange;
+  final Set<int> favoriteStationIds;
 
   const StationMapList({
     Key? key,
@@ -25,6 +28,8 @@ class StationMapList extends StatelessWidget {
     this.selectedStation,
     required this.onStationTap,
     this.onShareTap,
+    required this.onFavoriteChange,
+    required this.favoriteStationIds,
   }) : super(key: key);
 
   @override
@@ -35,7 +40,7 @@ class StationMapList extends StatelessWidget {
       );
     }
 
-    if (fromLocation == null) {
+    if (fromLocation == null && stations.length == 0) {
       return SizedBox.shrink();
     }
 
@@ -59,6 +64,8 @@ class StationMapList extends StatelessWidget {
             fromLocation: fromLocation,
             selectedStation: selectedStation,
             onStationShare: onShareTap,
+            favoriteStationIds: favoriteStationIds,
+            onFavoriteChange: onFavoriteChange,
           ))
     ];
     return MediaQuery.of(context).orientation == Orientation.portrait
