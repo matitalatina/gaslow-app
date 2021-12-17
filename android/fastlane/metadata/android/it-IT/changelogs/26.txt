@@ -1,0 +1,4 @@
+- Aggiunta la sezione preferiti!
+- Prestazioni migliorate.
+- Aggiornamento librerie.
+- Le pubblicità sono meno invasive.

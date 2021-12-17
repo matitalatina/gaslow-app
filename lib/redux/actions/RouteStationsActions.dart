@@ -3,7 +3,7 @@ import 'package:gaslow_app/locator.dart';
 import 'package:gaslow_app/models/ErrorType.dart';
 import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/models/MyLocation.dart';
-import 'package:gaslow_app/redux/AppState.dart';
+import 'package:gaslow_app/redux/MyAppState.dart';
 import 'package:gaslow_app/clients/StationsClient.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:location/location.dart' as Loc;
@@ -42,8 +42,8 @@ class RouteUpdateToLocation {
   RouteUpdateToLocation({required this.toLocation});
 }
 
-ThunkAction<AppState> fetchStationsByDestinationNameAction(String name) {
-  return (Store<AppState> store) async {
+ThunkAction<MyAppState> fetchStationsByDestinationNameAction(String name) {
+  return (Store<MyAppState> store) async {
     final analytics = getIt<FirebaseAnalytics>();
     await analytics.logSearch(
       searchTerm: 'Route',

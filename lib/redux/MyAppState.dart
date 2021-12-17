@@ -5,14 +5,14 @@ import 'package:gaslow_app/redux/LocationState.dart';
 import 'RouteState.dart';
 import 'SettingsState.dart';
 
-class AppState {
+class MyAppState {
   final CoreState backendState;
   final LocationState stationsState;
   final RouteState routeState;
   final FavoriteState favoriteState;
   final SettingsState settingsState;
 
-  AppState({
+  MyAppState({
     required this.backendState,
     required this.stationsState,
     required this.routeState,

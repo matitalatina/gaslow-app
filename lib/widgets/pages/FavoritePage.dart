@@ -3,7 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:gaslow_app/locator.dart';
 import 'package:gaslow_app/models/ErrorType.dart';
 import 'package:gaslow_app/models/FuelTypeEnum.dart';
-import 'package:gaslow_app/redux/AppState.dart';
+import 'package:gaslow_app/redux/MyAppState.dart';
 import 'package:gaslow_app/redux/FavoriteState.dart';
 import 'package:gaslow_app/redux/actions/CoreActions.dart';
 import 'package:gaslow_app/redux/actions/FavoriteStationsActions.dart';
@@ -24,7 +24,7 @@ class FavoritePage extends StatefulWidget {
 class _FavoritePageState extends State<FavoritePage> {
   @override
   Widget build(BuildContext context) {
-    final stationList = new StoreConnector<AppState, FavoritePageVm>(
+    final stationList = new StoreConnector<MyAppState, FavoritePageVm>(
       converter: (store) => FavoritePageVm(
         state: store.state.favoriteState,
         preferredFuelType: store.state.settingsState.preferredFuelType,
@@ -73,7 +73,7 @@ class _FavoritePageState extends State<FavoritePage> {
     );
 
     final floatingButton =
-    new StoreConnector<AppState, VoidCallback?>(converter: (store) {
+    new StoreConnector<MyAppState, VoidCallback?>(converter: (store) {
       return store.state.backendState.hasLocationPermission
           ? () => store.dispatch(refreshFavoriteLocations)
           : null;

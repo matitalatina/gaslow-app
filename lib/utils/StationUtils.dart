@@ -47,13 +47,3 @@ NumberFormat getNumberFormat() {
 String getGoogleMapsUrl(GasStation station) {
   return 'https://www.google.com/maps/search/?api=1&query=${station.location.coordinates[1]},${station.location.coordinates[0]}';
 }
-
-openMap(GasStation station) async {
-  var url = getGoogleMapsUrl(station);
-  if (await canLaunch(url)) {
-    await launch(url);
-  }
-  final analytics = getIt<FirebaseAnalytics>();
-  await analytics.logViewItem(
-      itemId: '${station.id}', itemName: 'directions', itemCategory: 'station');
-}

@@ -2,7 +2,7 @@ import 'package:gaslow_app/clients/StationsClient.dart';
 import 'package:gaslow_app/locator.dart';
 import 'package:gaslow_app/models/ErrorType.dart';
 import 'package:gaslow_app/models/GasStation.dart';
-import 'package:gaslow_app/redux/AppState.dart';
+import 'package:gaslow_app/redux/MyAppState.dart';
 import 'package:gaslow_app/services/FavoriteService.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -33,7 +33,7 @@ class FavoriteStationsUpdate {
   FavoriteStationsUpdate({required this.stations});
 }
 
-refreshFavoriteLocations(Store<AppState> store) async {
+refreshFavoriteLocations(Store<MyAppState> store) async {
   final favoriteService = getIt<FavoriteService>();
   store.dispatch(FavoriteFetchStationsStart());
   try {
@@ -46,8 +46,8 @@ refreshFavoriteLocations(Store<AppState> store) async {
   }
 }
 
-ThunkAction<AppState> addFavoriteStation(GasStation station) {
-  return (Store<AppState> store) async {
+ThunkAction<MyAppState> addFavoriteStation(GasStation station) {
+  return (Store<MyAppState> store) async {
     final favoriteService = getIt<FavoriteService>();
     await favoriteService.addFavoriteStation(station.id);
     final updatedStations = Set<GasStation>.from(store.state.favoriteState.stations)
@@ -56,8 +56,8 @@ ThunkAction<AppState> addFavoriteStation(GasStation station) {
   };
 }
 
-ThunkAction<AppState> removeFavoriteStation(int stationId) {
-  return (Store<AppState> store) async {
+ThunkAction<MyAppState> removeFavoriteStation(int stationId) {
+  return (Store<MyAppState> store) async {
     final favoriteService = getIt<FavoriteService>();
     await favoriteService.removeFavoriteStation(stationId);
     final updatedStations = Set<GasStation>.from(store.state.favoriteState.stations)

@@ -31,7 +31,7 @@ if (flutterVersionName == null) {
 
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     lintOptions {
         disable 'InvalidPackage'
@@ -77,6 +77,12 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    // https://github.com/googleads/googleads-mobile-flutter/pull/423/files
+    implementation('androidx.work:work-runtime') {
+        version {
+            strictly '2.6.0'
+        }
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'
