@@ -1,1 +1,3 @@
-- Aggiunta la politica sulla Privacy (Privacy Policy)
+- Aggiunta la sezione preferiti!
+- Prestazioni migliorate.
+- Aggiornamento librerie.
