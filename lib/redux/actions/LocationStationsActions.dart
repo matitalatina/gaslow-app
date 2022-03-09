@@ -3,7 +3,7 @@ import 'package:gaslow_app/locator.dart';
 import 'package:gaslow_app/models/ErrorType.dart';
 import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/models/MyLocation.dart';
-import 'package:gaslow_app/redux/AppState.dart';
+import 'package:gaslow_app/redux/MyAppState.dart';
 import 'package:gaslow_app/clients/StationsClient.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:location/location.dart' as Loc;
@@ -36,7 +36,7 @@ class LocationSelectStationAction {
   LocationSelectStationAction({required this.stationId});
 }
 
-fetchStationsByCurrentLocationAction(Store<AppState> store) async {
+fetchStationsByCurrentLocationAction(Store<MyAppState> store) async {
   store.dispatch(LocationFetchStationsStart());
   Loc.LocationData currentLocationRaw = await new Loc.Location().getLocation();
   if (currentLocationRaw.latitude != null && currentLocationRaw.longitude != null) {
@@ -61,8 +61,8 @@ fetchStationsByCurrentLocationAction(Store<AppState> store) async {
   }
 }
 
-ThunkAction<AppState> fetchStationsByPlaceNameAction(String name) {
-  return (Store<AppState> store) async {
+ThunkAction<MyAppState> fetchStationsByPlaceNameAction(String name) {
+  return (Store<MyAppState> store) async {
     final analytics = getIt<FirebaseAnalytics>();
     await analytics.logSearch(
       searchTerm: 'Location',

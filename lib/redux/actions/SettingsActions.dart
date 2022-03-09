@@ -1,5 +1,5 @@
 import 'package:gaslow_app/models/FuelTypeEnum.dart';
-import 'package:gaslow_app/redux/AppState.dart';
+import 'package:gaslow_app/redux/MyAppState.dart';
 import 'package:gaslow_app/services/SettingsService.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -10,8 +10,8 @@ class SetPreferredFuel {
   SetPreferredFuel({required this.preferredFuel});
 }
 
-ThunkAction<AppState> setPreferredFuelAction(FuelTypeEnum preferredFuel) {
-  return (Store<AppState> store) async {
+ThunkAction<MyAppState> setPreferredFuelAction(FuelTypeEnum preferredFuel) {
+  return (Store<MyAppState> store) async {
     await SettingsService.savePreferredFuelType(preferredFuel);
     store.dispatch(SetPreferredFuel(preferredFuel: preferredFuel));
   };

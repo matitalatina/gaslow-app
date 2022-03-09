@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:gaslow_app/locator.dart';
 import 'package:gaslow_app/models/FuelTypeEnum.dart';
-import 'package:gaslow_app/redux/AppState.dart';
+import 'package:gaslow_app/redux/MyAppState.dart';
 import 'package:gaslow_app/redux/actions/SettingsActions.dart';
 import 'package:gaslow_app/services/ReviewService.dart';
 import 'package:gaslow_app/services/ShareService.dart';
@@ -19,7 +19,7 @@ class PreferredFuelTypeVm {
 class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final preferredFuelType = StoreConnector<AppState, PreferredFuelTypeVm>(
+    final preferredFuelType = StoreConnector<MyAppState, PreferredFuelTypeVm>(
       converter: (store) => PreferredFuelTypeVm(
         value: store.state.settingsState.preferredFuelType,
         onChange: (fuelType) =>

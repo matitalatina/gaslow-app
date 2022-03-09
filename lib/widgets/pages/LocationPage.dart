@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:gaslow_app/models/ErrorType.dart';
 import 'package:gaslow_app/models/FuelTypeEnum.dart';
-import 'package:gaslow_app/redux/AppState.dart';
+import 'package:gaslow_app/redux/MyAppState.dart';
 import 'package:gaslow_app/redux/LocationState.dart';
 import 'package:gaslow_app/redux/actions/FavoriteStationsActions.dart';
 import 'package:gaslow_app/redux/actions/LocationStationsActions.dart';
@@ -45,7 +45,7 @@ class _LocationPageState extends State<LocationPage> {
 
   @override
   Widget build(BuildContext context) {
-    final stationList = new StoreConnector<AppState, LocationPageVm>(
+    final stationList = new StoreConnector<MyAppState, LocationPageVm>(
       converter: (store) => LocationPageVm(
         state: store.state.stationsState,
         preferredFuelType: store.state.settingsState.preferredFuelType,
@@ -91,7 +91,7 @@ class _LocationPageState extends State<LocationPage> {
     );
 
     final floatingButton =
-        new StoreConnector<AppState, VoidCallback?>(converter: (store) {
+        new StoreConnector<MyAppState, VoidCallback?>(converter: (store) {
       return store.state.backendState.hasLocationPermission
           ? () => store.dispatch(fetchStationsByCurrentLocationAction)
           : null;
@@ -109,7 +109,7 @@ class _LocationPageState extends State<LocationPage> {
     });
 
     final searchField =
-        new StoreConnector<AppState, ValueChanged<String>?>(converter: (store) {
+        new StoreConnector<MyAppState, ValueChanged<String>?>(converter: (store) {
       return store.state.backendState.hasLocationPermission
           ? (text) => store.dispatch(fetchStationsByPlaceNameAction(text))
           : null;

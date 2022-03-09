@@ -1,0 +1,2 @@
+- Aggiunta la politica sulla Privacy (Privacy Policy)
+- Ripristino meccanismo della pubblicità non invasivo (piccolo errore nell'update).

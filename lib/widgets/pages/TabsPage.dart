@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gaslow_app/locator.dart';
+import 'package:gaslow_app/services/AdService.dart';
 import 'package:gaslow_app/services/ReviewService.dart';
 import 'package:gaslow_app/widgets/pages/FavoritePage.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -15,9 +16,10 @@ class TabsPage extends StatefulWidget {
 
   @override
   _TabsPageState createState() => _TabsPageState();
+
 }
 
-class _TabsPageState extends State<TabsPage> {
+class _TabsPageState extends State<TabsPage> with WidgetsBindingObserver {
   int _selectedIndex = 0;
   InterstitialAd? interstitialAd;
 
@@ -29,16 +31,22 @@ class _TabsPageState extends State<TabsPage> {
   ];
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      getIt<AdService>().show();
+    }
+  }
+
+  @override
   void initState() {
-    _loadAdmob();
-    getIt<ReviewService>().handleDeferredReview(context);
     super.initState();
+    getIt<ReviewService>().handleDeferredReview(context);
+    WidgetsBinding.instance?.addObserver(this);
   }
 
   @override
   void dispose() {
-    interstitialAd?.dispose();
-    interstitialAd = null;
+    getIt<AdService>().shouldDispose();
     super.dispose();
   }
 
@@ -74,29 +82,5 @@ class _TabsPageState extends State<TabsPage> {
     setState(() {
       _selectedIndex = index;
     });
-  }
-
-  _loadAdmob() async {
-    await Future.delayed(Duration(minutes: 1, seconds: 30));
-    if (interstitialAd == null) {
-      _loadInterstitialAd();
-    }
-  }
-
-  _loadInterstitialAd() {
-    return InterstitialAd.load(
-        adUnitId: kReleaseMode
-            ? 'ca-app-pub-7145772846945296/9083312901'
-            : InterstitialAd.testAdUnitId,
-        adLoadCallback: InterstitialAdLoadCallback(
-          onAdLoaded: (Ad ad) {
-            interstitialAd = ad as InterstitialAd?;
-            interstitialAd?.show();
-          },
-          onAdFailedToLoad: (LoadAdError error) {
-            print('InterstitialAd failed to load: $error');
-          },
-        ),
-        request: AdRequest());
   }
 }

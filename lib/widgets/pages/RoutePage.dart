@@ -3,7 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:gaslow_app/locator.dart';
 import 'package:gaslow_app/models/ErrorType.dart';
 import 'package:gaslow_app/models/FuelTypeEnum.dart';
-import 'package:gaslow_app/redux/AppState.dart';
+import 'package:gaslow_app/redux/MyAppState.dart';
 import 'package:gaslow_app/redux/RouteState.dart';
 import 'package:gaslow_app/redux/actions/CoreActions.dart';
 import 'package:gaslow_app/redux/actions/FavoriteStationsActions.dart';
@@ -36,7 +36,7 @@ class _RoutePageState extends State<RoutePage> {
 
   @override
   Widget build(BuildContext context) {
-    final stationList = new StoreConnector<AppState, RoutePageVm>(
+    final stationList = new StoreConnector<MyAppState, RoutePageVm>(
       converter: (store) => RoutePageVm(
         state: store.state.routeState,
         preferredFuelType: store.state.settingsState.preferredFuelType,
@@ -87,7 +87,7 @@ class _RoutePageState extends State<RoutePage> {
     );
 
     final searchField =
-        new StoreConnector<AppState, ValueChanged<String>?>(converter: (store) {
+        new StoreConnector<MyAppState, ValueChanged<String>?>(converter: (store) {
       return store.state.backendState.hasLocationPermission
           ? (text) => store.dispatch(fetchStationsByDestinationNameAction(text))
           : null;

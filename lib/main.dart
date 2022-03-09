@@ -5,7 +5,7 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:gaslow_app/locator.dart';
-import 'package:gaslow_app/redux/AppState.dart';
+import 'package:gaslow_app/redux/MyAppState.dart';
 import 'package:gaslow_app/redux/CoreState.dart';
 import 'package:gaslow_app/redux/FavoriteState.dart';
 import 'package:gaslow_app/redux/LocationState.dart';
@@ -13,16 +13,16 @@ import 'package:gaslow_app/redux/RouteState.dart';
 import 'package:gaslow_app/redux/SettingsState.dart';
 import 'package:gaslow_app/redux/actions/CoreActions.dart';
 import 'package:gaslow_app/redux/reducers/AppStateReducer.dart';
+import 'package:gaslow_app/services/AdService.dart';
 import 'package:gaslow_app/widgets/pages/TabsPage.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 
 
-Future<Store<AppState>> prepareStore() async {
-  final store = Store<AppState>(
+Future<Store<MyAppState>> prepareStore() async {
+  final store = Store<MyAppState>(
     appReducer,
-    initialState: new AppState(
+    initialState: new MyAppState(
       backendState: getDefaultCoreState(),
       favoriteState: await getDefaultFavoriteState(),
       routeState: getDefaultRouteState(),
@@ -39,8 +39,8 @@ void main() {
   // https://github.com/flutter/flutter/issues/38056
   WidgetsFlutterBinding.ensureInitialized();
   initializeServiceLocator();
-  MobileAds.instance.initialize();
-  runApp(FutureBuilder<Store<AppState>>(
+  getIt<AdService>().initialize();
+  runApp(FutureBuilder<Store<MyAppState>>(
       future: prepareStore(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
@@ -51,7 +51,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  final Store<AppState> store;
+  final Store<MyAppState> store;
 
   // This widget is the root of your application.
   @override
@@ -71,7 +71,7 @@ class MyApp extends StatelessWidget {
       Colors.pink,
       Colors.lime,
     ];
-    return StoreProvider<AppState>(
+    return StoreProvider<MyAppState>(
         store: store,
         child: new MaterialApp(
           title: 'GasLow',
