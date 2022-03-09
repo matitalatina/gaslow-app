@@ -7,6 +7,7 @@ import 'package:gaslow_app/redux/actions/SettingsActions.dart';
 import 'package:gaslow_app/services/ReviewService.dart';
 import 'package:gaslow_app/services/ShareService.dart';
 import 'package:gaslow_app/widgets/PreferredFuelTile.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PreferredFuelTypeVm {
   final FuelTypeEnum value;
@@ -57,6 +58,19 @@ class SettingsPage extends StatelessWidget {
       subtitle: Text("Condividi il tuo amore con una recensione"),
       onTap: () => getIt<ReviewService>().review(),
     );
+    final privacyPolicy = ListTile(
+      leading: Column(
+        children: [
+          Icon(
+            Icons.data_usage,
+            color: Theme.of(context).colorScheme.secondary,
+          )
+        ],
+        mainAxisAlignment: MainAxisAlignment.center,
+      ),
+      title: Text("Politica sulla privacy"),
+      onTap: () => launch("https://blog.mattianatali.dev/gaslow/privacy-policy/"),
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text("Impostazioni"),
@@ -66,6 +80,7 @@ class SettingsPage extends StatelessWidget {
           preferredFuelType,
           shareAppTile,
           reviewApp,
+          privacyPolicy,
         ],
       ),
     );
