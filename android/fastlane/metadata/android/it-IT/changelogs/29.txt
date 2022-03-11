@@ -1,0 +1,4 @@
+- Aggiunta del tasto per pulire il campo di ricerca
+- Gestione degli errori migliorata
+- Sezione preferiti migliorata
+- Aggiornamento delle librerie, performance migliorate
