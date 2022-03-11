@@ -57,7 +57,9 @@ class _LocationPageState extends State<LocationPage> {
         onSearch: () => store.dispatch(fetchStationsByCurrentLocationAction),
         onFavoriteChange: (station, isFavorite) {
           store.dispatch(LocationSelectStationAction(stationId: station.id));
-          store.dispatch(isFavorite ? addFavoriteStation(station) : removeFavoriteStation(station.id));
+          store.dispatch(isFavorite
+              ? addFavoriteStation(station)
+              : removeFavoriteStation(station.id));
         },
         favoriteStationIds: store.state.favoriteState.stationIds,
       ),
@@ -108,8 +110,8 @@ class _LocationPageState extends State<LocationPage> {
           : Container();
     });
 
-    final searchField =
-        new StoreConnector<MyAppState, ValueChanged<String>?>(converter: (store) {
+    final searchField = new StoreConnector<MyAppState, ValueChanged<String>?>(
+        converter: (store) {
       return store.state.backendState.hasLocationPermission
           ? (text) => store.dispatch(fetchStationsByPlaceNameAction(text))
           : null;
@@ -118,6 +120,7 @@ class _LocationPageState extends State<LocationPage> {
         onSearch: searchStationCallback,
         textController: searchController,
         enabled: searchStationCallback != null,
+        onClear: () => {searchController.text = ""},
       );
     });
 

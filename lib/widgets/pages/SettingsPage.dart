@@ -41,7 +41,7 @@ class SettingsPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
       ),
       title: Text("Aiuta i tuoi amici a risparmiare"),
-      subtitle: Text("Condividi l'app con loro"),
+      subtitle: Text("Condividi l'app"),
       onTap: () => getIt<ShareService>().shareApp(),
     );
     final reviewApp = ListTile(

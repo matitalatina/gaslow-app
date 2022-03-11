@@ -86,8 +86,8 @@ class _RoutePageState extends State<RoutePage> {
       },
     );
 
-    final searchField =
-        new StoreConnector<MyAppState, ValueChanged<String>?>(converter: (store) {
+    final searchField = new StoreConnector<MyAppState, ValueChanged<String>?>(
+        converter: (store) {
       return store.state.backendState.hasLocationPermission
           ? (text) => store.dispatch(fetchStationsByDestinationNameAction(text))
           : null;
@@ -97,6 +97,7 @@ class _RoutePageState extends State<RoutePage> {
         textController: searchController,
         placeholder: "Cerca la destinazione...",
         enabled: searchStationCallback != null,
+        onClear: () => {searchController.text = ""},
       );
     });
 
