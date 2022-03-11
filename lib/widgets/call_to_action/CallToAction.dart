@@ -25,22 +25,25 @@ class CallToAction extends StatelessWidget {
                   size: 250.0,
                 ),
               )),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                child: Text(
-                  description,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline6,
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  child: Text(
+                    description,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
-              ),
-              ...(onAction != null && actionLabel != null) ? [ElevatedButton(
-                onPressed: onAction,
-                child: Text(actionLabel!),
-              )] : []
-            ],
+                ...(onAction != null && actionLabel != null) ? [ElevatedButton(
+                  onPressed: onAction,
+                  child: Text(actionLabel!),
+                )] : []
+              ],
+            ),
           ),
         ],
       );

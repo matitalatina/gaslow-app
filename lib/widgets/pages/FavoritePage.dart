@@ -12,6 +12,7 @@ import 'package:gaslow_app/services/ShareService.dart';
 import 'package:gaslow_app/widgets/StationMapList.dart';
 import 'package:gaslow_app/widgets/StationTile.dart';
 import 'package:gaslow_app/widgets/call_to_action/NoConnection.dart';
+import 'package:gaslow_app/widgets/call_to_action/NoFavorites.dart';
 import 'package:gaslow_app/widgets/call_to_action/NoLocationPermission.dart';
 
 class FavoritePage extends StatefulWidget {
@@ -54,6 +55,10 @@ class _FavoritePageState extends State<FavoritePage> {
           return NoConnection(onRetry: homeVm.onRefresh);
         }
 
+        if (homeVm.state.stationIds.length == 0) {
+          return NoFavorites();
+        }
+
         if (homeVm.state.stations.length != homeVm.state.stationIds.length) {
           homeVm.onRefresh();
         }
@@ -74,7 +79,7 @@ class _FavoritePageState extends State<FavoritePage> {
 
     final floatingButton =
     new StoreConnector<MyAppState, VoidCallback?>(converter: (store) {
-      return store.state.backendState.hasLocationPermission
+      return store.state.backendState.hasLocationPermission && store.state.favoriteState.stations.length != 0
           ? () => store.dispatch(refreshFavoriteLocations)
           : null;
     }, builder: (context, updateStation) {
