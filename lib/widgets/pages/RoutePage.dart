@@ -10,6 +10,8 @@ import 'package:gaslow_app/redux/actions/FavoriteStationsActions.dart';
 import 'package:gaslow_app/redux/actions/RouteStationsActions.dart';
 import 'package:gaslow_app/redux/selectors/RouteSelectors.dart';
 import 'package:gaslow_app/services/ShareService.dart';
+import 'package:gaslow_app/widgets/call_to_action/GeocodingFailed.dart';
+import 'package:gaslow_app/widgets/call_to_action/MyPositionFailed.dart';
 import 'package:gaslow_app/widgets/call_to_action/NoConnection.dart';
 import 'package:gaslow_app/widgets/call_to_action/NoLocationPermission.dart';
 import 'package:gaslow_app/widgets/SearchField.dart';
@@ -69,6 +71,14 @@ class _RoutePageState extends State<RoutePage> {
 
         if (homeVm.error == ErrorType.CONNECTION) {
           return NoConnection(onRetry: homeVm.onFindRoute);
+        }
+
+        if (homeVm.state.error == ErrorType.GEOCODING_FAILED) {
+          return GeocodingFailed();
+        }
+
+        if (homeVm.state.error == ErrorType.MY_POSITION_FAILED) {
+          return MyPositionFailed(onRetry: homeVm.onFindRoute);
         }
 
         return StationMapList(

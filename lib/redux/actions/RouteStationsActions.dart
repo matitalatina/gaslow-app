@@ -53,32 +53,39 @@ ThunkAction<MyAppState> fetchStationsByDestinationNameAction(String name) {
 
     try {
       Loc.LocationData currentLocation = await new Loc.Location().getLocation();
-      if (currentLocation.latitude == null || currentLocation.longitude == null) {
+      if (currentLocation.latitude == null ||
+          currentLocation.longitude == null) {
+        store.dispatch(
+            new RouteFetchStationsError(error: ErrorType.MY_POSITION_FAILED));
         return;
       }
       store.dispatch(new RouteUpdateFromLocation(
           fromLocation: MyLocation.fromPoint(
-        latitude: currentLocation.latitude!,
-        longitude: currentLocation.longitude!,
-      )));
+            latitude: currentLocation.latitude!,
+            longitude: currentLocation.longitude!,
+          )));
 
       var firstAddress =
           (await locationFromAddress(name)).first;
 
       store.dispatch(new RouteUpdateToLocation(
           toLocation: MyLocation.fromPoint(
-        latitude: firstAddress.latitude,
-        longitude: firstAddress.longitude,
-      )));
+            latitude: firstAddress.latitude,
+            longitude: firstAddress.longitude,
+          )));
       store.dispatch(new RouteFetchStationsSuccess(
           stations: await StationsClient().getStationsByRoute(
-        fromLatitude: currentLocation.latitude!,
-        fromLongitude: currentLocation.longitude!,
-        toLatitude: firstAddress.latitude,
-        toLongitude: firstAddress.longitude,
-      )));
-    } catch (e) {
-      store.dispatch(new RouteFetchStationsError(error: ErrorType.CONNECTION));
+            fromLatitude: currentLocation.latitude!,
+            fromLongitude: currentLocation.longitude!,
+            toLatitude: firstAddress.latitude,
+            toLongitude: firstAddress.longitude,
+          )));
+    } on NoResultFoundException catch (_) {
+      store.dispatch(
+          new RouteFetchStationsError(error: ErrorType.GEOCODING_FAILED));
+    } catch (_) {
+      store.dispatch(
+          new RouteFetchStationsError(error: ErrorType.CONNECTION));
     }
   };
 }

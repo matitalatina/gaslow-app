@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class CallToAction extends StatelessWidget {
   final String description;
-  final VoidCallback onAction;
-  final String actionLabel;
+  final VoidCallback? onAction;
+  final String? actionLabel;
   final IconData icon;
 
   CallToAction({
     required this.description,
-    required this.onAction,
-    required this.actionLabel,
+    this.onAction,
+    this.actionLabel,
     required this.icon
   });
 
@@ -36,10 +36,10 @@ class CallToAction extends StatelessWidget {
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
               ),
-              ElevatedButton(
+              ...(onAction != null && actionLabel != null) ? [ElevatedButton(
                 onPressed: onAction,
-                child: Text(actionLabel),
-              )
+                child: Text(actionLabel!),
+              )] : []
             ],
           ),
         ],

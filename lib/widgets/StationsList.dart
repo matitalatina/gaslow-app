@@ -66,6 +66,7 @@ class _StationsListState extends State<StationsList> {
     return ListView.builder(
         shrinkWrap: false,
         scrollDirection: scrollDirection,
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         controller: controller,
         itemCount: widget.stations.length,
         itemBuilder: (context, index) {

@@ -1,4 +1,5 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/services.dart';
 import 'package:gaslow_app/locator.dart';
 import 'package:gaslow_app/models/ErrorType.dart';
 import 'package:gaslow_app/models/GasStation.dart';
@@ -39,25 +40,27 @@ class LocationSelectStationAction {
 fetchStationsByCurrentLocationAction(Store<MyAppState> store) async {
   store.dispatch(LocationFetchStationsStart());
   Loc.LocationData currentLocationRaw = await new Loc.Location().getLocation();
-  if (currentLocationRaw.latitude != null && currentLocationRaw.longitude != null) {
-    final currentLocation = MyLocation.fromPoint(
+  if (currentLocationRaw.latitude == null ||
+      currentLocationRaw.longitude == null) {
+    store.dispatch(
+        new LocationFetchStationsError(error: ErrorType.MY_POSITION_FAILED));
+    return;
+  }
+  final currentLocation = MyLocation.fromPoint(
+    latitude: currentLocationRaw.latitude!,
+    longitude: currentLocationRaw.longitude!,
+  );
+
+  store.dispatch(new LocationUpdateFromLocation(fromLocation: currentLocation));
+
+  try {
+    store.dispatch(new LocationFetchStationsSuccess(
+        stations: await StationsClient().getStationsByCoords(
       latitude: currentLocationRaw.latitude!,
       longitude: currentLocationRaw.longitude!,
-    );
-
-    store.dispatch(
-        new LocationUpdateFromLocation(fromLocation: currentLocation));
-
-    try {
-      store.dispatch(new LocationFetchStationsSuccess(
-          stations: await StationsClient().getStationsByCoords(
-            latitude: currentLocationRaw.latitude!,
-            longitude: currentLocationRaw.longitude!,
-          )));
-    } catch (e) {
-      store.dispatch(
-          new LocationFetchStationsError(error: ErrorType.CONNECTION));
-    }
+    )));
+  } catch (e) {
+    store.dispatch(new LocationFetchStationsError(error: ErrorType.CONNECTION));
   }
 }
 
@@ -69,19 +72,25 @@ ThunkAction<MyAppState> fetchStationsByPlaceNameAction(String name) {
       destination: name,
     );
     store.dispatch(LocationFetchStationsStart());
-    var firstAddress =
-        (await locationFromAddress(name)).first;
+    try {
+      var firstAddress = (await locationFromAddress(name)).first;
+      store.dispatch(new LocationUpdateFromLocation(
+          fromLocation: MyLocation.fromPoint(
+        latitude: firstAddress.latitude,
+        longitude: firstAddress.longitude,
+      )));
 
-    store.dispatch(new LocationUpdateFromLocation(
-        fromLocation: MyLocation.fromPoint(
-      latitude: firstAddress.latitude,
-      longitude: firstAddress.longitude,
-    )));
-
-    store.dispatch(new LocationFetchStationsSuccess(
-        stations: await StationsClient().getStationsByCoords(
-      latitude: firstAddress.latitude,
-      longitude: firstAddress.longitude,
-    )));
+      store.dispatch(new LocationFetchStationsSuccess(
+          stations: await StationsClient().getStationsByCoords(
+        latitude: firstAddress.latitude,
+        longitude: firstAddress.longitude,
+      )));
+    } on NoResultFoundException catch (_) {
+      store.dispatch(
+          new LocationFetchStationsError(error: ErrorType.GEOCODING_FAILED));
+    } catch (_) {
+      store.dispatch(
+          new LocationFetchStationsError(error: ErrorType.CONNECTION));
+    }
   };
 }

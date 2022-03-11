@@ -8,6 +8,7 @@ import 'package:gaslow_app/redux/actions/FavoriteStationsActions.dart';
 import 'package:gaslow_app/redux/actions/LocationStationsActions.dart';
 import 'package:gaslow_app/redux/selectors/LocationSelectors.dart';
 import 'package:gaslow_app/services/ShareService.dart';
+import 'package:gaslow_app/widgets/call_to_action/GeocodingFailed.dart';
 import 'package:gaslow_app/widgets/call_to_action/NoConnection.dart';
 import 'package:gaslow_app/widgets/call_to_action/NoLocationPermission.dart';
 import 'package:gaslow_app/widgets/SearchField.dart';
@@ -15,6 +16,8 @@ import 'package:gaslow_app/widgets/StationMapList.dart';
 import 'package:gaslow_app/widgets/StationTile.dart';
 import 'package:gaslow_app/redux/actions/CoreActions.dart';
 import 'package:gaslow_app/locator.dart';
+
+import '../call_to_action/MyPositionFailed.dart';
 
 class LocationPage extends StatefulWidget {
   LocationPage({Key? key, required this.title}) : super(key: key);
@@ -76,6 +79,14 @@ class _LocationPageState extends State<LocationPage> {
 
         if (homeVm.state.error == ErrorType.CONNECTION) {
           return NoConnection(onRetry: homeVm.onSearch);
+        }
+
+        if (homeVm.state.error == ErrorType.GEOCODING_FAILED) {
+          return GeocodingFailed();
+        }
+
+        if (homeVm.state.error == ErrorType.MY_POSITION_FAILED) {
+          return MyPositionFailed(onRetry: homeVm.onSearch);
         }
 
         return StationMapList(
