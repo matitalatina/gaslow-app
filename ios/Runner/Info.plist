@@ -49,5 +49,7 @@
 	<string>Dobbiamo sapere la tua posizione per trovare le stazioni vicine.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Dobbiamo sapere la tua posizione per trovare le stazioni vicine.</string>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 </dict>
 </plist>

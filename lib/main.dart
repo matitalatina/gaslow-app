@@ -35,10 +35,10 @@ Future<Store<MyAppState>> prepareStore() async {
   return store;
 }
 
-void main() {
+Future<void> main() async {
   // https://github.com/flutter/flutter/issues/38056
   WidgetsFlutterBinding.ensureInitialized();
-  initializeServiceLocator();
+  await initializeServiceLocator();
   getIt<AdService>().initialize();
   runApp(FutureBuilder<Store<MyAppState>>(
       future: prepareStore(),

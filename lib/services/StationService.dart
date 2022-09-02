@@ -14,9 +14,11 @@ class StationService {
     if (await canLaunch(url)) {
       await launch(url);
     }
-    await firebaseAnalytics.logViewItem(
-        itemId: '${station.id}',
-        itemName: 'directions',
-        itemCategory: 'station');
+    await firebaseAnalytics.logViewItem(currency: 'EUR', value: 0, items: [
+      AnalyticsEventItem(
+          itemId: '${station.id}',
+          itemName: 'directions',
+          itemCategory: 'station')
+    ]);
   }
 }

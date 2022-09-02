@@ -23,7 +23,7 @@ class AdService {
     InterstitialAd.load(
         adUnitId: kReleaseMode
             ? 'ca-app-pub-7145772846945296/9083312901'
-            : InterstitialAd.testAdUnitId,
+            : 'ca-app-pub-3940256099942544/1033173712',
         adLoadCallback: InterstitialAdLoadCallback(
           onAdLoaded: (InterstitialAd ad) async {
             shouldDispose();
