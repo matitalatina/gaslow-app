@@ -1,0 +1,2 @@
+- Modificata la sorgente dati
+- Aggiornamento delle librerie, performance migliorate

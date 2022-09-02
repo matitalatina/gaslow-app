@@ -6,7 +6,7 @@ import 'package:http/http.dart';
 
 class StationsClient {
   //static const BACKEND_URL = "https://8ed24646q5.execute-api.eu-west-1.amazonaws.com/prod";
-  static const BACKEND_URL = "https://gaslow.herokuapp.com";
+  static const BACKEND_URL = "https://gaslow-api.mattianatali.com";
 
   Future<List<GasStation>> getStationsByCoords(
       {required num latitude, required num longitude}) async {
