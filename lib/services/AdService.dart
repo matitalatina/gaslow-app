@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -22,7 +23,9 @@ class AdService {
     final completer = Completer<void>();
     InterstitialAd.load(
         adUnitId: kReleaseMode
-            ? 'ca-app-pub-7145772846945296/9083312901'
+            ? (Platform.isAndroid
+                ? 'ca-app-pub-7145772846945296/9083312901'
+                : 'ca-app-pub-7145772846945296/3964454999')
             : 'ca-app-pub-3940256099942544/1033173712',
         adLoadCallback: InterstitialAdLoadCallback(
           onAdLoaded: (InterstitialAd ad) async {
@@ -53,5 +56,4 @@ class AdService {
   void shouldDispose() async {
     interstitialAd?.dispose();
   }
-
 }

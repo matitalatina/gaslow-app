@@ -84,6 +84,7 @@ class MyApp extends StatelessWidget {
             fontFamily: 'WorkSans',
           ),
           home: TabsPage(),
+          debugShowCheckedModeBanner: false,
           navigatorObservers: [
             FirebaseAnalyticsObserver(analytics: getIt<FirebaseAnalytics>()),
           ],

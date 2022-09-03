@@ -1,6 +1,6 @@
 name: gaslow_app
 description: GasLow App
-version: 1.4.5+30
+version: 1.4.6+31
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -34,7 +34,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.9.0
+  flutter_launcher_icons: ^0.10.0
   test:
 
 # For information on the generic Dart part of this file, see the
@@ -70,3 +70,4 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/icon/icon.png"
+  remove_alpha_ios: true
