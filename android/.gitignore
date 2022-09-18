@@ -10,13 +10,3 @@
 GeneratedPluginRegistrant.java
 
 fastlane/report.xml
-
-secrets/gaslow-cd.json
-secrets/gaslow.jks
-secrets/key.properties
-secrets/resource-secrets.xml
-secrets/google-services.json
-app/google-services.json
-
-secrets/secrets.tar
-app/src/main/res/values/secrets.xml

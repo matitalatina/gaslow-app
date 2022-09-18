@@ -1,0 +1,7 @@
+/android/secrets/** filter=git-crypt diff=git-crypt
+/android/app/src/main/res/values/secrets.xml filter=git-crypt diff=git-crypt
+/android/app/google-services.json filter=git-crypt diff=git-crypt
+
+/ios/Runner/GoogleService-Info.plist filter=git-crypt diff=git-crypt
+/ios/Flutter/Debug.xcconfig filter=git-crypt diff=git-crypt
+/ios/Flutter/Release.xcconfig filter=git-crypt diff=git-crypt
