@@ -1,36 +1,29 @@
 # Gaslow App
 
 Flutter App to check gas station prices in Italy.
+Available for [iOS](https://apps.apple.com/it/app/gaslow-prezzo-carburanti/id1510630580) and [Android](https://play.google.com/store/apps/details?id=it.mattianatali.gaslowapp&hl=it)
+
+![Gaslow app](assets/marketing/facebook-cover.png)
 
 ## Getting Started
 
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
+- It is made with [Flutter](https://flutter.io/)
+- [You can find its backend here](https://github.com/matitalatina/gaslow).
+- Android deployment is automated with [fastlane](https://fastlane.tools/)
+- Secret are kept secure with [git-crypt](https://github.com/AGWA/git-crypt)
+- [Landing page](https://gaslow.mattianatali.it/)
 
-## How to add secrets
+## Deployment
 
-### Common
+- Android: `make deploy-android`
+- iOS: `make bundle-ios`. Then upload the ipa with [transporter](https://apps.apple.com/it/app/transporter/id1450874784?mt=12)
 
-If you want to add a secret in common `assets/secrets.yml`:
+## Support my work
 
-- Modify `assets/secrets.yml`.
-- `cd assets`
-- `travis encrypt-file secrets.yml`
+Everything I made is open source.
+If you like what I'm doing and you want to support me, you can help me 😄!
 
-### Android
-
-If you want to add a secret in resources:
-
-- Add it in `android/resource-secrets.xml`
-- `cd android/secrets`
-- `rm secrets.tar secrets.tar.enc`
-- `tar cvf secrets.tar *`
-- `travis encrypt-file secrets.tar`
-
-If you want to check if it works locally:
-
-- `cp android/secrets/resource-secrets.xml android/app/src/main/res/values/secrets.xml`
-
-### iOS
-
-- TODO: add xcconfig.
+- Put a good review on [Android](https://play.google.com/store/apps/details?id=it.mattianatali.gaslowapp&hl=it) or [iOS](https://apps.apple.com/it/app/gaslow-prezzo-carburanti/id1510630580) app.
+- Sponsor me with [Github](https://github.com/sponsors/matitalatina)
+- [Buy me a coffee](https://www.buymeacoffee.com/mattianatali)
+- [Paypal](https://paypal.me/mattianatali)
