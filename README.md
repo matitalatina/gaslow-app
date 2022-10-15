@@ -10,7 +10,7 @@ Available for [iOS](https://apps.apple.com/it/app/gaslow-prezzo-carburanti/id151
 - It is made with [Flutter](https://flutter.io/)
 - [You can find its backend here](https://github.com/matitalatina/gaslow).
 - Android deployment is automated with [fastlane](https://fastlane.tools/)
-- Secret are kept secure with [git-crypt](https://github.com/AGWA/git-crypt)
+- Secrets are kept secure with [git-crypt](https://github.com/AGWA/git-crypt)
 - [Landing page](https://gaslow.mattianatali.it/)
 
 ## Deployment
