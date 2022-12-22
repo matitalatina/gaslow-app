@@ -1,3 +1,4 @@
+/assets/secrets.yml filter=git-crypt diff=git-crypt
 /android/secrets/** filter=git-crypt diff=git-crypt
 /android/app/src/main/res/values/secrets.xml filter=git-crypt diff=git-crypt
 /android/app/google-services.json filter=git-crypt diff=git-crypt

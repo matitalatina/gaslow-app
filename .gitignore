@@ -10,5 +10,4 @@ build/
 .flutter-plugins-dependencies
 
 .idea/
-assets/secrets.yml
 /local.properties
