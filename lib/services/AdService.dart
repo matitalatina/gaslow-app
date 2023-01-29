@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-final _ADS_THROTTLE = 3;
+final _ADS_THROTTLE = 10;
 
 class AdService {
   InterstitialAd? interstitialAd;
