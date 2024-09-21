@@ -27,5 +27,3 @@ If you like what I'm doing and you want to support me, you can help me 😄!
 - Sponsor me with [Github](https://github.com/sponsors/matitalatina)
 - [Buy me a coffee](https://www.buymeacoffee.com/mattianatali)
 - [Paypal](https://paypal.me/mattianatali)
-
-TODO: fix animation too quick during loading
