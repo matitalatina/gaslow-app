@@ -51,5 +51,7 @@
 	<string>Dobbiamo sapere la tua posizione per trovare le stazioni vicine.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 </dict>
 </plist>

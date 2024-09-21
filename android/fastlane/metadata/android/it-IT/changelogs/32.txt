@@ -1,0 +1,3 @@
+- L'app è ancora più veloce!
+- Miglioramenti grafici
+- Aggiornate le librerie

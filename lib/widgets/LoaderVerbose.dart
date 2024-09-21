@@ -28,16 +28,17 @@ class LoaderVerbose extends StatelessWidget {
               isRepeatingAnimation: true,
               animatedTexts: (phrases
                   .map((s) => RotateAnimatedText(s,
-                  textAlign: TextAlign.center,
-                  alignment: AlignmentDirectional.center,
-                  duration: Duration(milliseconds: 2200),
-                  textStyle: Theme.of(context)
-                      .textTheme
-                      .bodyText1!
-                      .copyWith(
-                      color: Theme.of(context)
-                          .primaryColor
-                          .withOpacity(0.7))))
+                      textAlign: TextAlign.center,
+                      alignment: AlignmentDirectional.center,
+                      duration: Duration(milliseconds: 1500),
+                      textStyle: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(0.7))))
                   .toList())
                 ..shuffle(),
             ),

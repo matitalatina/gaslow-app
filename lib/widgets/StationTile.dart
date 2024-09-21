@@ -62,15 +62,17 @@ class StationTile extends StatelessWidget {
         ]));
 
     final Widget? shareButton = onShareTap != null
-        ? TextButton(
-            child: Row(children: [Icon(Icons.share), Text(" Condividi")]),
-            onPressed: () =>
-                onShareTap != null ? onShareTap!(station.id) : null)
+        ? Tooltip(
+            message: "Condividi",
+            child: TextButton(
+                child: Icon(Icons.share),
+                onPressed: () =>
+                    onShareTap != null ? onShareTap!(station.id) : null))
         : null;
     final Widget favoriteButton = IconButton(
       onPressed: () => onFavoriteChange(station, !isFavorite),
       icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_outline),
-      color: Theme.of(context).primaryColor,
+      color: Theme.of(context).colorScheme.primary,
       tooltip: isFavorite ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti",
     );
     return Card(
@@ -89,7 +91,7 @@ class StationTile extends StatelessWidget {
                 subtitle: Text(station.brand),
                 trailing: IconButton(
                   icon: Icon(Icons.directions),
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).colorScheme.primary,
                   onPressed: onMapTap,
                 ),
               ),

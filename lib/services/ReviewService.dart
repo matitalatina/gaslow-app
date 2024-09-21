@@ -1,6 +1,6 @@
-import 'package:app_review/app_review.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/widgets.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 
 class ReviewService {
@@ -9,10 +9,13 @@ class ReviewService {
   const ReviewService({required this.analytics});
 
   review() async {
-    await AppReview.requestReview;
-    await analytics.logEvent(name: "review", parameters: {
-      "source": "menu",
-    });
+    final InAppReview inAppReview = InAppReview.instance;
+    if (await inAppReview.isAvailable()) {
+      inAppReview.requestReview();
+      await analytics.logEvent(name: "review", parameters: {
+        "source": "menu",
+      });
+    }
   }
 
   handleDeferredReview(BuildContext context) async {

@@ -69,7 +69,7 @@ class SettingsPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
       ),
       title: Text("Politica sulla privacy"),
-      onTap: () => launch("https://blog.mattianatali.dev/gaslow/privacy-policy/"),
+      onTap: () => launchUrl(Uri.parse("https://blog.mattianatali.dev/gaslow/privacy-policy/")),
     );
     return Scaffold(
       appBar: AppBar(

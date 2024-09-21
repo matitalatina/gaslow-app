@@ -34,7 +34,7 @@ class CallToAction extends StatelessWidget {
                   child: Text(
                     description,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline6,
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
                 ),

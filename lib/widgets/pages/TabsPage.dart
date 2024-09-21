@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gaslow_app/locator.dart';
 import 'package:gaslow_app/services/AdService.dart';
@@ -41,7 +40,7 @@ class _TabsPageState extends State<TabsPage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     getIt<ReviewService>().handleDeferredReview(context);
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override

@@ -3,4 +3,5 @@ deploy-android:
 	cd android && bundle install && bundle exec fastlane android deploy;
 
 bundle-ios:
-	flutter build ipa
+	flutter build ipa;
+	open build/ios/ipa/;

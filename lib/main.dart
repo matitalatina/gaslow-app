@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:gaslow_app/locator.dart';
@@ -17,7 +16,6 @@ import 'package:gaslow_app/services/AdService.dart';
 import 'package:gaslow_app/widgets/pages/TabsPage.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
-
 
 Future<Store<MyAppState>> prepareStore() async {
   final store = Store<MyAppState>(
@@ -46,8 +44,8 @@ Future<void> main() async {
         if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
         }
-      return MyApp(store: snapshot.data!);
-  }));
+        return MyApp(store: snapshot.data!);
+      }));
 }
 
 class MyApp extends StatelessWidget {
@@ -71,17 +69,21 @@ class MyApp extends StatelessWidget {
       Colors.pink,
       Colors.lime,
     ];
+    final color = allowedColors[Random(DateTime.now().millisecondsSinceEpoch)
+        .nextInt(allowedColors.length)];
+    final theme = new ThemeData(
+      primarySwatch: color,
+      fontFamily: 'WorkSans',
+    );
     return StoreProvider<MyAppState>(
         store: store,
         child: new MaterialApp(
           title: 'GasLow',
-          theme: new ThemeData(
-            primarySwatch: allowedColors[
-            Random(DateTime
-                .now()
-                .millisecondsSinceEpoch)
-                .nextInt(allowedColors.length)],
-            fontFamily: 'WorkSans',
+          theme: theme.copyWith(
+            colorScheme: ColorScheme.fromSeed(seedColor: color),
+            floatingActionButtonTheme: theme.floatingActionButtonTheme.copyWith(
+              backgroundColor: color.shade50,
+            ),
           ),
           home: TabsPage(),
           debugShowCheckedModeBanner: false,

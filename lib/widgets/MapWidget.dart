@@ -51,20 +51,7 @@ class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addObserver(this);
-  }
-
-  // https://github.com/flutter/flutter/issues/40284#issuecomment-866377474
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      _initMapStyle();
-    }
-  }
-
-  Future<void> _initMapStyle() async {
-    var mapController = await mapControllerCompleter.future;
-    mapController.setMapStyle("[]");
+    WidgetsBinding.instance.addObserver(this);
   }
 
   bool _stationsAreTheSame() {
@@ -87,6 +74,7 @@ class _MapWidgetState extends State<MapWidget> with WidgetsBindingObserver {
       rotateGesturesEnabled: false,
       tiltGesturesEnabled: false,
       myLocationButtonEnabled: false,
+      style: "[]",
     );
     stations = widget.stations;
     return cachedMap!;

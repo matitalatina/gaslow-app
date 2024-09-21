@@ -1,10 +1,7 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:gaslow_app/locator.dart';
 import 'package:gaslow_app/models/FuelTypeEnum.dart';
 import 'package:gaslow_app/models/GasPrice.dart';
 import 'package:gaslow_app/models/GasStation.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 List<GasStation> sortStationsByPrice(
     List<GasStation> stations, FuelTypeEnum fuelTypeEnum) {
@@ -44,6 +41,6 @@ NumberFormat getNumberFormat() {
   return NumberFormat("##0.000", "it_IT");
 }
 
-String getGoogleMapsUrl(GasStation station) {
-  return 'https://www.google.com/maps/search/?api=1&query=${station.location.coordinates[1]},${station.location.coordinates[0]}';
+Uri getGoogleMapsUrl(GasStation station) {
+  return Uri.parse('https://www.google.com/maps/search/?api=1&query=${station.location.coordinates[1]},${station.location.coordinates[0]}');
 }
