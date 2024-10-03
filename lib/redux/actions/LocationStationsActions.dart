@@ -38,7 +38,7 @@ class LocationSelectStationAction {
 
 fetchStationsByCurrentLocationAction(Store<MyAppState> store) async {
   store.dispatch(LocationFetchStationsStart());
-  Loc.LocationData currentLocationRaw = await new Loc.Location().getLocation();
+  Loc.LocationData currentLocationRaw = await getIt.get<Loc.Location>().getLocation();
   if (currentLocationRaw.latitude == null ||
       currentLocationRaw.longitude == null) {
     store.dispatch(

@@ -52,7 +52,7 @@ ThunkAction<MyAppState> fetchStationsByDestinationNameAction(String name) {
     store.dispatch(RouteFetchStationsStart());
 
     try {
-      Loc.LocationData currentLocation = await new Loc.Location().getLocation();
+      Loc.LocationData currentLocation = await getIt.get<Loc.Location>().getLocation();
       if (currentLocation.latitude == null ||
           currentLocation.longitude == null) {
         store.dispatch(

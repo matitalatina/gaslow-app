@@ -7,6 +7,7 @@ import 'package:gaslow_app/services/ReviewService.dart';
 import 'package:gaslow_app/services/ShareService.dart';
 import 'package:gaslow_app/services/StationService.dart';
 import 'package:get_it/get_it.dart';
+import 'package:location/location.dart';
 
 GetIt getIt = GetIt.instance;
 
@@ -16,6 +17,7 @@ initializeServiceLocator() async {
   getIt.registerSingleton(FavoriteRepo());
   getIt.registerSingleton(AdService());
   getIt.registerSingleton(FavoriteService(favoriteRepo: getIt<FavoriteRepo>()));
+  getIt.registerSingleton(new Location());
   getIt.registerSingleton(StationService(
     firebaseAnalytics: getIt<FirebaseAnalytics>(),
   ));
