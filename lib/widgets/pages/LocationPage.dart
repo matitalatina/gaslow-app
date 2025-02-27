@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:gaslow_app/models/ErrorType.dart';
@@ -18,7 +16,6 @@ import 'package:gaslow_app/widgets/StationMapList.dart';
 import 'package:gaslow_app/widgets/StationTile.dart';
 import 'package:gaslow_app/redux/actions/CoreActions.dart';
 import 'package:gaslow_app/locator.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../call_to_action/MyPositionFailed.dart';
 

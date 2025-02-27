@@ -1,0 +1,8 @@
+/assets/secrets.yml
+/android/secrets/**
+/android/app/src/main/res/values/secrets.xml
+/android/app/google-services.json
+
+/ios/Runner/GoogleService-Info.plist
+/ios/Flutter/Debug.xcconfig
+/ios/Flutter/Release.xcconfig
