@@ -1,6 +1,6 @@
 import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/utils/StationUtils.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
 class ShareService {
@@ -29,19 +29,15 @@ class ShareService {
     await analytics.logShare(
         contentType: 'station',
         itemId: '${station.id}',
-        method: 'share_dialog'
-    );
+        method: 'share_dialog');
   }
 
   shareApp() async {
-    await Share.share("Ho pensato che potresti risparmiare anche tu con questa app. Scarica GasLow!\n\n" +
-        "https://play.google.com/store/apps/details?id=it.mattianatali.gaslowapp&hl=it",
-      subject: "Sto risparmiando sul carburante con GasLow"
-    );
+    await Share.share(
+        "Ho pensato che potresti risparmiare anche tu con questa app. Scarica GasLow!\n\n" +
+            "https://play.google.com/store/apps/details?id=it.mattianatali.gaslowapp&hl=it",
+        subject: "Sto risparmiando sul carburante con GasLow");
     await analytics.logShare(
-        contentType: 'app',
-        itemId: 'gaslow',
-        method: 'share_dialog'
-    );
+        contentType: 'app', itemId: 'gaslow', method: 'share_dialog');
   }
 }
