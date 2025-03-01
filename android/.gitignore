@@ -10,3 +10,5 @@
 GeneratedPluginRegistrant.java
 
 fastlane/report.xml
+/app/.cxx
+/.kotlin

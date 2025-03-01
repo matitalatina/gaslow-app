@@ -32,8 +32,7 @@ if (flutterVersionName == null) {
 android {
     namespace "it.mattianatali.gaslowapp"
     compileSdkVersion flutter.compileSdkVersion
-    // TODO restore flutter.ndkVersion once we've upgrade flutter
-    ndkVersion "25.1.8937393"
+    ndkVersion flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -65,6 +64,9 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }

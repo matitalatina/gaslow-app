@@ -26,7 +26,7 @@ class LoaderVerbose extends StatelessWidget {
               repeatForever: true,
               pause: Duration(),
               isRepeatingAnimation: true,
-              animatedTexts: (phrases
+              animatedTexts: phrases
                   .map((s) => RotateAnimatedText(s,
                       textAlign: TextAlign.center,
                       alignment: AlignmentDirectional.center,
@@ -38,8 +38,8 @@ class LoaderVerbose extends StatelessWidget {
                               color: Theme.of(context)
                                   .colorScheme
                                   .primary
-                                  .withOpacity(0.7))))
-                  .toList())
+                                  .withValues(alpha: 0.7))))
+                  .toList()
                 ..shuffle(),
             ),
           ),

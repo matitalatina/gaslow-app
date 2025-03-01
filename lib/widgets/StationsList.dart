@@ -90,6 +90,6 @@ class _StationsListState extends State<StationsList> {
         controller: controller!,
         index: index,
         child: child,
-        highlightColor: Colors.black.withOpacity(0.1),
+        highlightColor: Colors.black.withValues(alpha: 0.1),
       );
 }
