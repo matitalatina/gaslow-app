@@ -1,6 +1,6 @@
 name: gaslow_app
 description: GasLow App
-version: 1.4.8+36
+version: 1.4.9+38
 
 environment:
   sdk: '>=2.12.0 <4.0.0'
