@@ -9,22 +9,24 @@ class ShareService {
   const ShareService({required this.analytics});
 
   shareStation(GasStation station) async {
-    await Share.share(
-      'A ${station.name}, ${station.brand}, il carburante costa:\n\n' +
-          station.prices
-              .map((p) =>
-                  '  • ' +
-                  p.fuelType +
-                  (p.isSelf ? '' : ' (servito)') +
-                  ': € ' +
-                  getNumberFormat().format(p.price) +
-                  '\n')
-              .join() +
-          '\n---\n' +
-          'Si trova in ${station.address}\n' +
-          getGoogleMapsUrl(station).toString() +
-          '\nL\'ho scoperto grazie a GasLow!',
-      subject: 'Risparmia sul carburante · GasLow',
+    await SharePlus.instance.share(
+      ShareParams(
+        text: 'A ${station.name}, ${station.brand}, il carburante costa:\n\n' +
+            station.prices
+                .map((p) =>
+                    '  • ' +
+                    p.fuelType +
+                    (p.isSelf ? '' : ' (servito)') +
+                    ': € ' +
+                    getNumberFormat().format(p.price) +
+                    '\n')
+                .join() +
+            '\n---\n' +
+            'Si trova in ${station.address}\n' +
+            getGoogleMapsUrl(station).toString() +
+            '\nL\'ho scoperto grazie a GasLow!',
+        subject: 'Risparmia sul carburante · GasLow',
+      ),
     );
     await analytics.logShare(
         contentType: 'station',
@@ -33,10 +35,13 @@ class ShareService {
   }
 
   shareApp() async {
-    await Share.share(
-        "Ho pensato che potresti risparmiare anche tu con questa app. Scarica GasLow!\n\n" +
+    await SharePlus.instance.share(
+      ShareParams(
+        text: "Ho pensato che potresti risparmiare anche tu con questa app. Scarica GasLow!\n\n" +
             "https://play.google.com/store/apps/details?id=it.mattianatali.gaslowapp&hl=it",
-        subject: "Sto risparmiando sul carburante con GasLow");
+        subject: "Sto risparmiando sul carburante con GasLow",
+      ),
+    );
     await analytics.logShare(
         contentType: 'app', itemId: 'gaslow', method: 'share_dialog');
   }
