@@ -36,7 +36,9 @@ class _FavoritePageState extends State<FavoritePage> {
         onRequestLocationPermission: () =>
             store.dispatch(checkLocationPermissionAndFetchStations),
         onFavoriteChange: (station, isFavorite) {
-          store.dispatch(isFavorite ? addFavoriteStation(station) : removeFavoriteStation(station.id));
+          store.dispatch(isFavorite
+              ? addFavoriteStation(station)
+              : removeFavoriteStation(station.id));
         },
         favoriteStationIds: store.state.favoriteState.stationIds,
       ),
@@ -69,8 +71,9 @@ class _FavoritePageState extends State<FavoritePage> {
           fromLocation: null,
           selectedStation: selectedStation,
           onStationTap: homeVm.onStationTap,
-          onShareTap: (stationId) => getIt<ShareService>()
-              .shareStation(stations.firstWhere((s) => s.id == stationId)),
+          onShareTap: (stationId) => getIt<ShareService>().shareStation(
+              stations.firstWhere((s) => s.id == stationId),
+              context: context),
           onFavoriteChange: homeVm.onFavoriteChange,
           favoriteStationIds: homeVm.favoriteStationIds,
         );
@@ -78,29 +81,29 @@ class _FavoritePageState extends State<FavoritePage> {
     );
 
     final floatingButton =
-    new StoreConnector<MyAppState, VoidCallback?>(converter: (store) {
-      return store.state.backendState.hasLocationPermission && store.state.favoriteState.stations.length != 0
+        new StoreConnector<MyAppState, VoidCallback?>(converter: (store) {
+      return store.state.backendState.hasLocationPermission &&
+              store.state.favoriteState.stations.length != 0
           ? () => store.dispatch(refreshFavoriteLocations)
           : null;
     }, builder: (context, updateStation) {
       return updateStation != null
           ? FloatingActionButton(
-        onPressed: () {
-          updateStation();
-        },
-        tooltip: 'Ricarica',
-        child: new Icon(Icons.refresh),
-      )
+              onPressed: () {
+                updateStation();
+              },
+              tooltip: 'Ricarica',
+              child: new Icon(Icons.refresh),
+            )
           : Container();
     });
 
     return new Scaffold(
       appBar: new AppBar(
-        centerTitle: true,
-        //title: new GaslowTitle(title: widget.title),
-        //actions: <Widget>[backendRefreshButton],
-        title: Text("Preferiti")
-      ),
+          centerTitle: true,
+          //title: new GaslowTitle(title: widget.title),
+          //actions: <Widget>[backendRefreshButton],
+          title: Text("Preferiti")),
       backgroundColor: Theme.of(context).primaryColorLight,
       body: stationList,
       floatingActionButton: floatingButton,

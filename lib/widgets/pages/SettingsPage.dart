@@ -42,7 +42,7 @@ class SettingsPage extends StatelessWidget {
       ),
       title: Text("Aiuta i tuoi amici a risparmiare"),
       subtitle: Text("Condividi l'app"),
-      onTap: () => getIt<ShareService>().shareApp(),
+      onTap: () => getIt<ShareService>().shareApp(context: context),
     );
     final reviewApp = ListTile(
       leading: Column(
@@ -69,7 +69,8 @@ class SettingsPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
       ),
       title: Text("Politica sulla privacy"),
-      onTap: () => launchUrl(Uri.parse("https://blog.mattianatali.dev/gaslow/privacy-policy/")),
+      onTap: () => launchUrl(
+          Uri.parse("https://blog.mattianatali.dev/gaslow/privacy-policy/")),
     );
     return Scaffold(
       appBar: AppBar(

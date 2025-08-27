@@ -95,8 +95,9 @@ class _LocationPageState extends State<LocationPage> {
           fromLocation: stationsState.fromLocation,
           selectedStation: selectedStation,
           onStationTap: homeVm.onStationTap,
-          onShareTap: (stationId) => getIt<ShareService>()
-              .shareStation(stations.firstWhere((s) => s.id == stationId)),
+          onShareTap: (stationId) => getIt<ShareService>().shareStation(
+              stations.firstWhere((s) => s.id == stationId),
+              context: context),
           onFavoriteChange: homeVm.onFavoriteChange,
           favoriteStationIds: homeVm.favoriteStationIds,
         );

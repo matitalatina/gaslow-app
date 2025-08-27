@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:gaslow_app/models/GasStation.dart';
 import 'package:gaslow_app/utils/StationUtils.dart';
 import 'package:share_plus/share_plus.dart';
@@ -8,7 +9,7 @@ class ShareService {
 
   const ShareService({required this.analytics});
 
-  shareStation(GasStation station) async {
+  shareStation(GasStation station, {required BuildContext context}) async {
     await SharePlus.instance.share(
       ShareParams(
         text: 'A ${station.name}, ${station.brand}, il carburante costa:\n\n' +
@@ -26,6 +27,11 @@ class ShareService {
             getGoogleMapsUrl(station).toString() +
             '\nL\'ho scoperto grazie a GasLow!',
         subject: 'Risparmia sul carburante · GasLow',
+        sharePositionOrigin: Rect.fromLTWH(
+            0,
+            0,
+            MediaQuery.of(context).size.width,
+            MediaQuery.of(context).size.height / 2),
       ),
     );
     await analytics.logShare(
@@ -34,12 +40,17 @@ class ShareService {
         method: 'share_dialog');
   }
 
-  shareApp() async {
+  shareApp({required BuildContext context}) async {
     await SharePlus.instance.share(
       ShareParams(
         text: "Ho pensato che potresti risparmiare anche tu con questa app. Scarica GasLow!\n\n" +
             "https://play.google.com/store/apps/details?id=it.mattianatali.gaslowapp&hl=it",
         subject: "Sto risparmiando sul carburante con GasLow",
+        sharePositionOrigin: Rect.fromLTWH(
+            0,
+            0,
+            MediaQuery.of(context).size.width,
+            MediaQuery.of(context).size.height / 2),
       ),
     );
     await analytics.logShare(
